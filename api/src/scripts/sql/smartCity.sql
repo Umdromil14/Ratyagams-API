@@ -453,6 +453,7 @@ INSERT INTO video_game ("name", description) VALUES ('Blasphemous', 'Embark on a
 INSERT INTO video_game ("name", description) VALUES ('Code Vein', 'Explore a post-apocalyptic world as a vampire-like Revenant, battling hordes of enemies and uncovering the mysteries of your existence in this anime-inspired Souls-like game.');
 INSERT INTO video_game ("name", description) VALUES ('Mortal Shell', 'Take on the role of a "foundling" who possesses the ability to inhabit the bodies of fallen warriors in this dark and atmospheric action RPG.');
 INSERT INTO video_game ("name", description) VALUES ('Elden Ring', 'Delve into a new dark fantasy world created by Hidetaka Miyazaki and George R. R. Martin, featuring an expansive open world and intense Souls-like combat.');
+INSERT INTO video_game ("name", description) VALUES ('Bloons TD 6', 'Defend your towers from waves of balloons in this popular tower defense game.');
 
 -- 1.Call of Duty: Black Ops Cold War | wikipedia: https://en.wikipedia.org/wiki/Call_of_Duty:_Black_Ops_Cold_War
 INSERT INTO publication (platform_code, video_game_id, release_date, release_price, store_page_url) 
