@@ -351,23 +351,22 @@ module.exports.postUserWithGames = async (req, res) => {
                 bcrypt.hashSync(password, 10),
                 firstname,
                 lastname
-            ))[0].id;
+            )).rows[0].id;
 
             for (const game in videoGames) {
                 const platform = videoGames[game][0];
-                const name = videoGames[game][1];
+                const nameId = videoGames[game][1];
                 const publicationId =
-                    await publicationDB.getPublicationId(
+                    (await publicationDB.getPublicationFromGameAndPlatform(
                         client,
-                        name,
+                        nameId,
                         platform
-                    );
-                    //! à vérifier car prblm pour le get
+                    )).rows[0].id;
                 if (publicationId !== null) {
-                    await GamesDB.createGame(client, idUser, publicationId);
+                    await GamesDB.createGame(client, idUser, publicationId,true);
                 } else {
                     //TODO : send a message to the user to tell him that the game was not found
-                    console.log(`game ${name} not found`);
+                    console.log(`game ${nameId} not found`);
                 }
             }
             client.query("COMMIT");
@@ -390,11 +389,12 @@ module.exports.getUserFromId = async (req, res) => {
     }
     const client = await pool.connect();
     try {
-        const user = await UserDB.getUserFromId(client, id)[0];
+        const user = (await UserDB.getUserFromId(client, id)).rows[0];
         if (user === null) {
             res.status(HTTPStatus.NOT_FOUND).send("User not found");
             return;
         }
+        console.log(user);
         res.status(HTTPStatus.ACCEPTED).json(user);
     } catch (error) {
         console.error(error);

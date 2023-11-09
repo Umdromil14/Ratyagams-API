@@ -7,6 +7,6 @@ router.get("/:userId/:publicationId", GameController.getGame);
 router.post("/", GameController.postGame);
 router.patch("/", GameController.updateGame);
 router.delete("/:userId", GameController.deleteGamesFromUser);
-router.delete("/", GameController.deleteGame);
+router.delete("/:userId/:publicationId", GameController.deleteGame);
 
 module.exports = router;

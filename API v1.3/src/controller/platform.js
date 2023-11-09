@@ -3,7 +3,6 @@ const PlatformModel = require("../model/platform");
 const { isValidObject } = require("../tools/utils");
 const HTTPStatus = require("../tools/HTTPStatus");
 
-// ? what type is req and res
 /**
  * Get a platform by its code
  * 
@@ -87,7 +86,7 @@ module.exports.postPlatform = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
@@ -117,7 +116,7 @@ module.exports.updatePlatform = async (req, res) => {
     const { code, new_code: newCode, description } = body;
     const client = await pool.connect();
     try {
-        if (newCode && code !== newCode && await PlatformModel.platformExists(client, newCode)) {
+        if (newCode !== undefined && code !== newCode && await PlatformModel.platformExists(client, newCode)) {
             res.status(HTTPStatus.CONFLICT).send("Platform already exists");
         } else if (await PlatformModel.platformExists(client, code)) {
             await PlatformModel.updatePlatform(client, code, { code: newCode, description });
@@ -133,7 +132,6 @@ module.exports.updatePlatform = async (req, res) => {
     }
 }
 
-// TODO test
 /**
  * Delete a platform
  * 

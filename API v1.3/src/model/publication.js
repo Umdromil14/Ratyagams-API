@@ -96,7 +96,13 @@ module.exports.deleteAllPublicationFromGame = async (client, videoGameId) => {
     `, [videoGameId]);
 }
 
-module.exports.publicationExist = async (client, id) => {
-    const {rows} = await client.query("SELECT * FROM publication WHERE id = ?", [id]);
+module.exports.publicationExists = async (client, id) => {
+    const {rows} = await client.query("SELECT * FROM publication WHERE id = $1", [id]);
     return rows.length == 1;
+}
+
+module.exports.getPublicationFromGameAndPlatform = async (client, videoGameId, platformCode) => {
+    return await client.query(`
+        SELECT * FROM publication WHERE video_game_id = $1 AND platform_code = $2
+    `, [videoGameId, platformCode]);
 }

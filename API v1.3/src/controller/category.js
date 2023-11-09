@@ -33,7 +33,7 @@ module.exports.createCategory = async (req, res) => {
     }
 }
 
-module.exports.getCategories = async (req, res) => {
+module.exports.getAllCategories = async (req, res) => {
     const client = await pool.connect();
     try {
         const{rows: categories} = await CategoryModel.getAllCategories(client);

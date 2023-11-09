@@ -35,7 +35,7 @@ module.exports.getGame = async (client, userId, publicationId) => {
 }
 
 /**
- * Get all games
+ * Get all games of a user
  * 
  * @param {pg.Pool} client the postgres client
  * @param {number} userId the id of the user
@@ -175,6 +175,7 @@ module.exports.deleteGamesFromPublication = async (client, publicationId) => {
  * 
  * @param {pg.Pool} client the postgres client
  * @param {number} userId the id of the user
+ * @param {number} publicationId the id of the publication
  * 
  * @returns {Promise<boolean>} `true` if the game exists, `false` otherwise
  */

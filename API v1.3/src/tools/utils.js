@@ -36,7 +36,7 @@
  *
  * const objectToValidate = {
  *     type_id: "1",
- *     video_game_code: "hallo",
+ *     video_game_code: "doom",
  * };
  *
  * const isValid = isValidObject(objectToValidate, model, true);
