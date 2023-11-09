@@ -45,7 +45,7 @@ module.exports.getTypes = async (req, res) => {
         client.release()
     }
 }
-//! si change id, alors via code
+
 module.exports.getType = async (req, res) => {
     const client = await pool.connect();
     const idTexte = req.params.id;
@@ -75,7 +75,6 @@ module.exports.getType = async (req, res) => {
 module.exports.updateType = async (req, res) => {
     const model = {
         id: ["number"],
-        new_id: ["number", "optional"],
         new_name: ["string", "optional"],
         new_description: ["string", "optional"]
     }
@@ -88,7 +87,6 @@ module.exports.updateType = async (req, res) => {
     const client = await pool.connect();
     const {
         id,
-        new_id: newId,
         new_name: newName,
         new_description: newDescription
     } = body;
@@ -100,7 +98,7 @@ module.exports.updateType = async (req, res) => {
             const {rows : types} = await TypeModel.getType(client, id);
             const type = types[0];
             if(type !== undefined){
-                const response = await TypeModel.updateType(client, id, newId, newName, newDescription);
+                const response = await TypeModel.updateType(client, id, newName, newDescription);
                 if(response){
                     res.status(200).send("Update done");
                 }
@@ -120,33 +118,23 @@ module.exports.updateType = async (req, res) => {
     }
 }
 
-// todo : transaction
 module.exports.deleteType = async (req, res) => {
     const client = await pool.connect();
-    const idTexte = req.params.id;
-    const id = parseInt(idTexte);
+    const id = parseInt(req.params.id);
     try {
         if(isNaN(id)){
             res.status(400).send("Id must be a number");
         }
         else{
             client.query("BEGIN");
-            const {rows : types} = await TypeModel.getType(client, id);
-            const type = types[0];
-            if(type !== undefined){
-                const firstRep = await CategoryModel.deleteCategoriesFromType(client, id)
-                if(firstRep){
-                    const response = await TypeModel.deleteType(client, id);
-                    if(response){
-                        res.status(200).send("Delete done");
-                    }
-                    else{
-                        res.status(200).send("Delete failed");
-                    }
+            const promiseTypeExistId = TypeModel.typeExistId(client, id);
+            const promiseCategoryExist = CategoryModel.categoryExist(client, null, id);
+            const [typeExist, categoryExist] = await Promise.all([promiseTypeExistId, promiseCategoryExist]); 
+            if(typeExist){
+                if(categoryExist){
+                    await CategoryModel.deleteCategoriesFromType(client, id)
                 }
-                else{
-                    res.status(400).send("Deleting categories failed");
-                }
+                await TypeModel.deleteType(client, id);
             }
             else{
                 res.status(404).send("Id not found");

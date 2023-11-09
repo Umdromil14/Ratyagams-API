@@ -86,7 +86,6 @@ module.exports.getPublications = async (req, res) => {
 module.exports.updatePublication = async (req, res) => {
     const model = {
         id: ["number"],
-        new_id: ["number", "optional"],
         new_platform_code: ["string", "optional"],
         new_video_game_id: ["number", "optional"],
         new_release_date: ["string", "optional"],
@@ -100,8 +99,7 @@ module.exports.updatePublication = async (req, res) => {
     }
 
     const client = await pool.connect();
-    const {id: id, 
-        new_id: newId,
+    const {id: id,
         new_platform_code: newPlatformCode,
         new_video_game_id: newVideoGameId,
         new_release_date: newReleaseDate, 
@@ -116,7 +114,7 @@ module.exports.updatePublication = async (req, res) => {
             const {rows: publications} = await PublicationModel.getPublication(client, id);
             const publication = publications[0];
             if(publication !== undefined){
-                const response = await PublicationModel.updatePublication(client, id, newId, newPlatformCode, 
+                const response = await PublicationModel.updatePublication(client, id, newPlatformCode, 
                     newVideoGameId, newReleaseDate, newReleasePrice, newStorePageURL);
                 if(response){
                     res.status(200).send("Update done");

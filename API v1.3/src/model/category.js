@@ -144,3 +144,26 @@ module.exports.deleteCategoriesFromVideoGame = async (client, videoGameId) => {
 }
 
 // TODO categoryExists
+module.exports.categoryExist = async (client, videoGameId, typeId) => {
+
+    let query = `SELECT * FROM category WHERE `;
+    let values = [];
+    let index = 1;
+
+    if(videoGameId !== undefined){
+        query += `video_game_id = $${index}`;
+        values.push(videoGameId);
+        index++;
+        if(typeId !== undefined){
+            query += ` AND `;
+        }
+    }
+    if(typeId !== undefined){
+        query += `type_id = $${index}`;
+        values.push(typeId);
+        index++;
+    }
+
+    const {rows} = await client.query(query, values); 
+    return rows.length > 0;
+}

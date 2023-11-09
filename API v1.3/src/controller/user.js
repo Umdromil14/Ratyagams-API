@@ -1,3 +1,19 @@
+/**
+ * @swagger
+ * components:
+ *  getAllUsers:
+ *  login:
+ *  postUser:
+ *  postUserWithGames:
+ *  updateMyAccount:
+ *  updateUserFromAdmin:
+ *  deleteMyAccount:
+ *  deleteUserFromAdmin:
+ *  getUser:
+ *  
+ */
+
+
 const pool = require("../model/database");
 const UserModel = require("../model/user.js");
 const UserDB = require("../model/userDB.js");
@@ -8,15 +24,23 @@ const jwt = require("jsonwebtoken");
 const tools = require("../tools/utils.js");
 const HTTPStatus = require("../tools/HTTPStatus.js");
 
-//post : login with a account that already exists
-//pre : username or email and password
+/**
+ * Login a user that already exists
+ * 
+ * @param {Request} req from the body need to have username or email and password
+ * @param {Response} res 
+ * 
+ * @returns {Promise<void>}
+ */
 module.exports.login = async (req, res) => {
     const { username, email, password } = req.body;
-    if (
-        (username === undefined && email === undefined) ||
-        password === undefined
-    ) {
-        res.status(HTTPStatus.NOT_FOUND).send("Missing parameters");
+    const model = {
+        username: ["string", "optional"],
+        email: ["string", "optional"],
+        password: ["string"],
+    };
+    if (!tools.isValidObject(req.body, model, true)) {
+        res.status(HTTPStatus.BAD_REQUEST).send("Missing parameters");
         return;
     }
     if (!tools.isValidEmail(email)) {
@@ -25,6 +49,11 @@ module.exports.login = async (req, res) => {
     }
     const client = await pool.connect();
     try {
+        const user = await UserModel.getUser(client, username, email);
+        if (!user) {
+            res.status(HTTPStatus.NOT_FOUND).send("User does not exist");
+            return;
+        } 
         const {
             id,
             username: usernameClient,
@@ -32,43 +61,46 @@ module.exports.login = async (req, res) => {
             firstname,
             lastname,
             hashed_password: hashedPassword,
-        } = await UserModel.getUser(client, username, email);
+        } = user;
 
-        if (usernameClient === null) {
-            res.status(HTTPStatus.NOT_FOUND).send("User does not exist");
-        } else if (!(await bcrypt.compare(password, hashedPassword))) {
+        if (!(await bcrypt.compare(password, hashedPassword))) {
             res.status(HTTPStatus.BAD_REQUEST).send(
                 "Wrong password or username/email"
             );
-        } else {
-            const token = jwt.sign(
-                {
-                    data: {
-                        id,
-                        username: usernameClient,
-                        email: emailClient,
-                        firstname: firstname,
-                        lastname: lastname,
-                        hashedPassword: hashedPassword,
-                    },
-                },
-                process.env.JWT_SECRET,
-                {
-                    expiresIn: "24h",
-                }
-            );
-            res.json({ token });
+            return ;
         }
+        const token = jwt.sign(
+            {
+                data: {
+                    id,
+                    username: usernameClient,
+                    email: emailClient,
+                    firstname: firstname,
+                    lastname: lastname,
+                    hashedPassword: hashedPassword,
+                },
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "24h",
+            }
+        );
+        res.json({ token });
     } catch (error) {
-        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
 }
 
-//post : create a new account
-//pre : username, email, password, firstname(optionnal), lastname(optionnal) from body (form)
+/**
+ * create a new user
+ * 
+ * @param {Request} req from the body need to have username, email, password, firstname(optionnal), lastname (optionnal)
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ */
 module.exports.postUser = async (req, res) => {
     const { username, email, firstname, lastname, password } = req.body;
 
@@ -113,8 +145,15 @@ module.exports.postUser = async (req, res) => {
     }
 }
 
-//post : delete a account with an id get from params (build link in react)
-//pre : id from params
+
+/**
+ * delete a user from an admin account
+ * 
+ * @param {Request} req need to have an id from the url
+ * @param {Response} res 
+ * 
+ * @returns {Promise<void>}
+ */
 module.exports.deleteUserFromAdmin = async (req, res) => {
     const id = parseInt(req.params.userId);
     if (isNaN(id)) {
@@ -135,7 +174,6 @@ module.exports.deleteUserFromAdmin = async (req, res) => {
             return;
         }
         client.query("BEGIN");
-
         await GamesDB.deleteGamesFromUser(client, id);
         await UserDB.deleteUser(client, id);
 
@@ -144,16 +182,20 @@ module.exports.deleteUserFromAdmin = async (req, res) => {
         res.sendStatus(HTTPStatus.NO_CONTENT);
     } catch (error) {
         await client.query("ROLLBACK");
-        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
 }
 
-//post : delete a account with an id get from token
-//pre : token (readable from the middleware identification)
-
+/**
+ * the user can delete his account with his token
+ * 
+ * @param {Request} req only need to have the token
+ * @param {Response} res 
+ * 
+ * @returns {Promise<void>}
+ */
 module.exports.deleteMyAccount = async (req, res) => {
     const actualUserId = req.session.data.id;
     const client = await pool.connect();
@@ -171,15 +213,21 @@ module.exports.deleteMyAccount = async (req, res) => {
         res.sendStatus(HTTPStatus.NO_CONTENT);
     } catch (error) {
         await client.query("ROLLBACK");
-        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
 }
 
-//post : update a account with an id get from params (build link in react)
-//pre : id from params and username, email, firstname, lastname and password from body (form)
+
+/**
+ * update a user from an admin account
+ * 
+ * @param {Request} req 
+ * @param {Response} res
+ *  
+ * @returns {Promise<void>} 
+ */
 module.exports.updateUserFromAdmin = async (req, res) => {
     const id = parseInt(req.params.userId);
     if (isNaN(id)) {
@@ -201,9 +249,10 @@ module.exports.updateUserFromAdmin = async (req, res) => {
 
     const client = await pool.connect();
     try {
-        const userOBJ = await UserDB.getUserFromId(client, id)[0];
 
-        if (userOBJ === null) {
+        const userOBJ = (await UserDB.getUserFromId(client, id)).rows[0];
+
+        if (!userOBJ) {
             res.status(HTTPStatus.NOT_FOUND).send("User not found");
             return;
         }
@@ -235,20 +284,30 @@ module.exports.updateUserFromAdmin = async (req, res) => {
 
         res.sendStatus(HTTPStatus.NO_CONTENT);
     } catch (error) {
-        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
 }
 
-//post : update a account with the token (readable from the middleware identification)
-//pre : token and username, email, firstname (optional), lastname (optional)
+/**
+ * the user can update his account
+ * 
+ * @param {Request} req from the body need to have username, email, firstname, lastname 
+ * @param {Response} res 
+ * 
+ * @returns {Promise<void>} 
+ */
 module.exports.updateMyAccount = async (req, res) => {
+    const model = {
+        username: ["string"],
+        email: ["string" ],
+        firstname: ["string", "optional"],
+        lastname: ["string", "optional"],
+    };
     const actualUser = req.session.data;
     const { username, email, firstname, lastname } = req.body;
-    //forced to put at least a username & email
-    if ( !username  && !email) { //! with nathan's model can delete this part
+    if (!tools.isValidObject(req.body, model)) {
         res.status(HTTPStatus.BAD_REQUEST).send("Missing parameters");
         return;
     }
@@ -260,18 +319,14 @@ module.exports.updateMyAccount = async (req, res) => {
 
     try {
 
-        if (actualUser.username !== username) {
-            if (await UserDB.clientExists(client, undefined, username)) {
-                res.status(HTTPStatus.CONFLICT).send("Username already exists");
-                return;
-            }
+        if (actualUser.username !== username && await UserDB.clientExists(client, undefined, username)) {
+            res.status(HTTPStatus.CONFLICT).send("Username already exists");
+            return;
         }
 
-        if (actualUser.email !== email){
-            if (await UserDB.clientExists(client, undefined, undefined, email)) {
-                res.status(HTTPStatus.CONFLICT).send("Email already exists");
-                return;
-            }
+        if (actualUser.email !== email && await UserDB.clientExists(client, undefined, undefined, email)){
+            res.status(HTTPStatus.CONFLICT).send("Email already exists");
+            return;
         }
 
         await UserDB.updateUser(
@@ -299,37 +354,45 @@ module.exports.updateMyAccount = async (req, res) => {
                 expiresIn: "24h",
             }
         );
-        console.log(token);
-        res.sendStatus(HTTPStatus.NO_CONTENT);
+        res.json({ token });
     } catch (error) {
-        console.error(error);
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
 }
 
-//post : create a new account with some new game in the same time
-//pre : username, email, password, firstname(optionnal), lastname(optionnal) from body (form) and video_game with his platform from body (form)
-//game receive will be an array with only the name of the game and the platform
+
+/**
+ * insert a user with his games
+ * 
+ * @param {Request} req from the body need to have username, email, password, firstname, lastname and games composed of platform and nameId
+ * @param {Response} res 
+ * 
+ * @returns {Promise<void>}
+ */
+// games need to be add like that games : {"games1" : ["PC",100]}
 module.exports.postUserWithGames = async (req, res) => {
+    const model = {
+        username: ["string"],
+        email: ["string"],
+        firstname: ["string", "optional"],
+        lastname: ["string", "optional"],
+        password: ["string"],
+        games: ["object"]
+    };
     const {
         username,
         email,
         firstname,
         lastname,
         password,
-        games: videoGames,
+        games: videoGames
     } = req.body;
-    //{ games1: [ 'ps4', 'god of war' ], games2: [ 'ps3', 'god of war 2' ] }
-
-    if (
-        (username === undefined && email === undefined) ||
-        password === undefined
-    ) {
-        res.status(400).send("Missing parameters");
+    if (!tools.isValidObject(req.body, model)) {
+        res.status(HTTPStatus.BAD_REQUEST).send("Missing parameters");
         return;
-    } //! with nathan's model can delete this part
+    }
     if (!tools.isValidEmail(email)) {
         res.status(HTTPStatus.NOT_FOUND).send("Wrong email format");
     } else {
@@ -348,7 +411,7 @@ module.exports.postUserWithGames = async (req, res) => {
                 client,
                 username,
                 email,
-                bcrypt.hashSync(password, 10),
+                await bcrypt.hash(password, 10),
                 firstname,
                 lastname
             )).rows[0].id;
@@ -373,7 +436,6 @@ module.exports.postUserWithGames = async (req, res) => {
             res.sendStatus(HTTPStatus.CREATED);
         } catch (error) {
             client.query("ROLLBACK");
-            console.error(error);
             res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
         } finally {
             client.release();
@@ -381,7 +443,15 @@ module.exports.postUserWithGames = async (req, res) => {
     }
 }
 
-module.exports.getUserFromId = async (req, res) => {
+/**
+ * Get a specific user
+ * 
+ * @param {Request} req need to be fill with an id from the url
+ * @param {Response} res if it fails, send an error message, else send the specific user
+ * 
+ * @returns {Promise<void>}
+ */
+module.exports.getUser = async (req, res) => {
     const id = parseInt(req.params.userId);
     if (isNaN(id)) {
         res.status(HTTPStatus.BAD_REQUEST).send("Wrong id format");
@@ -394,27 +464,30 @@ module.exports.getUserFromId = async (req, res) => {
             res.status(HTTPStatus.NOT_FOUND).send("User not found");
             return;
         }
-        console.log(user);
         res.status(HTTPStatus.ACCEPTED).json(user);
     } catch (error) {
-        console.error(error);
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).send("Internal server error");
     } finally {
         client.release();
     }
-};
+}
 
+/**
+ * Get all users 
+ * 
+ * @param {Request} req nothing to get from the request
+ * @param {Response} res if it fails, send an error message, else send all users
+ * 
+ * @returns {Promise<void>}
+ */
 module.exports.getUsers = async (req, res) => {
     const client = await pool.connect();
     try {
         const users = await UserDB.getUsers(client);
         res.status(HTTPStatus.ACCEPTED).json(users.rows);
     } catch (error) {
-        console.error(error);
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).send("Internal server error");
     } finally {
         client.release();
     }
-};
-
-
+}

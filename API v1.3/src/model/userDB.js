@@ -1,19 +1,55 @@
-module.exports.getUserFromEmail = async (client, clientIdentifier) => {
+/**
+ * get a user from his email
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {String} email the email of the user
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
+module.exports.getUserFromEmail = async (client, email) => {
   return await client.query(`SELECT * FROM "user" WHERE email = $1`, [
-    clientIdentifier,
+    email,
   ]);
 };
 
-module.exports.getUserFromUsername = async (client, clientIdentifier) => {
+/**
+ * get a user from his username
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {String} username the username of the user
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
+module.exports.getUserFromUsername = async (client, username) => {
   return await client.query(`SELECT * FROM "user" WHERE username = $1`, [
-    clientIdentifier,
+    username,
   ]);
 };
 
+/**
+ * get a user from his id
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {Number} id the id of the user
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
 module.exports.getUserFromId = async (client, id) => {
   return await client.query(`SELECT * FROM "user" WHERE id = $1`, [id]);
 };
 
+/**
+ * create a user
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {String} username the username of the user
+ * @param {String} email the email of the user
+ * @param {String} password the password of the user
+ * @param {String=} firstname the firstname of the user; default to `null`
+ * @param {String=} lastname the lastname of the user; default to `null`
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
 module.exports.postUser = async (
   client,
   username,
@@ -28,6 +64,16 @@ module.exports.postUser = async (
   );
 };
 
+/**
+ * check if a user exists
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {Number=} id the id of the user ; if `null`, you need to provide the username or the email
+ * @param {String=} username the username of the user, if `null`, you need to provide the id or the email
+ * @param {String=} email the email of the user, if `null`, you need to provide the id or the username
+ * 
+ * @returns {Promise<Boolean>} `true` if the user exists, `false` otherwise
+ */
 module.exports.clientExists = async (client, id = null, username = null, email=null) => {
   let query = `SELECT count(*) AS no FROM "user" WHERE `;
   let values = [];
@@ -55,8 +101,19 @@ module.exports.clientExists = async (client, id = null, username = null, email=n
   return rows[0].no > 0;
 };
 
-
-
+/**
+ * update a user
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {Number} userId the id of the user
+ * @param {String} username the username of the user
+ * @param {String} email the email of the user
+ * @param {String=} firstname the firstname of the user; default to `null`
+ * @param {String=} lastname the lastname of the user; default to `null`
+ * @param {String=} password the password of the user; default to `null`
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
 module.exports.updateUser = async (client,userId, username,email,firstname = null ,lastname = null ,password = null) => {
   let query = `UPDATE "user" SET username = $1 , email = $2 ,`;
   let values = [username,email];
@@ -83,14 +140,37 @@ module.exports.updateUser = async (client,userId, username,email,firstname = nul
   return await client.query(query, values);
 };
 
+/**
+ * delete a user
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {Number} userId the id of the user
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
 module.exports.deleteUser = async (client, userId) => {
   return await client.query(`DELETE FROM "user" WHERE id = $1`, [userId]);
 };
 
+/**
+ * get all users
+ * 
+ * @param {pg.Pool} client the postgres client
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
 module.exports.getUsers = async (client) => {
   return await client.query(`SELECT * FROM "user"`);
 };
 
+/**
+ * get all users with an admin role
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {Number} userId the id of the user
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
 module.exports.isAdmin = async (client, userId) => {
   const { rows } = await client.query(
     `SELECT count(*) AS no FROM "user" WHERE id = $1 AND is_admin = true`,

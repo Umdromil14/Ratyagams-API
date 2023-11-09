@@ -48,10 +48,8 @@ module.exports.getAllCategories = async (req, res) => {
 
 module.exports.getCategory = async (req, res) => {
     const client = await pool.connect();
-    const typeIdTexte = req.params.typeId;
-    const typeId = parseInt(typeIdTexte);
-    const videoGameIdTexte = req.params.videoGameId;
-    const videoGameId = parseInt(videoGameIdTexte);
+    const typeId = parseInt(req.params.typeId);
+    const videoGameId = parseInt(req.params.videoGameId);
     try {
         if(isNaN(typeId) || isNaN(videoGameId)){
             res.status(400).send("Id must be a number");
@@ -76,8 +74,7 @@ module.exports.getCategory = async (req, res) => {
 
 module.exports.getCategoriesFromType = async (req, res) => {
     const client = await pool.connect();
-    const typeIdTexte = req.params.typeId;
-    const typeId = parseInt(typeIdTexte);
+    const typeId = parseInt(req.params.typeId);
     try {
         if(isNaN(typeId)){
             res.status(400).send("Id must be a number");
@@ -101,8 +98,7 @@ module.exports.getCategoriesFromType = async (req, res) => {
 
 module.exports.getCategoriesFromVideoGame = async (req, res) => {
     const client = await pool.connect();
-    const videoGameIdTexte = req.params.videoGameId;
-    const videoGameId = parseInt(videoGameIdTexte);
+    const videoGameId = parseInt(req.params.videoGameId);
     try {
         if(isNaN(videoGameId)){
             res.status(400).send("Id must be a number");
@@ -149,9 +145,7 @@ module.exports.updateCategory = async (req, res) => {
             res.status(400).send("Id must be a number");
         }
         else{
-            const {rows : categories} = await CategoryModel.getCategory(client, typeId, videoGameId);
-            const category = categories[0];
-            if(category !== undefined){
+            if(CategoryModel.categoryExist(client, videoGameId, typeId)){
                 const response = await CategoryModel.updateCategory(client, typeId, videoGameId, newTypeId, newVideoGameId);
                 if(response){
                     res.status(200).send("Update done");
@@ -172,26 +166,18 @@ module.exports.updateCategory = async (req, res) => {
     }
 }
 
-// ! pas de transaction
 module.exports.deleteCategory = async (req, res) => {
     const client = await pool.connect();
-    const typeIdTexte = req.params.typeId;
-    const typeId = parseInt(typeIdTexte);
-    const videoGameIdTexte = req.params.videoGameId; // ! une seule ligne
-    // ! const blabla = parseInt(req.params.videoGameId);
-    const videoGameId = parseInt(videoGameIdTexte);
+    const typeId = parseInt(req.params.typeId);
+    const videoGameId = parseInt(req.params.videoGameId);
     try {
         if(isNaN(typeId) || isNaN(videoGameId)){
             res.status(400).send("Id must be a number");
         }
         else{
-            const {rows : categories} = await CategoryModel.getCategory(client, typeId, videoGameId); // ! use categoryExists
-            const category = categories[0];
-            if(category !== undefined){
-                client.query("BEGIN");
+            if(CategoryModel.categoryExist(client, videoGameId, typeId)){
                 const response = await CategoryModel.deleteCategory(client, typeId, videoGameId);
                 if(response){
-                    await client.query("COMMIT");
                     res.status(200).send("Delete done");
                 }
                 else{
@@ -203,7 +189,6 @@ module.exports.deleteCategory = async (req, res) => {
             }
         }
     } catch (error) {
-        await client.query("ROLLBACK");
         console.error(error);
         res.sendStatus(500);
     } finally{
@@ -213,19 +198,15 @@ module.exports.deleteCategory = async (req, res) => {
 
 module.exports.deleteCategoriesFromType = async (req, res) => {
     const client = await pool.connect();
-    const typeIdTexte = req.params.typeId;
-    const typeId = parseInt(typeIdTexte);
+    const typeId = parseInt(req.params.typeId);
     try {
         if(isNaN(typeId)){
             res.status(400).send("Id must be a number");
         }
         else{
-            const {rows : categories} = await CategoryModel.getCategoriesFromType(client, typeId);
-            if(categories !== undefined){
-                client.query("BEGIN");
+            if(CategoryModel.categoryExist(client, null, typeId)){
                 const response = await CategoryModel.deleteCategoriesFromType(client, typeId);
                 if(response){
-                    client.query("COMMIT");
                     res.status(200).send("Delete done");
                 }
                 else{
@@ -237,7 +218,6 @@ module.exports.deleteCategoriesFromType = async (req, res) => {
             }
         }
     } catch (error) {
-        client.query("ROLLBACK");
         console.error(error);
         res.sendStatus(500);
     } finally{
@@ -247,19 +227,15 @@ module.exports.deleteCategoriesFromType = async (req, res) => {
 
 module.exports.deleteCategoriesFromVideoGame = async (req, res) => {
     const client = await pool.connect();
-    const videoGameIdTexte = req.params.videoGameId;
-    const videoGameId = parseInt(videoGameIdTexte);
+    const videoGameId = parseInt(req.params.videoGameId);
     try {
         if(isNaN(videoGameId)){
             res.status(400).send("Id must be a number");
         }
         else{
-            client.query("BEGIN");
-            const {rows : categories} = await CategoryModel.getCategoriesFromVideoGame(client, videoGameId);
-            if(categories !== undefined){
+            if(CategoryModel.categoryExist(client, videoGameId)){
                 const response = await CategoryModel.deleteCategoriesFromVideoGame(client, videoGameId);
                 if(response){
-                    await client.query("COMMIT");
                     res.status(200).send("Delete done");
                 }
                 else{
@@ -271,10 +247,10 @@ module.exports.deleteCategoriesFromVideoGame = async (req, res) => {
             }
         }
     } catch (error) {
-        client.query("ROLLBACK");
         console.error(error);
         res.sendStatus(500);
     } finally{
         client.release();
     }
 }
+

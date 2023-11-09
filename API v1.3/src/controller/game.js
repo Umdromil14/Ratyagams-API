@@ -6,7 +6,41 @@ const { isValidObject } = require("../tools/utils");
 const HTTPStatus = require("../tools/HTTPStatus");
 
 
-// TODO: test
+// * FINISHED
+/**
+ * Check if the ids are valid; if not, return the corresponding HTTP status code
+ * 
+ * @param {pg.Pool} client the postgres client
+ * @param {number} userId the id of the user
+ * @param {number} publicationId the id of the publication
+ * 
+ * @returns {Object} the response (keys: HTTPStatus (404, 409), message (string)); if the ids are valid, the status is undefined
+ */
+async function validateIds(client, userId, publicationId) {
+    const [userExists, publicationExists, gameExists] = await Promise.all([
+        UserModel.clientExists(client, userId),
+        PublicationModel.publicationExists(client, publicationId),
+        GameModel.gameExists(client, userId, publicationId)
+    ]);
+
+    if (!userExists) {
+        return {
+            status: HTTPStatus.NOT_FOUND,
+            message: "User not found"
+        };
+    } else if (!publicationExists) {
+        return {
+            status: HTTPStatus.NOT_FOUND,
+            message: "Publication not found"
+        };
+    } else if (gameExists) {
+        return {
+            status: HTTPStatus.CONFLICT,
+            message: "Game already exists"
+        };
+    }
+}
+
 /**
  * Get all games of a user
  * 
@@ -107,18 +141,9 @@ module.exports.postGame = async (req, res) => {
 
     const client = await pool.connect();
     try {
-        const [userExists, publicationExists, gameExists] = await Promise.all([
-            UserModel.clientExists(client, userId),
-            PublicationModel.publicationExists(client, publicationId),
-            GameModel.gameExists(client, userId, publicationId)
-        ]);
-
-        if (!userExists) {
-            res.status(HTTPStatus.NOT_FOUND).send("User not found");
-        } else if (!publicationExists) {
-            res.status(HTTPStatus.NOT_FOUND).send("Publication not found");
-        } else if (gameExists) {
-            res.status(HTTPStatus.CONFLICT).send("Game already exists");
+        const response = await validateIds(client, userId, publicationId);
+        if (response !== undefined) {
+            res.status(response.status).send(response.message);
         } else {
             await GameModel.createGame(client, userId, publicationId, isOwned, reviewRating, reviewComment, reviewDate);
             res.status(HTTPStatus.CREATED).send("Game created");
@@ -174,31 +199,19 @@ module.exports.updateGame = async (req, res) => {
 
     const client = await pool.connect();
     try {
-        console.log(newPublicationId, )
         if (!await GameModel.gameExists(client, userId, publicationId)) {
             res.status(HTTPStatus.NOT_FOUND).send("Game not found");
-        } else if (newUserId !== undefined && !await UserModel.clientExists(client, newUserId)) {
-            res.status(HTTPStatus.NOT_FOUND).send("New user not found");
-        } else if (newPublicationId !== undefined && !await PublicationModel.publicationExists(client, newPublicationId)) {
-            res.status(HTTPStatus.NOT_FOUND).send("New publication not found");
-        } else {
-            // TODO 
-            const userIdToTest = newUserId !== undefined && newUserId !== userId ? newUserId : undefined;
-            const publicationIdToTest = newPublicationId !== undefined && newPublicationId !== publicationId ? newPublicationId : undefined;
+        } else{
+            const userIdToTest = newUserId ?? userId;
+            const publicationIdToTest = newPublicationId ?? publicationId;
 
-            if ((newUserId !== undefined || newPublicationId !== undefined) && await GameModel.gameExists(client, userIdToTest, publicationIdToTest)) {
-                res.status(HTTPStatus.CONFLICT).send("New game already exists");
-            } else {
-                await GameModel.updateGame(client, userId, publicationId, updateValues);
-                res.sendStatus(HTTPStatus.NO_CONTENT);
+            if (userIdToTest !== userId || publicationIdToTest !== publicationId) {
+                const response = await validateIds(client, userIdToTest, publicationIdToTest);
+                if (response !== undefined) {
+                    res.status(response.status).send(`New ${response.message}`);
+                    return;
+                }
             }
-        } if (
-            (newUserId !== undefined || newPublicationId !== undefined) &&
-            newUserId !== userId && newPublicationId !== publicationId &&
-            await GameModel.gameExists(client, newUserId, newPublicationId)
-        ) {
-            res.status(HTTPStatus.CONFLICT).send("New game already exists");
-        } else {
             await GameModel.updateGame(client, userId, publicationId, updateValues);
             res.sendStatus(HTTPStatus.NO_CONTENT);
         }

@@ -21,10 +21,10 @@ module.exports.getPublications = async (client) => {
     return await client.query(`SELECT * FROM publication`);
 }
 
-module.exports.getPublicationFromGameAndPlatform = async (client, videoGameCode, platformCode) => {
+module.exports.getPublicationFromGameAndPlatform = async (client, videoGameId, platformCode) => {
     return await client.query(
         `SELECT * FROM publication WHERE video_game_id = $1 AND platform_code = $2`,
-        [videoGameCode, platformCode]
+        [videoGameId, platformCode]
     );
 }
 
@@ -32,11 +32,9 @@ module.exports.getPublicationsFromVideoGame = async (client, videoGameId) => {
     return await client.query(`SELECT * FROM publication WHERE video_game_id = $1`, [videoGameId])
 }
 
-// TODO retirer newId
 module.exports.updatePublication = async (
     client,
     id,
-    newId,
     newPlatformCode,
     newVideoGameId,
     newReleaseDate,
@@ -47,11 +45,6 @@ module.exports.updatePublication = async (
     let values = [];
     let index = 1;
 
-    if (newId !== undefined) {
-        query += `id = $${index}, `;
-        values.push(newId);
-        index++;
-    }
     if (newPlatformCode !== undefined) {
         query += `platform_code = $${index}, `;
         values.push(newPlatformCode);
@@ -99,10 +92,4 @@ module.exports.deleteAllPublicationFromGame = async (client, videoGameId) => {
 module.exports.publicationExists = async (client, id) => {
     const {rows} = await client.query("SELECT * FROM publication WHERE id = $1", [id]);
     return rows.length == 1;
-}
-
-module.exports.getPublicationFromGameAndPlatform = async (client, videoGameId, platformCode) => {
-    return await client.query(`
-        SELECT * FROM publication WHERE video_game_id = $1 AND platform_code = $2
-    `, [videoGameId, platformCode]);
 }

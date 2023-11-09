@@ -10,17 +10,10 @@ module.exports.getType = async (client, id) => {
     return await client.query(`SELECT * FROM type WHERE id = $1`, [id]);
 }
 
-// TODO supprimer id ou utiliser code ?
-module.exports.updateType = async (client, id, newId, newName, newDescription) => {
+module.exports.updateType = async (client, id, newName, newDescription) => {
     let query = `UPDATE type SET `;
     let values = [];
     let index = 1;
-
-    if(newId !== undefined){
-        query += `id = $${index}, `;
-        values.push(newId);
-        index++;
-    }
 
     if(newName !== undefined){
         query += `name = $${index}, `;
@@ -42,5 +35,15 @@ module.exports.updateType = async (client, id, newId, newName, newDescription) =
 }
 
 module.exports.deleteType = async (client, id) => {
-    return await client.query("DELETE FROM type WHERE id = $1", [id]);
+    return await client.query(`DELETE FROM type WHERE id = $1`, [id]);
+}
+
+module.exports.typeExistId = async (client, id) => {
+    const {rows} = await client.query(`SELECT * FROM type WHERE id= $1`, [id]);
+    return rows.length == 1;
+}
+
+module.exports.typeExistName = async (client, name) => {
+    const {rows} = await client.query(`SELECT * FROM type WHERE name = $1`, [name]);
+    return rows.length == 1;
 }
