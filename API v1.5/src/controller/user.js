@@ -1,30 +1,148 @@
 /**
  * @swagger
  * components:
- *   schemas:
- *     getAllUsers:
- *     login:
- *       type: object
- *       properties:
- *           email:
- *               type: string
- *           username:
- *               type: string
- *           password:
- *               type: string
- *               format: password
- *       required:
- *           - email
- *           - username
- *           - password
- *  postUser:
- *  postUserWithGames:
- *  updateMyAccount:
- *  updateUserFromAdmin:
- *  deleteMyAccount:
- *  deleteUserFromAdmin:
- *  getUser:
- *
+ *  schemas:
+ *      Login:
+ *          type: object
+ *          properties:
+ *              username/email:
+ *                  type: string
+ *              password:
+ *                  type: string
+ *      User:
+ *          type: object
+ *          properties:
+ *              username:
+ *                  type: string
+ *              email:
+ *                  type: string
+ *              firstname:
+ *                  type: string
+ *              lastname:
+ *                  type: string
+ *              password:
+ *                  type: string
+ *          required:
+ *              - username
+ *              - email
+ *              - password
+ *       
+ */
+/**
+ *@swagger
+ *components:
+ *  securitySchemes:
+ *      bearerAuth:
+ *        type: http
+ *        scheme: bearer
+ *        bearerFormat: JWT
+ *  requestBodies:
+ *      Login:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          username/email:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                              format: password
+ *      updateUserFromAdmin:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          username:
+ *                              type: string
+ *                          email:
+ *                              type: string
+ *                          firstname:
+ *                              type: string
+ *                          lastname:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                              format: password
+ *      updateMyAccount:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          username:
+ *                              type: string
+ *                          email:
+ *                              type: string
+ *                          firstname:
+ *                              type: string
+ *                          lastname:
+ *                              type: string
+ *      insertUserWithGames:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          username:
+ *                              type: string
+ *                          email:
+ *                              type: string
+ *                          firstname:
+ *                              type: string
+ *                          lastname:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                              format: password
+ *                          games:
+ *                              type: object
+ *                              properties:
+ *                                  games1:
+ *                                      type: array
+ *                                      items:
+ *                                          oneOf:
+ *                                              - type: string
+ *                                              - type: integer
+ *                                  games2:
+ *                                      type: array
+ *                                      items:
+ *                                          oneOf:
+ *                                              - type: string
+ *                                              - type: integer
+ *                                  gamesN:
+ *                                      type: array
+ *                                      items:
+ *                                          oneOf:
+ *                                              - type: string
+ *                                              - type: integer
+ *                      required:
+ *                          - username
+ *                          - email
+ *                          - password
+ *                          - games  
+ *      createUser:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          username:
+ *                              type: string
+ *                          email:
+ *                              type: string
+ *                          firstname:
+ *                              type: string
+ *                          lastname:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                              format: password
+ *                      required:
+ *                          - username
+ *                          - email
+ *                          - password
  */
 const pool = require("../model/database");
 const UserModel = require("../model/user.js");
@@ -45,7 +163,6 @@ const HTTPStatus = require("../tools/HTTPStatus.js");
  * @returns {Promise<void>}
  */
 module.exports.login = async (req, res) => {
-    const { username, email, password } = req.body;
     const model = {
         username: ["string", "optional"],
         email: ["string", "optional"],
@@ -55,6 +172,7 @@ module.exports.login = async (req, res) => {
         res.status(HTTPStatus.BAD_REQUEST).send("Missing parameters");
         return;
     }
+    const { username, email, password } = req.body;
     if (!tools.isValidEmail(email)) {
         res.status(HTTPStatus.BAD_REQUEST).send("Wrong email format");
         return;
@@ -97,7 +215,7 @@ module.exports.login = async (req, res) => {
                 expiresIn: "24h",
             }
         );
-        res.json({ token });
+        res.status(HTTPStatus.ACCEPTED).json({ token });
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
@@ -215,6 +333,12 @@ module.exports.deleteMyAccount = async (req, res) => {
     const actualUserId = req.session.data.id;
     const client = await pool.connect();
     try {
+        if (await UserDB.isAdmin(client, actualUserId)) {
+            res.status(HTTPStatus.FORBIDDEN).send(
+                "Can't delete an admin account"
+            );
+            return;
+        }
         client.query("BEGIN");
 
         await GamesDB.deleteGamesFromUser(client, actualUserId);
@@ -315,7 +439,7 @@ module.exports.updateMyAccount = async (req, res) => {
         res.status(HTTPStatus.BAD_REQUEST).send("Missing parameters");
         return;
     }
-    if (!tools.isValidEmail(email)) {
+    if (!tools.isValidEmail(body.email)) {
         res.status(HTTPStatus.BAD_REQUEST).send("Wrong email format");
         return;
     }
@@ -324,7 +448,7 @@ module.exports.updateMyAccount = async (req, res) => {
     try {
         if (
             actualUser.username !== body.username &&
-            (await UserDB.clientExists(client, undefined, username))
+            (await UserDB.clientExists(client, undefined, body.username))
         ) {
             res.status(HTTPStatus.CONFLICT).send("Username already exists");
             return;
@@ -332,7 +456,7 @@ module.exports.updateMyAccount = async (req, res) => {
 
         if (
             actualUser.email !== body.email &&
-            (await UserDB.clientExists(client, undefined, undefined, email))
+            (await UserDB.clientExists(client, undefined, undefined, body.email))
         ) {
             res.status(HTTPStatus.CONFLICT).send("Email already exists");
             return;
@@ -344,10 +468,10 @@ module.exports.updateMyAccount = async (req, res) => {
             {
                 data: {
                     id: actualUser.id,
-                    username,
-                    email,
-                    firstname,
-                    lastname,
+                    username: body.username,
+                    email : body.email,
+                    firstname : body.firstname,
+                    lastname : body.lastname,
                     hashedPassword: actualUser.hashedPassword,
                 },
             },
@@ -483,7 +607,7 @@ module.exports.getUser = async (req, res) => {
     } finally {
         client.release();
     }
-};
+}
 
 /**
  * Get all users
@@ -505,4 +629,4 @@ module.exports.getUsers = async (req, res) => {
     } finally {
         client.release();
     }
-};
+}

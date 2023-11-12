@@ -4,6 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "initProject": "npm run install && npm run docker && npm run initDB",
+    "install": "npm install --save-dev swagger-jsdoc nodemon",
     "initAndRun": "npm run docker && npm run initDB && npm run dev",
     "initDB": "node src/scripts/js/initDB.js",
     "dev": "nodemon src/app.js",

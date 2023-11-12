@@ -1,11 +1,102 @@
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *     Platform:
+ *         type: object
+ *         properties:
+ *             code:
+ *                 type: string
+ *                 description: The code of the platform
+ *             description:
+ *                 type: string
+ *                 description: The description of the platform
+*/
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      PlatformFound:
+ *          description: A platform was found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Platform'
+*/
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      PlatformsFound:
+ *          description: Platforms were found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                          $ref: '#/components/schemas/Platform'
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      PlatformAdded:
+ *          description: The platform was added
+ *  requestBodies:
+ *      PlatformToAdd:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          code:
+ *                              type: string
+ *                              description: The code of the platform
+ *                          description:
+ *                              type: string
+ *                              description: The description of the platform
+ *                      required:
+ *                          - code
+ *                          - description
+*/
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      PlatformUpdated:
+ *          description: The platform was updated
+ *  requestBodies:
+ *      PlatformToUpdate:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          code:
+ *                              type: string
+ *                              description: The code of the platform
+ *                          description:
+ *                              type: string
+ *                              description: The description of the platform
+*/
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      PlatformDeleted:
+ *          description: A platform was deleted
+*/
+
 const pool = require("../model/database");
 const PlatformModel = require("../model/platform");
 const { isValidObject } = require("../tools/utils");
 const HTTPStatus = require("../tools/HTTPStatus");
 
-
-// * DONE
-// TODO swagger
 /**
  * Get a platform by its code
  * 

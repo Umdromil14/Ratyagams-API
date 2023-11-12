@@ -1,3 +1,112 @@
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Category:
+ *          type: object
+ *          properties:
+ *              type_id:
+ *                  type: integer
+ *                  description: The type id
+ *              video_game_id:
+ *                  type: integer
+ *                  description: The video game id
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      CategoryAdded:
+ *          description: The category was added
+ *  requestBodies:
+ *      CategoryToAdd:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          type_id:
+ *                              type: integer
+ *                              description: The type id
+ *                          video_game_id:
+ *                              type: integer
+ *                              description: The video game id
+ *                      required:
+ *                          - type_id
+ *                          - video_game_id
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      CategoryFound:
+ *          description: Category(ies) was(were) found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      oneOf:
+ *                          - $ref: '#/components/schemas/Category'
+ *                          - type: array
+ *                            items:
+ *                              $ref: '#/components/schemas/Category'
+ */
+
+// /**
+//  * @swagger
+//  * components:
+//  *  responses:
+//  *      CategoriesFound:
+//  *          description: Categories were found
+//  *          content:
+//  *              application/json:
+//  *                  schema:
+//  *                      type: array
+//  *                      items:
+//  *                          $ref: '#/components/schemas/Category'
+//  */
+
+// /**
+//  * @swagger
+//  * components:
+//  *  responses:
+//  *      CategoryFound:
+//  *          description: A category was found
+//  *          content:
+//  *              application/json:
+//  *                  schema:
+//  *                      $ref: '#/components/schemas/Category'
+//  */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      CategoryUpdated:
+ *          description: The category was updated
+ *  requestBodies:
+ *      CategoryToUpdate:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          type_id:
+ *                              type: integer
+ *                              description: The type id
+ *                          video_game_id:
+ *                              type: integer
+ *                              description: The video game id
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      CategoryDeleted:
+ *          description: The category was deleted
+ */
 const pool = require("../model/database");
 const CategoryModel = require("../model/category");
 const TypeModel = require("../model/type");

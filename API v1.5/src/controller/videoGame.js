@@ -1,3 +1,46 @@
+/**
+ *@swagger
+ *components:
+ *  schemas:
+ *      VideoGame:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *          required:
+ *              - name
+ *              - description
+ *  requestBodies:
+ *      createVideoGame:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                          description:
+ *                              type: string
+ *      updateVideoGame:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                          description:
+ *                              type: string
+ *  responses:
+ *      VideoGamesFound:
+ *          description: The video game were found
+ *      VideoGameFound:
+ *          description: The video game was found
+ */
 const pool = require("../model/database");
 const VideoGameModel = require("../model/videoGame");
 const PublicationModel = require("../model/publication");
@@ -18,7 +61,11 @@ module.exports.getVideoGames = async (req, res) => {
 	const client = await pool.connect();
 	try {
 		const { rows: videoGames } = await VideoGameModel.getVideoGames(client);
-		res.json(videoGames);
+		if (videoGames.length === 0) {
+			res.status(HTTPStatus.NOT_FOUND).send("No video game found");
+			return;
+		}
+		res.status(HTTPStatus.ACCEPTED).json(videoGames);
 	} catch (error) {
 		res.status(HTTPStatus.INTERNAL_SERVER_ERROR).send("Internal Server Error");
 	} finally {
@@ -41,6 +88,7 @@ module.exports.getVideoGame = async (req, res) => {
 		res.status(HTTPStatus.BAD_REQUEST).send("Id must be a Number");
 		return;
 	}
+
 	const client = await pool.connect();
 	try {
 		const videoGame = (await VideoGameModel.getVideoGame(client, id)).rows[0];

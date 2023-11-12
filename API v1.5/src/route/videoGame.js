@@ -4,10 +4,12 @@
  *  get:
  *      tags:
  *          - VideoGame
- *      description: get all video games
+ *      description: Get all video games
  *      responses : 
  *          202:
- *            description: video games found
+ *            $ref: '#/components/responses/VideoGamesFound'
+ *          404:
+ *            description: No video games found
  *          500:
  *            description: Internal server error
  */
@@ -17,19 +19,21 @@
  *  get:
  *      tags:
  *          - VideoGame
- *      description: get a specific video game
- *      requestBody: 
- *          description : Number id
+ *      description: Get a specific video game
  *      parameters:
  *          - name: id
- *            description: id of the video game
+ *            description: Id of the video game
  *            in: path
  *            required: true
  *            schema:
  *              type: integer
  *      responses : 
  *          202:
- *            description: video game found
+ *            $ref: '#/components/responses/VideoGameFound'
+ *          400:
+ *            description: Id must be a Number 
+ *          404:
+ *            description: Video game not found
  *          500:
  *            description: Internal server error
  */
@@ -41,14 +45,14 @@
  *  post:
  *      tags:
  *          - VideoGame
- *      description: create a video game
+ *      description: Create a new video game
  *      requestBody: 
  *          $ref: '#/components/requestBodies/createVideoGame'
  *      responses : 
  *          201:
- *            description: video game created
+ *            description: The video game is created
  *          400:
- *            description: Some fields are missing
+ *            description: Some fields are missing/incorrect
  *          500:
  *            description: Internal server error
  */
@@ -58,23 +62,23 @@
  *  patch:
  *      tags:
  *          - VideoGame
- *      description: update a video game
+ *      description: Update a video game by its id
  *      requestBody: 
  *          $ref: '#/components/requestBodies/updateVideoGame'
  *      parameters:
  *          - name: id
- *            description: id of the video game
+ *            description: Id of the video game
  *            in: path
  *            required: true
  *            schema:
  *              type: integer
  *      responses : 
  *          204:
- *            description: video game updated
+ *            description: The video game is updated
  *          400:
- *            description: some fields are missing
+ *            description: Some fields are missing
  *          404:
- *            description: video game not found
+ *            description: Video game not found
  *          500:
  *            description: Internal server error
  */
@@ -84,23 +88,19 @@
  *  delete:
  *      tags:
  *          - VideoGame
- *      description: delete a video game
- *      requestBody: 
- *          $ref: '#/components/requestBodies/deleteVideoGame'
+ *      description: Delete a video game
  *      parameters:
  *          - name: id
- *            description: id of the video game
+ *            description: Id of the video game
  *            in: path
  *            required: true
  *            schema:
  *              type: integer
  *      responses : 
  *          204:
- *            description: video game deleted
- *          400:
- *            description: some fields are missing
+ *            description: The video game is deleted
  *          404:
- *            description: video game not found
+ *            description: The video game is not found
  *          500:
  *            description: Internal server error
  */

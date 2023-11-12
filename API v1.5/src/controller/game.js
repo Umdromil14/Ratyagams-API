@@ -1,3 +1,136 @@
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Game:
+ *          type: object
+ *          properties:
+ *              user_id:
+ *                  type: integer
+ *                  description: The id of the user
+ *              publication_id:
+ *                  type: integer
+ *                  description: The id of the publication
+ *              is_owned:
+ *                  type: boolean
+ *                  description: Whether the user owns the game 
+ *              review_rating:
+ *                  type: integer
+ *                  description: The user's rating of the game
+ *              review_comment:
+ *                  type: string
+ *                  description: The user's comment on the game
+ *              review_date:
+ *                  type: string
+ *                  format: date
+ *                  description: The date of the user's review
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      GamesFound:
+ *          description: Games were found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                          $ref: '#/components/schemas/Game'
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      GameFound:
+ *          description: A game was found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Game'
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      GameAdded:
+ *          description: The game was added
+ *  requestBodies:
+ *      GameToAdd:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          user_id:
+ *                              type: integer
+ *                              description: The id of the user
+ *                          publication_id:
+ *                              type: integer
+ *                              description: The id of the publication
+ *                          is_owned:
+ *                              type: boolean
+ *                              description: Whether the user owns the game
+ *                          review_rating:
+ *                              type: integer
+ *                              description: The user's rating of the game
+ *                          review_comment:
+ *                              type: string
+ *                              description: The user's comment on the game
+ *                          review_date:
+ *                              type: string
+ *                              format: date
+ *                              description: The date of the user's review
+ *                      required:
+ *                          - user_id
+ *                          - publication_id
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      GameUpdated:
+ *          description: The game was updated
+ *  requestBodies:
+ *      GameToUpdate:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          user_id:
+ *                              type: integer
+ *                              description: The id of the user
+ *                          publication_id:
+ *                              type: integer
+ *                              description: The id of the publication
+ *                          is_owned:
+ *                              type: boolean
+ *                              description: Whether the user owns the game
+ *                          review_rating:
+ *                              type: integer
+ *                              description: The user's rating of the game
+ *                          review_comment:
+ *                              type: string
+ *                              description: The user's comment on the game
+ *                          review_date:
+ *                              type: string
+ *                              format: date
+ *                              description: The date of the user's review
+ */
+
+/**
+ * @swagger
+ * components:
+ *  responses:
+ *      GameDeleted:
+ *          description: The game was deleted
+ */
+
 const pool = require("../model/database");
 const GameModel = require("../model/game");
 const UserModel = require("../model/userDB");
