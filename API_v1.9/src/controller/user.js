@@ -301,7 +301,6 @@ module.exports.deleteMyAccount = async (req, res) => {
  * @param {Response} res
  *
  * @returns {Promise<void>}
- *
  */
 async function updateUser(id,user, res) {
     if (isNaN(id)) {
@@ -352,6 +351,7 @@ async function updateUser(id,user, res) {
  * @param {Response} res
  *
  * @returns {Promise<void>}
+ *
  * @swagger
  * components:
  *  responses:
@@ -573,6 +573,7 @@ module.exports.postUserWithGames = async (req, res) => {
  *
  * @returns {Promise<void>}
  *
+ * @swagger
  * components:
  *  responses:
  *      UserFound:
