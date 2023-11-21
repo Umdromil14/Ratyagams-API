@@ -1,3 +1,9 @@
+const Authorization = require("../middleware/authorization");
+const JWTMiddleWare = require("../middleware/identification");
+const CategoryController = require('../controller/category');
+const Router = require("express-promise-router");
+const router = new Router();
+
 /**
  * @swagger
  * /category:
@@ -19,37 +25,37 @@
  *           500:
  *               description: Internal server error
  */
+router.post("/", JWTMiddleWare.identification, Authorization.mustBeAdmin, CategoryController.createCategory);
 
 /**
  * @swagger
- * /category/{typeId}/{videoGameId}:
- *  delete:
+ * /category:
+ *  get:
  *      tags:
  *          - Category
- *      description: Delete a category
+ *      description: Get a category or all the categories
  *      parameters:
  *          - name: typeId
  *            description: The type id
- *            in: path
- *            required: true
+ *            in: query
+ *            required: false
  *            schema:
  *              type: integer
  *          - name: videoGameId
  *            description: The video game id
- *            in: path
- *            required: true
+ *            in: query
+ *            required: false
  *            schema:
  *              type: integer
  *      responses:
- *          204:
- *              $ref: '#/components/responses/CategoryDeleted'
- *          400:
- *              description: Id must be a number
+ *          200:
+ *              $ref: '#/components/responses/CategoryFound'
  *          404:
- *              description: Category not found
+ *              description: No category found
  *          500:
  *              description: Internal server error
  */
+router.get("/", CategoryController.goToGet);
 
 /**
  * @swagger
@@ -85,43 +91,38 @@
  *          500:
  *              description: Internal server error
  */
+router.patch("/:typeId/:videoGameId", JWTMiddleWare.identification, Authorization.mustBeAdmin, CategoryController.updateCategory);
 
 /**
  * @swagger
- * /category:
- *  get:
+ * /category/{typeId}/{videoGameId}:
+ *  delete:
  *      tags:
  *          - Category
- *      description: Get a category or all the categories
+ *      description: Delete a category
  *      parameters:
  *          - name: typeId
  *            description: The type id
- *            in: query
- *            required: false
+ *            in: path
+ *            required: true
  *            schema:
  *              type: integer
  *          - name: videoGameId
  *            description: The video game id
- *            in: query
- *            required: false
+ *            in: path
+ *            required: true
  *            schema:
  *              type: integer
  *      responses:
- *          200:
- *              $ref: '#/components/responses/CategoryFound'
+ *          204:
+ *              $ref: '#/components/responses/CategoryDeleted'
+ *          400:
+ *              description: Id must be a number
  *          404:
- *              description: No category found
+ *              description: Category not found
  *          500:
  *              description: Internal server error
  */
-
-const CategoryController = require('../controller/category');
-const Router = require("express-promise-router");
-const router = new Router();
-
-router.post("/", CategoryController.createCategory);
-router.delete("/:typeId/:videoGameId", CategoryController.deleteCategory);
-router.patch("/:typeId/:videoGameId", CategoryController.updateCategory);
-router.get("/", CategoryController.goToGet);
+router.delete("/:typeId/:videoGameId", JWTMiddleWare.identification, Authorization.mustBeAdmin, CategoryController.deleteCategory);
 
 module.exports = router;

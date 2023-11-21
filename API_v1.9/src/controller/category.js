@@ -13,7 +13,21 @@
  *                  description: The video game id
  */
 
+const pool = require("../model/database");
+const CategoryModel = require("../model/category");
+const HTTPStatus = require("../tools/HTTPStatus");
+const PGErrors = require("../tools/PGErrors");
+const { validateObject } = require("../zod/zod");
+const { categoryIdsSchema, categorySchema } = require("../zod/schema/category");
+
 /**
+ * Create a category
+ *
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ * 
  * @swagger
  * components:
  *  responses:
@@ -36,8 +50,43 @@
  *                          - type_id
  *                          - video_game_id
  */
+module.exports.createCategory = async (req, res) => {
+    try {
+        category = validateObject(category, categorySchema);
+    } catch (error) {
+        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        return;
+    }
+    const { type_id: typeId, video_game_id: videoGameId } = category;
+
+    const client = await pool.connect();
+    try {
+        await CategoryModel.createCategory(client, typeId, videoGameId);
+        res.status(HTTPStatus.CREATED).send("Creation done");
+    } catch (error) {
+        switch (error.code) {
+            case PGErrors.UNIQUE_VIOLATION:
+                res.status(HTTPStatus.CONFLICT).send(error.detail);
+                break;
+            case PGErrors.FOREIGN_KEY_VIOLATION:
+                res.status(HTTPStatus.NOT_FOUND).send(error.detail);
+                break;
+            default:
+                res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+        }
+    } finally {
+        client.release();
+    }
+};
 
 /**
+ * Redirect the program to the correct get function
+ *
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ * 
  * @swagger
  * components:
  *  responses:
@@ -52,8 +101,162 @@
  *                            items:
  *                              $ref: '#/components/schemas/Category'
  */
+module.exports.goToGet = async (req, res) => {
+    const typeId = req.query.typeId;
+    const videoGameId = req.query.videoGameId;
+
+    if (typeId !== undefined && videoGameId !== undefined) {
+        getCategory(typeId, videoGameId, res);
+    } else if (typeId !== undefined) {
+        getCategoriesFromType(typeId, res);
+    } else if (videoGameId !== undefined) {
+        getCategoriesFromVideoGame(videoGameId, res);
+    } else {
+        getAllCategories(res);
+    }
+};
 
 /**
+ * Get all the categories
+ *
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ */
+async function getAllCategories(res){
+    const client = await pool.connect();
+    try {
+        const { rows: categories } =
+            await CategoryModel.getAllCategories(client);
+        if (categories.length > 0) {
+            res.json(categories);
+        } else {
+            res.status(HTTPStatus.NOT_FOUND).send("Categories empty");
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Get a category
+ *
+ * @param {string|number} typeId The type id from the category
+ * @param {string|number} videoGameId The video game id from the category
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ */
+async function getCategory(typeId, videoGameId, res){
+    try {
+        ({ typeId, videoGameId } = validateObject(
+            { typeId, videoGameId },
+            categoryIdsSchema
+        ));
+    } catch (error) {
+        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        return;
+    }
+
+    const client = await pool.connect();
+    try {
+        const category = (
+            await CategoryModel.getCategory(client, typeId, videoGameId)
+        ).rows[0];
+        if (category !== undefined) {
+            res.json(category);
+        } else {
+            res.status(HTTPStatus.NOT_FOUND).send(
+                "Category not found for those ids"
+            );
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Get all categories from a type
+ *
+ * @param {string|number} typeId The type id of the categories
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ */
+async function getCategoriesFromType(typeId, res){
+    try {
+        ({ type } = validateObject({ typeId }, categoryIdsSchema.partial()));
+    } catch (error) {
+        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        return;
+    }
+
+    const client = await pool.connect();
+    try {
+        const { rows: categories } = await CategoryModel.getCategoriesFromType(
+            client,
+            typeId
+        );
+        if (categories.length > 0) {
+            res.json(categories);
+        } else {
+            res.status(HTTPStatus.NOT_FOUND).send("Id not found");
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Get all categories from a video game
+ *
+ * @param {string} videoGameId The video game id of the categories
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ */
+async function getCategoriesFromVideoGame(videoGameId, res){
+    try {
+        ({ videoGameId } = validateObject(
+            { videoGameId },
+            categoryIdsSchema.partial()
+        ));
+    } catch (error) {
+        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        return;
+    }
+
+    const client = await pool.connect();
+    try {
+        const { rows: categories } =
+            await CategoryModel.getCategoriesFromVideoGame(client, videoGameId);
+        if (categories[0] !== undefined) {
+            res.json(categories);
+        } else {
+            res.status(HTTPStatus.NOT_FOUND).send("Id not found");
+        }
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Update a category
+ *
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ * 
  * @swagger
  * components:
  *  responses:
@@ -73,370 +276,95 @@
  *                              type: integer
  *                              description: The video game id
  */
+module.exports.updateCategory = async (req, res) => {
+    try {
+        ({ typeId, videoGameId } = validateObject(
+            req.params,
+            categoryIdsSchema
+        ));
+        updateValues = validateObject(req.body, categorySchema.partial());
+    } catch (error) {
+        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        return;
+    }
+
+    if (Object.keys(updateValues).length === 0) {
+        res.status(HTTPStatus.BAD_REQUEST).send("No values to update");
+        return;
+    }
+
+    const client = await pool.connect();
+
+    try {
+        const { rowCount } = await CategoryModel.updateCategory(
+            client,
+            typeId,
+            videoGameId,
+            updateValues
+        );
+        if (rowCount) {
+            res.sendStatus(HTTPStatus.NO_CONTENT);
+        } else {
+            res.status(HTTPStatus.NOT_FOUND).send("Category not found");
+        }
+    } catch (error) {
+        switch (error.code) {
+            case PGErrors.FOREIGN_KEY_VIOLATION:
+                res.status(HTTPStatus.NOT_FOUND).send(error.detail);
+                break;
+            case PGErrors.UNIQUE_VIOLATION:
+                res.status(HTTPStatus.CONFLICT).send(error.detail);
+                break;
+            default:
+                res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+        }
+    } finally {
+        client.release();
+    }
+};
 
 /**
+ * Delete a category
+ *
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns {Promise<void>}
+ * 
  * @swagger
  * components:
  *  responses:
  *      CategoryDeleted:
  *          description: The category was deleted
  */
-const pool = require("../model/database");
-const CategoryModel = require("../model/category");
-const TypeModel = require("../model/type");
-const VideoGameModel = require("../model/videoGame");
-const utils = require("../tools/utils");
-const HTTPStatus = require("../tools/HTTPStatus");
-
-/**
- * Create the personnal error message depending on which Id isn't in the database
- * 
- * @param {boolean} typeExists `true` if the type exists, `false` otherwise
- * @param {boolean} videoGameExists `true` if the video game exists, `false` otherwise
- * 
- * @returns {string} The message containing the good error message
- */
-function errorMessage(typeExists, videoGameExists) {
-    const errors = [];
-    let notFoundMessage = ""
-    let value = 0
-    if (!typeExists) {
-        notFoundMessage += "Type and ";
-        value++;
-    }
-    if (!videoGameExists) {
-        notFoundMessage += "Video Game and ";
-        value++;
-    }
-    notFoundMessage = notFoundMessage.slice(0, -4);
-    if (value === 1) {
-        notFoundMessage += "does not exist";
-    }
-    else {
-        notFoundMessage += "do not exist";
-    }
-    return notFoundMessage;
-}
-
-/**
- * Check if the ids are valid; if not, return the corresponding HTTP status code
- * 
- * @param {pg.Pool} client the postgres client
- * @param {number} typeId the type id
- * @param {number} videoGameId the video game id
- * 
- * @returns {Object} the response (keys: HTTPStatus (404, 409), message (string)); if the ids are valid, the status is undefined
- */
-async function validateIds(client, typeId, videoGameId) {
-    const [typeExists, videoGameExists, categoryExists] = await Promise.all([
-        TypeModel.typeExistsId(client, typeId),
-        VideoGameModel.videoGameExists(client, videoGameId),
-        CategoryModel.categoryExists(client, videoGameId, typeId)
-    ]);
-
-    if (!typeExists) {
-        return {
-            status: HTTPStatus.NOT_FOUND,
-            message: "Type not found"
-        };
-    } else if (!videoGameExists) {
-        return {
-            status: HTTPStatus.NOT_FOUND,
-            message: "Video game not found"
-        };
-    } else if (categoryExists) {
-        return {
-            status: HTTPStatus.CONFLICT,
-            message: "Category already exists"
-        };
-    }
-}
-
-/**
- * Create a category
- * 
- * @param {Request} req The type id and the video game id inside of the body
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.createCategory = async (req, res) => {
-    const model = {
-        type_id: ["number"],
-        video_game_id: ["number"]
-    }
-    const body = req.body;
-    if (!utils.isValidObject(body, model)) {
-        res.status(HTTPStatus.BAD_REQUEST).send("Invalid body");
+module.exports.deleteCategory = async (req, res) => {
+    try {
+        ({ typeId, videoGameId } = validateObject(
+            req.params,
+            categoryIdsSchema
+        ));
+    } catch (error) {
+        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
         return;
     }
 
     const client = await pool.connect();
-    const {
-        type_id: typeId,
-        video_game_id: videoGameId } = body;
     try {
-        const promiseType = TypeModel.typeExistsId(client, typeId);
-        const promiseVideoGame = VideoGameModel.videoGameExists(client, videoGameId);
-        const promiseCategory = CategoryModel.categoryExists(client, videoGameId, typeId);
-        const [typeExists, videoGameExists, categoryExists] = await Promise.all([promiseType, promiseVideoGame, promiseCategory]);
-        if (typeExists && videoGameExists && !categoryExists) {
-            await CategoryModel.createCategory(client, typeId, videoGameId);
-            res.status(HTTPStatus.CREATED).send("Creation done");
-        }
-        else if (categoryExists) {
-            res.status(HTTPStatus.CONFLICT).send("Category already exists");
-        }
-        else {
-            res.status(HTTPStatus.NOT_FOUND).send(errorMessage(typeExists, videoGameExists));
-        }
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-}
-
-/**
- * Redirect the program to the correct get function
- * 
- * @param {Request} req The type id and/or the video game id inside the params as query
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.goToGet = async (req, res) => {
-    const typeIdTexte = req.query.typeId;
-    const videoGameIdTexte = req.query.videoGameId;
-
-    if (typeIdTexte !== undefined && videoGameIdTexte !== undefined) {
-        this.getCategory(typeIdTexte, videoGameIdTexte, res);
-    }
-    else if (typeIdTexte !== undefined) {
-        this.getCategoriesFromType(typeIdTexte, res);
-    }
-    else if (videoGameIdTexte !== undefined) {
-        this.getCategoriesFromVideoGame(videoGameIdTexte, res);
-    }
-    else {
-        this.getAllCategories(res);
-    }
-}
-
-/**
- * Get all the categories
- * 
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.getAllCategories = async (res) => {
-    const client = await pool.connect();
-    try {
-        const { rows: categories } = await CategoryModel.getAllCategories(client);
-        if (categories !== undefined) {
-            res.json(categories);
-        }
-        else {
-            res.status(HTTPStatus.NOT_FOUND).send("Categories empty");
-        }
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release()
-    }
-}
-
-/**
- * Get a category
- * 
- * @param {string} typeIdTexte The type id from the category
- * @param {string} videoGameIdTexte The video game id from the category
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.getCategory = async (typeIdTexte, videoGameIdTexte, res) => {
-    const client = await pool.connect();
-    const typeId = parseInt(typeIdTexte);
-    const videoGameId = parseInt(videoGameIdTexte);
-    try {
-        if (isNaN(typeId) || isNaN(videoGameId)) {
-            res.status(HTTPStatus.BAD_REQUEST).send("Id must be a number");
-        }
-        else {
-            const { rows: categories } = await CategoryModel.getCategory(client, typeId, videoGameId);
-            const category = categories[0];
-            if (category !== undefined) {
-                res.json(category);
-            }
-            else {
-                res.status(HTTPStatus.NOT_FOUND).send("Category not found for those ids");
-            }
-        }
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-}
-
-/**
- * Get all categories from a type
- * 
- * @param {string} typeIdTexte The type id of the categories
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.getCategoriesFromType = async (typeIdTexte, res) => {
-    const client = await pool.connect();
-    const typeId = parseInt(typeIdTexte);
-    try {
-        if (isNaN(typeId)) {
-            res.status(HTTPStatus.BAD_REQUEST).send("Id must be a number");
-        }
-        else {
-            const { rows: categories } = await CategoryModel.getCategoriesFromType(client, typeId);
-            if (categories[0] !== undefined) {
-                res.json(categories);
-            }
-            else {
-                res.status(HTTPStatus.NOT_FOUND).send("Id not found");
-            }
-        }
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-}
-
-/**
- * Get all categories from a video game
- * 
- * @param {string} videoGameIdTexte The video game id of the categories
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.getCategoriesFromVideoGame = async (videoGameIdTexte, res) => {
-    const videoGameId = parseInt(videoGameIdTexte);
-    const client = await pool.connect();
-    try {
-        if (isNaN(videoGameId)) {
-            res.status(HTTPStatus.BAD_REQUEST).send("Id must be a number");
-        }
-        else {
-            const { rows: categories } = await CategoryModel.getCategoriesFromVideoGame(client, videoGameId);
-            if (categories[0] !== undefined) {
-                res.json(categories);
-            }
-            else {
-                res.status(HTTPStatus.NOT_FOUND).send("Id not found");
-            }
-        }
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-}
-
-/**
- * Update a category
- * 
- * @param {Request} req The type id and video game id as parameters from the category to update and the new type id and/or the new video game id inside of the body
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.updateCategory = async (req, res) => {
-    const typeId = parseInt(req.params.typeId);
-    const videoGameId = parseInt(req.params.videoGameId);
-    const model = {
-        type_id: ["number", "optional"],
-        game_id: ["number", "optional"]
-    }
-    const body = req.body;
-    if (!utils.isValidObject(body, model)) {
-        res.status(HTTPStatus.BAD_REQUEST).send("Invalid body");
-        return;
-    }
-
-    const client = await pool.connect();
-    const {
-        type_id: newTypeId,
-        video_game_id: newVideoGameId
-    } = body;
-
-    const updateValues = {
-        type_id: newTypeId,
-        video_game_id: newVideoGameId
-    };
-
-
-    try {
-        const typeIdToTry = newTypeId ?? typeId;
-        const videoGameIdToTry = newVideoGameId ?? videoGameId;
-
-        if (typeIdToTry !== typeId || videoGameIdToTry !== videoGameId) {
-            const response = await validateIds(client, typeIdToTry, videoGameIdToTry);
-            if (response !== undefined) {
-                res.status(response.status).send(`New ${response.message}`);
-                return;
-            }
-        }
-
-        const { rowCount } = await CategoryModel.updateCategory(client, typeId, videoGameId, updateValues);
+        const { rowCount } = await CategoryModel.deleteCategory(
+            client,
+            typeId,
+            videoGameId
+        );
         if (rowCount) {
             res.sendStatus(HTTPStatus.NO_CONTENT);
-        }
-        else {
-            res.status(HTTPStatus.NOT_FOUND).send("Category not found");
+        } else {
+            res.status(HTTPStatus.NOT_FOUND).send(
+                "Id not found for one or more"
+            );
         }
     } catch (error) {
-        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
-}
-
-/**
- * Delete a category
- * 
- * @param {Request} req The type id and the video game id from the category to delete as parameters
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.deleteCategory = async (req, res) => {
-    const client = await pool.connect();
-    const typeId = parseInt(req.params.typeId);
-    const videoGameId = parseInt(req.params.videoGameId);
-    try {
-        if (isNaN(typeId) || isNaN(videoGameId)) {
-            res.status(HTTPStatus.BAD_REQUEST).send("Id must be a number");
-        }
-        else {
-            const { rowCount } = await CategoryModel.deleteCategory(client, typeId, videoGameId);
-            if (rowCount) {
-                res.sendStatus(HTTPStatus.NO_CONTENT);
-            }
-            else {
-                res.status(HTTPStatus.NOT_FOUND).send("Id not found for one or more");
-            }
-        }
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-}
+};

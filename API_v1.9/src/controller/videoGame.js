@@ -30,7 +30,6 @@ const {
 } = require("../zod/schema/videoGame.js");
 const { validateObject } = require("../zod/zod");
 
-// TODO modifier swagger
 /**
  * Get a video game by its id or get a video game containing the name
  * 

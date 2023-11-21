@@ -42,6 +42,62 @@ const router = Router();
 /**
  * @swagger
  * /game:
+ *  post:
+ *      tags:
+ *          - Game
+ *      description: Add a game
+ *      security:
+ *          - bearerAuth: []
+ *      requestBody:
+ *          $ref: '#/components/requestBodies/GameToAddFromAdmin'
+ *      responses:
+ *          201:
+ *              $ref: '#/components/responses/GameAdded'
+ *          400:
+ *              description: Invalid request body or invalid JWT token
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
+ *          404:
+ *              description: User id or publication id not found
+ *          409:
+ *              description: Game already exists
+ *          500:
+ *              description: Internal server error
+ */
+router.post("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameController.addGameFromAdmin);
+
+/**
+ * @swagger
+ * /game/user:
+ *  post:
+ *      tags:
+ *          - Game
+ *      description: Add a game
+ *      security:
+ *          - bearerAuth: []
+ *      requestBody:
+ *          $ref: '#/components/requestBodies/GameToAddFromUser'
+ *      responses:
+ *          201:
+ *              $ref: '#/components/responses/GameAdded'
+ *          400:
+ *              description: Invalid request body or invalid JWT token
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          404:
+ *              description: Publication id not found
+ *          409:
+ *              description: Game already exists
+ *          500:
+ *              description: Internal server error
+ */
+router.post("/user", JWTMiddleWare.identification, GameController.addGameFromUser);
+
+/**
+ * @swagger
+ * /game:
  *  get:
  *      tags:
  *          - Game
@@ -106,62 +162,6 @@ router.get("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameC
  *              description: Internal server error
  */
 router.get("/user", JWTMiddleWare.identification, GameController.getGameFromUser);
-
-/**
- * @swagger
- * /game:
- *  post:
- *      tags:
- *          - Game
- *      description: Add a game
- *      security:
- *          - bearerAuth: []
- *      requestBody:
- *          $ref: '#/components/requestBodies/GameToAddFromAdmin'
- *      responses:
- *          201:
- *              $ref: '#/components/responses/GameAdded'
- *          400:
- *              description: Invalid request body or invalid JWT token
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
- *          404:
- *              description: User id or publication id not found
- *          409:
- *              description: Game already exists
- *          500:
- *              description: Internal server error
- */
-router.post("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameController.addGameFromAdmin);
-
-/**
- * @swagger
- * /game/user:
- *  post:
- *      tags:
- *          - Game
- *      description: Add a game
- *      security:
- *          - bearerAuth: []
- *      requestBody:
- *          $ref: '#/components/requestBodies/GameToAddFromUser'
- *      responses:
- *          201:
- *              $ref: '#/components/responses/GameAdded'
- *          400:
- *              description: Invalid request body or invalid JWT token
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          404:
- *              description: Publication id not found
- *          409:
- *              description: Game already exists
- *          500:
- *              description: Internal server error
- */
-router.post("/user", JWTMiddleWare.identification, GameController.addGameFromUser);
 
 /**
  * @swagger

@@ -1,3 +1,9 @@
+const UserController = require('../controller/user');
+const AuthoMiddleware = require('../middleware/Authorization');
+const JWTMiddleWare = require('../middleware/Identification');
+const Router = require("express-promise-router");
+const router = new Router();
+
 /**
  * @swagger  
  * /user/login:
@@ -17,6 +23,7 @@
  *          500 :
  *              description: Internal server error
  */
+router.post('/login', UserController.login);
 
 /**
  * @swagger
@@ -37,37 +44,116 @@
  *          500:
  *              description: Internal server error
  */
+router.post('/', UserController.postUser);
 
 /**
  * @swagger
- * /user/{userId}:
- *  delete:
+ * /user/insertWithGames:
+ *  post:
  *      tags:
  *          - User
- *      description: Delete a user with an admin account
+ *      description: Create a user with games
  *      security:
  *          - bearerAuth: []
- *      parameters:
- *          - name: userId
- *            description: The id of the user to delete
- *            in: path
- *            required: true
- *            schema:
- *              type: integer
+ *      requestBody: 
+ *          $ref: '#/components/requestBodies/UserToAddWithGames'
+ *      responses: 
+ *          201:
+ *              $ref: '#/components/responses/UserAddedWithGames'
+ *          400:
+ *              description: Invalid request body or invalid JWT token
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
+ *          409:
+ *              description: Email or username already exist
+ *          500:
+ *              description: Internal server error
+ */
+router.post('/insertWithGames', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.postUserWithGames);
+
+/**
+ * @swagger
+ * /user:
+ *  get:
+ *      tags:
+ *          - User
+ *      description: Get all users
+ *      security:
+ *          - bearerAuth: []
  *      responses:
- *          204:
- *              $ref: '#/components/responses/UserDeleted'
+ *          200:
+ *              $ref: '#/components/responses/UsersFound'
+ *          400:
+ *              $ref: '#/components/responses/ErrorJWT'
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
+ *          404:
+ *              description: No user found
+ *          500:
+ *              description: Internal server error
+ */
+router.get('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.getAllUsers);
+
+/**
+ * @swagger
+ * /user/me:
+ *  get:
+ *      tags:
+ *          - User
+ *      description: Get a specific user from his token
+ *      security:
+ *          - bearerAuth: []
+ *      responses : 
+ *          200:
+ *              $ref: '#/components/responses/UserFound'
  *          400:
  *              description: Id must be an Number or invalid JWT token
  *          401:
  *              $ref: '#/components/responses/MissingJWT'
  *          403:
- *              description: Must be an admin to access this route or can't delete an admin account
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          404:
- *              description: User not found
+ *              description: No user found
  *          500:
  *              description: Internal server error
  */
+router.get('/me', JWTMiddleWare.identification, UserController.getUserFromToken);
+
+/**
+ * @swagger
+ * /user/{userId}:
+ *  get:
+ *      tags:
+ *          - User
+ *      description: Get a specific user
+ *      security:
+ *          - bearerAuth: []
+ *      parameters:
+ *          - name: userId
+ *            description: Id of the user
+ *            in: path
+ *            required: true
+ *            schema:
+ *              type: integer
+ *      responses : 
+ *          200:
+ *              $ref: '#/components/responses/UserFound'
+ *          400:
+ *              description: Id must be an Number or invalid JWT token
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
+ *          404:
+ *              description: No user found
+ *          500:
+ *              description: Internal server error
+ */
+router.get('/:userId', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.getUser);
 
 /**
  * @swagger
@@ -103,28 +189,7 @@
  *          500:
  *              description: Internal server error
  */
-
-/**
- * @swagger
- * /user:
- *  delete:
- *      tags:
- *          - User
- *      description: Delete his own account
- *      security:
- *          - bearerAuth: []
- *      responses:
- *          204:
- *              $ref: '#/components/responses/UserDeleted'
- *          400:
- *              $ref: '#/components/responses/ErrorJWT'
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          403:
- *              description: Can't delete an admin account
- *          500:
- *              description: Internal server error
- */
+router.patch('/:userId', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.updateUserFromAdmin);
 
 /**
  * @swagger
@@ -149,128 +214,61 @@
  *          500:
  *              description: Internal server error
  */
+router.patch('/', JWTMiddleWare.identification, UserController.updateMyAccount);
 
 /**
  * @swagger
- * /user/insertWithGames:
- *  post:
+ * /user/{userId}:
+ *  delete:
  *      tags:
  *          - User
- *      description: Create a user with games
+ *      description: Delete a user with an admin account
  *      security:
  *          - bearerAuth: []
- *      requestBody: 
- *          $ref: '#/components/requestBodies/UserToAddWithGames'
- *      responses: 
- *          201:
- *              $ref: '#/components/responses/UserAddedWithGames'
+ *      parameters:
+ *          - name: userId
+ *            description: The id of the user to delete
+ *            in: path
+ *            required: true
+ *            schema:
+ *              type: integer
+ *      responses:
+ *          204:
+ *              $ref: '#/components/responses/UserDeleted'
  *          400:
- *              description: Invalid request body or invalid JWT token
+ *              description: Id must be an Number or invalid JWT token
  *          401:
  *              $ref: '#/components/responses/MissingJWT'
  *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
- *          409:
- *              description: Email or username already exist
+ *              description: Must be an admin to access this route or can't delete an admin account
+ *          404:
+ *              description: User not found
  *          500:
  *              description: Internal server error
  */
+router.delete('/:userId', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.deleteUserFromAdmin);
 
 /**
  * @swagger
  * /user:
- *  get:
+ *  delete:
  *      tags:
  *          - User
- *      description: Get all users
+ *      description: Delete his own account
  *      security:
  *          - bearerAuth: []
  *      responses:
- *          200:
- *              $ref: '#/components/responses/UsersFound'
+ *          204:
+ *              $ref: '#/components/responses/UserDeleted'
  *          400:
  *              $ref: '#/components/responses/ErrorJWT'
  *          401:
  *              $ref: '#/components/responses/MissingJWT'
  *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
- *          404:
- *              description: No user found
+ *              description: Can't delete an admin account
  *          500:
  *              description: Internal server error
  */
-
-/**
- * @swagger
- * /user/{userId}:
- *  get:
- *      tags:
- *          - User
- *      description: Get a specific user
- *      security:
- *          - bearerAuth: []
- *      parameters:
- *          - name: userId
- *            description: Id of the user
- *            in: path
- *            required: true
- *            schema:
- *              type: integer
- *      responses : 
- *          200:
- *              $ref: '#/components/responses/UserFound'
- *          400:
- *              description: Id must be an Number or invalid JWT token
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
- *          404:
- *              description: No user found
- *          500:
- *              description: Internal server error
- */
-
-/**
- * @swagger
- * /user/me:
- *  get:
- *      tags:
- *          - User
- *      description: Get a specific user from his token
- *      security:
- *          - bearerAuth: []
- *      responses : 
- *          200:
- *              $ref: '#/components/responses/UserFound'
- *          400:
- *              description: Id must be an Number or invalid JWT token
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
- *          404:
- *              description: No user found
- *          500:
- *              description: Internal server error
- */
-
-const UserController = require('../controller/user');
-const AuthoMiddleware = require('../middleware/Authorization');
-const JWTMiddleWare = require('../middleware/Identification');
-
-const Router = require("express-promise-router");
-const router = new Router();
-
-router.post('/login', UserController.login);
-router.post('/', UserController.postUser);
-router.delete('/:userId', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.deleteUserFromAdmin);
-router.patch('/:userId', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.updateUserFromAdmin);
 router.delete('/', JWTMiddleWare.identification, UserController.deleteMyAccount);
-router.patch('/', JWTMiddleWare.identification, UserController.updateMyAccount);
-router.post('/insertWithGames', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.postUserWithGames);
-router.get('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.getAllUsers);
-router.get('/me', JWTMiddleWare.identification, UserController.getUserFromToken);
-router.get('/:userId', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.getUser);
 
 module.exports = router;

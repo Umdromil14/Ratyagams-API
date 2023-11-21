@@ -1,3 +1,9 @@
+const Authorization = require("../middleware/authorization");
+const JWTMiddleWare = require("../middleware/identification");
+const PublicationController = require('../controller/publication');
+const Router = require("express-promise-router");
+const router = Router();
+
 /**
  * @swagger
  * /publication:
@@ -19,31 +25,31 @@
  *           500:
  *               description: Internal server error
  */
+router.post("/", JWTMiddleWare.identification, Authorization.mustBeAdmin, PublicationController.createPublication);
 
 /**
  * @swagger
- * /publication/{id}:
- *  delete:
+ * /publication:
+ *  get:
  *      tags:
  *          - Publication
- *      description: Delete a publication
+ *      description: Get a publication
  *      parameters:
  *          - name: id
  *            description: The publication id
- *            in: path
+ *            in: query
  *            required: true
  *            schema:
  *              type: integer
  *      responses:
- *          204:
- *              $ref: '#/components/responses/PublicationDeleted'
- *          400:
- *              description: Id must be a number
+ *          200:
+ *              $ref: '#/components/responses/PublicationFound'
  *          404:
- *              description: Publication not found
+ *              description: No publication found
  *          500:
  *              description: Internal server error
  */
+router.get("/", PublicationController.getPublication);
 
 /**
  * @swagger
@@ -73,14 +79,15 @@
  *          500:
  *              description: Internal server error
  */
+router.patch("/:id", JWTMiddleWare.identification, Authorization.mustBeAdmin, PublicationController.updatePublication);
 
 /**
  * @swagger
  * /publication/{id}:
- *  get:
+ *  delete:
  *      tags:
  *          - Publication
- *      description: Get a publication
+ *      description: Delete a publication
  *      parameters:
  *          - name: id
  *            description: The publication id
@@ -89,39 +96,15 @@
  *            schema:
  *              type: integer
  *      responses:
- *          200:
- *              $ref: '#/components/responses/PublicationFound'
+ *          204:
+ *              $ref: '#/components/responses/PublicationDeleted'
+ *          400:
+ *              description: Id must be a number
  *          404:
- *              description: No publication found
+ *              description: Publication not found
  *          500:
  *              description: Internal server error
  */
-
-/**
- * @swagger
- * /publication:
- *  get:
- *      tags:
- *          - Publication
- *      description: Get all publications
- *      responses:
- *          200:
- *              $ref: '#/components/responses/PublicationsFound'
- *          404:
- *              description: No publication found
- *          500:
- *              description: Internal server error
- */
-
-const PublicationController = require('../controller/publication');
-const Router = require("express-promise-router");
-const router = Router();
-
-// router.get("/", PublicationController.getPublications);
-// router.get("/:id", PublicationController.getPublication);
-router.get("/", PublicationController.getPublication);
-router.post("/", PublicationController.createPublication);
-router.patch("/:id", PublicationController.updatePublication);
-router.delete("/:id", PublicationController.deletePublication);
+router.delete("/:id", JWTMiddleWare.identification, Authorization.mustBeAdmin, PublicationController.deletePublication);
 
 module.exports = router;

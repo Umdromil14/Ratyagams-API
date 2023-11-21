@@ -18,21 +18,20 @@ module.exports.createType = async (client, name, description) => {
  * 
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getTypes = async (client) => {
-    return await client.query(`SELECT * FROM type`);
+module.exports.getTypes = async (client, id) => {
+    const queryConditions = [];
+    const queryValues = [];
+    let query = `SELECT * FROM type `;
+    if (id !== undefined) {
+        queryConditions.push(`id = $${queryConditions.length + 1}`);
+        queryValues.push(id);
+    }
+    if (queryConditions.length > 0) {
+        query += ` WHERE ${queryConditions}`;
+    }
+    return await client.query(query, queryValues);
 }
 
-/**
- * Get a type by its id
- * 
- * @param {pg.Pool} client the postgres client
- * @param {number} id the type id
- * 
- * @returns {Promise<pg.Result>} the result of the query
- */
-module.exports.getType = async (client, id) => {
-    return await client.query(`SELECT * FROM type WHERE id = $1`, [id]);
-}
 
 /**
  * Update a type
@@ -95,17 +94,4 @@ module.exports.deleteType = async (client, id) => {
 module.exports.typeExistsId = async (client, id) => {
     const {rows} = await client.query(`SELECT * FROM type WHERE id= $1`, [id]);
     return rows.length == 1;
-}
-
-/**
- * Check if a type exists by its name
- * 
- * @param {pg.Pool} client the postgres client
- * @param {string} name the name of the type
- * 
- * @returns {Promise<boolean>} `true` if the type exists, `flase` otherwise
- */
-module.exports.typeExistsName = async (client, name) => {
-    const {rows} = await client.query(`SELECT * FROM type WHERE name = $1`, [name]);
-    return rows.length === 1;
 }

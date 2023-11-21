@@ -1,17 +1,29 @@
+const AuthoMiddleware = require('../middleware/Authorization');
+const JWTMiddleWare = require('../middleware/Identification');
+const VideoGameController = require("../controller/videoGame.js");
+const Router = require("express-promise-router");
+const router = new Router();
+
 /**
  * @swagger
- * /videoGame/{id}:
+ * /videoGame/:
  *  get:
  *      tags:
  *          - VideoGame
- *      description: Get a specific video game
+ *      description: Get all video games or video games by name or id
  *      parameters:
  *          - name: id
  *            description: Id of the video game
- *            in: path
- *            required: true
+ *            in: query
+ *            required: false
  *            schema:
  *              type: integer
+ *          - name: name
+ *            description: Name of the video game
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: string
  *      responses : 
  *          200:
  *              $ref: '#/components/responses/VideoGameFound'
@@ -22,6 +34,7 @@
  *          500:
  *              description: Internal server error
  */
+router.get("/", VideoGameController.getVideoGame);
 
 
 /**
@@ -47,6 +60,7 @@
  *          500:
  *              description: Internal server error
  */
+router.post("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, VideoGameController.postVideoGame);
 
 /**
  * @swagger
@@ -80,6 +94,8 @@
  *          500:
  *              description: Internal server error
  */
+router.patch("/:id", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, VideoGameController.updateVideoGame);
+
 /**
  * @swagger
  * /videoGame/{id}:
@@ -110,17 +126,6 @@
  *          500:
  *              description: Internal server error
  */
-
-const AuthoMiddleware = require('../middleware/Authorization');
-const JWTMiddleWare = require('../middleware/Identification');
-const VideoGameController = require("../controller/videoGame.js");
-const Router = require("express-promise-router");
-const router = new Router();
-
-// TODO get by name /?id=&name= -> pas de "" pour name
-router.get("/", VideoGameController.getVideoGame);
-router.post("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, VideoGameController.postVideoGame);
-router.patch("/:id", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, VideoGameController.updateVideoGame);
 router.delete("/:id", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, VideoGameController.deleteVideoGame);
 
 module.exports = router;
