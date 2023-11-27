@@ -11,6 +11,8 @@ const router = new Router();
  *       tags:
  *           - Category
  *       description: Creating a new category
+ *       security:
+ *           - bearerAuth: []
  *       requestBody:
  *           $ref: '#/components/requestBodies/CategoryToAdd'
  *       responses:
@@ -20,6 +22,8 @@ const router = new Router();
  *               description: Invalid request body
  *           404:
  *               description: Type id or video game id not found
+ *           403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *           409:
  *               description: Category already exists
  *           500:
@@ -33,7 +37,7 @@ router.post("/", JWTMiddleWare.identification, Authorization.mustBeAdmin, Catego
  *  get:
  *      tags:
  *          - Category
- *      description: Get a category or all the categories
+ *      description: Get a category or all the categories or some of them
  *      parameters:
  *          - name: typeId
  *            description: The type id
@@ -50,6 +54,8 @@ router.post("/", JWTMiddleWare.identification, Authorization.mustBeAdmin, Catego
  *      responses:
  *          200:
  *              $ref: '#/components/responses/CategoryFound'
+ *          400:
+ *              description: Id(s) must be a number
  *          404:
  *              description: No category found
  *          500:
@@ -64,6 +70,8 @@ router.get("/", CategoryController.goToGet);
  *      tags:
  *          - Category
  *      description: Update a category
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - name: typeId
  *            description: The type id
@@ -84,6 +92,8 @@ router.get("/", CategoryController.goToGet);
  *              $ref: '#/components/responses/CategoryUpdated'
  *          400:
  *              description: Id must be a number or invalid request body
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          404:
  *              description: Category or new type id or new video game id not found
  *          409:
@@ -100,6 +110,8 @@ router.patch("/:typeId/:videoGameId", JWTMiddleWare.identification, Authorizatio
  *      tags:
  *          - Category
  *      description: Delete a category
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - name: typeId
  *            description: The type id
@@ -118,6 +130,8 @@ router.patch("/:typeId/:videoGameId", JWTMiddleWare.identification, Authorizatio
  *              $ref: '#/components/responses/CategoryDeleted'
  *          400:
  *              description: Id must be a number
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          404:
  *              description: Category not found
  *          500:
