@@ -242,7 +242,6 @@ async function getCategoriesFromVideoGame(videoGameId, res){
             res.status(HTTPStatus.NOT_FOUND).send("Id not found");
         }
     } catch (error) {
-        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();

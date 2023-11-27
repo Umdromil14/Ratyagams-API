@@ -11,6 +11,8 @@ const router = Router();
  *       tags:
  *           - Publication
  *       description: Creating a new publication
+ *       security:
+ *           - bearerAuth: []
  *       requestBody:
  *           $ref: '#/components/requestBodies/PublicationToAdd'
  *       responses:
@@ -18,6 +20,8 @@ const router = Router();
  *               $ref: '#/components/responses/PublicationAdded'
  *           400:
  *               description: Invalid request body
+ *           403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *           404:
  *               description: Platform code and/or video game id not found
  *           409:
@@ -33,17 +37,39 @@ router.post("/", JWTMiddleWare.identification, Authorization.mustBeAdmin, Public
  *  get:
  *      tags:
  *          - Publication
- *      description: Get a publication
+ *      description: Get one publication or more
  *      parameters:
- *          - name: id
+ *          - name: publicationId
  *            description: The publication id
  *            in: query
- *            required: true
+ *            required: false
  *            schema:
  *              type: integer
+ *          - name: videoGameId
+ *            description: The video game id
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: integer
+ *          - name: videoGameName
+ *            description: The video game name
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: string
+ *          - name: platformCode
+ *            description: The platform code
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: string
  *      responses:
  *          200:
  *              $ref: '#/components/responses/PublicationFound'
+ *          400:
+ *              description: one of the parameters entered is not found or invalid JWT token
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
  *          404:
  *              description: No publication found
  *          500:
@@ -58,6 +84,8 @@ router.get("/", PublicationController.getPublication);
  *      tags:
  *          - Publication
  *      description: Update a publication
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - name: id
  *            description: The publication id
@@ -72,6 +100,8 @@ router.get("/", PublicationController.getPublication);
  *              $ref: '#/components/responses/PublicationUpdated'
  *          400:
  *              description: Id must be a number and/or invalid request body
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          404:
  *              description: Publication id and/or new platform code and/or new video game id not found
  *          409:
@@ -88,6 +118,8 @@ router.patch("/:id", JWTMiddleWare.identification, Authorization.mustBeAdmin, Pu
  *      tags:
  *          - Publication
  *      description: Delete a publication
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - name: id
  *            description: The publication id
@@ -100,6 +132,8 @@ router.patch("/:id", JWTMiddleWare.identification, Authorization.mustBeAdmin, Pu
  *              $ref: '#/components/responses/PublicationDeleted'
  *          400:
  *              description: Id must be a number
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
  *          404:
  *              description: Publication not found
  *          500:
