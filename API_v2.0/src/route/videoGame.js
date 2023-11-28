@@ -6,7 +6,7 @@ const router = new Router();
 
 /**
  * @swagger
- * /videoGame/:
+ * /videoGame:
  *  get:
  *      tags:
  *          - VideoGame

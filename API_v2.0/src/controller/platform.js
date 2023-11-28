@@ -54,7 +54,6 @@ module.exports.getPlatform = async (req, res) => {
             res.json(platforms);
         }
     } catch (error) {
-        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
@@ -110,7 +109,6 @@ module.exports.addPlatform = async (req, res) => {
                 res.status(HTTPStatus.CONFLICT).send(error.detail);
                 break;
             default:
-                console.log(error);
                 res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
         }
     } finally {

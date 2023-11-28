@@ -13,7 +13,9 @@ module.exports.userSchema = z.object({
     }).max(20, {
         message : "Username must contain at most 20 characters"
     }),
-    email : z.string().email().trim(),
+    email : z.string().email().trim().regex(/^((?!\+).)*$/,{
+        message : "Email cannot contain +"
+    }),
     password : z.string().min(8,{
         message : "Password must contain at least 8 characters"
     }).trim().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]*).{8,}$/,{
@@ -36,7 +38,9 @@ module.exports.updateUserSchema = z.object({
     }).max(20,{
         message : "Username must contain at most 20 characters"
     }).optional(),
-    email : z.string().email().trim().optional(),
+    email : z.string().email().trim().regex(/^((?!\+).)*$/,{
+        message : "Email cannot contain +"
+    }).optional(),
     password : z.string().min(8,{
         message : "Password must contain at least 8 characters"
     }).trim().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]*).{8,}$/,{

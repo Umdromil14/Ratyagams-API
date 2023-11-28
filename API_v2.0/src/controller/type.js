@@ -98,7 +98,9 @@ module.exports.createType = async (req, res) => {
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/Type'
+ *                      type: array
+ *                      items:
+ *                          $ref: '#/components/schemas/Type'
  */
 module.exports.getTypes = async (req, res) => {
     let id;

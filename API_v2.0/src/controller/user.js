@@ -210,9 +210,7 @@ module.exports.postUser = async (req, res) => {
                 res.status(HTTPStatus.CONFLICT).send(error.detail);
                 break;
             default:
-                console.error(error);
                 res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-                break;
         }
     } finally {
         client.release();
@@ -302,13 +300,11 @@ module.exports.deleteMyAccount = async (req, res) => {
  *
  * @returns {Promise<void>}
  */
-async function updateUser(id,user, res) {
+async function updateUser(id, user, res) {
     if (isNaN(id)) {
         res.status(HTTPStatus.BAD_REQUEST).send("Id must be a Number");
         return;
     }
-
-    console.log(Object.keys(user));
 
     if (Object.keys(user).length === 0) {
         res.status(HTTPStatus.BAD_REQUEST).send("no values to update");
@@ -392,7 +388,7 @@ module.exports.updateUserFromAdmin = async (req, res) => {
         res.status(HTTPStatus.BAD_REQUEST).send(error.message);
         return;
     }
-    await updateUser(parseInt(req.params.userId),user, res);
+    await updateUser(parseInt(req.params.userId), user, res);
 };
 
 /**
@@ -444,7 +440,7 @@ module.exports.updateMyAccount = async (req, res) => {
         res.status(HTTPStatus.BAD_REQUEST).send(error.message);
         return;
     }
-    await updateUser(req.session.id,user, res);
+    await updateUser(req.session.id, user, res);
 };
 
 /**
@@ -548,7 +544,6 @@ module.exports.postUserWithGames = async (req, res) => {
         client.query("COMMIT");
         res.sendStatus(HTTPStatus.CREATED);
     } catch (error) {
-        console.error(error);
         client.query("ROLLBACK");
         switch (error.code) {
             case PGErrors.UNIQUE_VIOLATION:
@@ -663,8 +658,8 @@ module.exports.getUserFromToken = async (req, res) => {
             blacklistToken(req.headers.authorization.split(" ")[1]); // TODO à voir si on blacklist le token
             res.status(HTTPStatus.NOT_FOUND).send("No user found");
         } else {
-            const { id, username, email, firstname, lastname } = users[0];
-            res.json({ id, username, email, firstname, lastname });
+            const { id, username, email, firstname, lastname, is_admin } = users[0];
+            res.json({ id, username, email, firstname, lastname, is_admin });
         }
     } catch (error) {
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(
