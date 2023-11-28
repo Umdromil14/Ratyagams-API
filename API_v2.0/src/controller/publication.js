@@ -64,7 +64,7 @@ const PGErrors = require("../tools/PGErrors");
  *                          release_date:
  *                              type: string
  *                              format: date
- *                              description: The release date (YYYY-MM-DD)
+ *                              description: The release date (YYYY-MM-DD or MM-DD-YYYY)
  *                          release_price:
  *                              type: number
  *                              description: The game price when it's released
@@ -142,9 +142,9 @@ module.exports.createPublication = async (req, res) => {
  *                            $ref: '#/components/schemas/Publication'
  */
 module.exports.getPublication = async (req, res) => {
-    let publicationId, videoGameId, videoGameName, platformCode;
+    let publicationId, videoGameId, videoGameName, platformCode, getOwnGames;
     try {
-        ({ publicationId, videoGameId, videoGameName, platformCode } =
+        ({ publicationId, videoGameId, videoGameName, platformCode, getOwnGames: getOwnGames } =
             validateObject(req.query, publicationToGetSchema));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).send(error.message);
@@ -158,7 +158,8 @@ module.exports.getPublication = async (req, res) => {
             publicationId,
             platformCode,
             videoGameId,
-            videoGameName
+            videoGameName,
+            getOwnGames ? req.session.id : undefined
         );
         if (publications.length === 0) {
             res.status(HTTPStatus.NOT_FOUND).send("No publication found");

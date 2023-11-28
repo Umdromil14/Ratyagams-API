@@ -79,6 +79,7 @@ module.exports.createCategory = async (req, res) => {
     }
 };
 
+// TODO return array
 /**
  * Redirect the program to the correct get function
  *
@@ -164,7 +165,7 @@ async function getCategory(typeId, videoGameId, res){
     try {
         const category = (
             await CategoryModel.getCategory(client, typeId, videoGameId)
-        ).rows[0];
+        ).rows;
         if (category !== undefined) {
             res.json(category);
         } else {
@@ -242,6 +243,7 @@ async function getCategoriesFromVideoGame(videoGameId, res){
             res.status(HTTPStatus.NOT_FOUND).send("Id not found");
         }
     } catch (error) {
+        console.error(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();

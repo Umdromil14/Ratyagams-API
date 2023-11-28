@@ -27,10 +27,11 @@ module.exports.createPublication = async (client, platformCode, videoGameId, rel
  * @param {string=} platformCode the platform code
  * @param {number=} videoGameId the id of the video game
  * @param {string=} videoGameName the name of the video game (case insensitive and partial)
+ * @param {number=} userId the id of the user that owns the video game
  * 
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getPublication = async (client, publicationId, platformCode, videoGameId, videoGameName) => {
+module.exports.getPublication = async (client, publicationId, platformCode, videoGameId, videoGameName, userId) => {
     const queryConditions = [];
     const queryValues = [];
 
@@ -49,6 +50,10 @@ module.exports.getPublication = async (client, publicationId, platformCode, vide
     if (videoGameName !== undefined) {
         queryConditions.push(`video_game_id in (SELECT id FROM video_game WHERE LOWER(name) LIKE $${queryConditions.length + 1})`);
         queryValues.push(`%${videoGameName.toLowerCase()}%`);
+    }
+    if (userId !== undefined) {
+        queryConditions.push(`id in (SELECT publication_id FROM game WHERE user_id = $${queryConditions.length + 1})`);
+        queryValues.push(userId);
     }
 
     let query = `SELECT * FROM publication`;

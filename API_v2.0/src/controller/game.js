@@ -30,7 +30,7 @@ const { gameIdsSchema, gameSchema } = require("../zod/schema/game");
  *              review_date:
  *                  type: string
  *                  format: date
- *                  description: The date of the user's review
+ *                  description: The date of the user's review (YYYY-MM-DD or MM-DD-YYYY)
  */
 
 /**
