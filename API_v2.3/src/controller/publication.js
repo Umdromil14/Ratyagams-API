@@ -242,6 +242,9 @@ module.exports.updatePublication = async (req, res) => {
             case PGErrors.FOREIGN_KEY_VIOLATION:
                 res.status(HTTPStatus.NOT_FOUND).send(error.detail);
                 break;
+            case PGErrors.UNIQUE_VIOLATION:
+                res.status(HTTPStatus.CONFLICT).send(error.detail);
+                break;
             default:
                 res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
         }
