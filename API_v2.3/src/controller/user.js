@@ -620,7 +620,7 @@ module.exports.getUserFromToken = async (req, res) => {
     const { id } = req.session;
     const client = await pool.connect();
     try {
-        const { rows: users } = await UserDB.getUserFromId(client, id);
+        const { rows: users } = await UserDB.getUser(client, id);
         if (users.length === 0) {
             blacklistToken(req.headers.authorization.split(" ")[1]); // TODO à voir si on blacklist le token
             res.status(HTTPStatus.NOT_FOUND).send("No user found");
