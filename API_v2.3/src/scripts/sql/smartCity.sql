@@ -73,143 +73,302 @@ CREATE TABLE category(
     FOREIGN KEY (video_game_id) REFERENCES video_game(id)
 );
 
+
 INSERT INTO GENRE (name,description) VALUES ('Open World','Open World games allow players to explore and interact with a large, open area.');
 INSERT INTO GENRE (name,description) VALUES ('Fantasy','Fantasy games feature magical and imaginative settings.');
 INSERT INTO GENRE (name,description) VALUES ('Cyberpunk','Cyberpunk games are set in futuristic, dystopian worlds.');
-INSERT INTO GENRE (name,description) VALUES ('Western','Western games are set in the American Old West.');
-INSERT INTO GENRE (name,description) VALUES ('Crime','Crime games involve criminal activities and organizations.');
+-- INSERT INTO GENRE (name,description) VALUES ('Western','Western games are set in the American Old West.');
+-- INSERT INTO GENRE (name,description) VALUES ('Crime','Crime games involve criminal activities and organizations.');
 INSERT INTO GENRE (name,description) VALUES ('Stealth','Stealth games emphasize sneaking and covert missions.');
 INSERT INTO GENRE (name,description) VALUES ('Historical','Historical games are set in real-world historical periods.');
 INSERT INTO GENRE (name,description) VALUES ('Souls-like','Souls-like games are similar to the Souls series.');
-INSERT INTO GENRE (name,description) VALUES ('Feudal Japan','Feudal Japan games are set in the historical period of feudal Japan.');
+-- INSERT INTO GENRE (name,description) VALUES ('Feudal Japan','Feudal Japan games are set in the historical period of feudal Japan.');
 INSERT INTO GENRE (name,description) VALUES ('Post-Apocalyptic','Post-Apocalyptic games are set in a world after a major disaster.');
 INSERT INTO GENRE (name,description) VALUES ('Horror','Horror games focus on creating a terrifying experience for players.');
-INSERT INTO GENRE (name,description) VALUES ('Star Wars','Star Wars games are set in the Star Wars universe.');
-INSERT INTO GENRE (name,description) VALUES ('Zombies','Zombie games feature undead creatures that attack the player.');
+-- INSERT INTO GENRE (name,description) VALUES ('Star Wars','Star Wars games are set in the Star Wars universe.');
+-- INSERT INTO GENRE (name,description) VALUES ('Zombies','Zombie games feature undead creatures that attack the player.');
 INSERT INTO GENRE (name,description) VALUES ('Co-op','Co-op games allow players to work together to achieve a common goal.');
-INSERT INTO GENRE (name,description) VALUES ('Supernatural','Supernatural games involve paranormal or supernatural elements.');
+-- INSERT INTO GENRE (name,description) VALUES ('Supernatural','Supernatural games involve paranormal or supernatural elements.');
 
 
 -- Action Games
 INSERT INTO GENRE (name, description) VALUES ('Action', 'Action games emphasize physical challenges and combat.');
-INSERT INTO GENRE (name, description) VALUES ('First-Person Shooter (FPS)', 'First-Person Shooter games focus on combat from a first-person perspective.');
-INSERT INTO GENRE (name, description) VALUES ('Third-Person Shooter (TPS)', 'Third-Person Shooter games involve shooting and combat from a third-person view.');
+INSERT INTO GENRE (name, description) VALUES ('FPS', 'First-Person Shooter games focus on combat from a first-person perspective.');
+INSERT INTO GENRE (name, description) VALUES ('TPS', 'Third-Person Shooter games involve shooting and combat from a third-person view.');
 INSERT INTO GENRE (name, description) VALUES ('Fighting', 'Fighting games feature one-on-one combat between characters.');
-INSERT INTO GENRE (name, description) VALUES ('Infiltration', 'Infiltration games involve stealthy, covert missions and sneaking.');
+-- INSERT INTO GENRE (name, description) VALUES ('Infiltration', 'Infiltration games involve stealthy, covert missions and sneaking.');
 INSERT INTO GENRE (name, description) VALUES ('Survival', 'Survival games challenge players to stay alive in harsh conditions.');
 INSERT INTO GENRE (name, description) VALUES ('Beat ''em up', 'Beat ''em up games involve hand-to-hand combat against multiple enemies.');
-INSERT INTO GENRE (name, description) VALUES ('Hack and Slash', 'Hack and Slash games involve fast-paced combat against multiple enemies.');
-INSERT INTO GENRE (name, description) VALUES ('Hero Shooter', 'Hero Shooter games involve team-based combat with unique characters.');
+-- INSERT INTO GENRE (name, description) VALUES ('Hack and Slash', 'Hack and Slash games involve fast-paced combat against multiple enemies.');
+-- INSERT INTO GENRE (name, description) VALUES ('Hero Shooter', 'Hero Shooter games involve team-based combat with unique characters.');
 INSERT INTO GENRE (name, description) VALUES ('Metroidvania', 'Metroidvania games feature a large, interconnected world with areas that can be explored in any order.');
-INSERT INTO GENRE (name, description) VALUES ('Platform Fighter', 'Platform Fighter games involve fighting on a platform with the goal of knocking opponents off.');
-INSERT INTO GENRE (name, description) VALUES ('Parkour', 'Parkour games involve running and jumping across platforms and obstacles.');
+-- INSERT INTO GENRE (name, description) VALUES ('Platform Fighter', 'Platform Fighter games involve fighting on a platform with the goal of knocking opponents off.');
+-- INSERT INTO GENRE (name, description) VALUES ('Parkour', 'Parkour games involve running and jumping across platforms and obstacles.');
 INSERT INTO GENRE (name, description) VALUES ('Party', 'Party games are designed for multiplayer fun with friends and family.');
-INSERT INTO GENRE (name, description) VALUES ('Mythology', 'Mythology games are set in a world inspired by mythology.');
+-- INSERT INTO GENRE (name, description) VALUES ('Mythology', 'Mythology games are set in a world inspired by mythology.');
 INSERT INTO GENRE (name, description) VALUES ('Simulation', 'Simulation games simulate real-world or fictional activities.');
 INSERT INTO GENRE (name, description) VALUES ('Farming', 'Farming games involve managing a farm and growing crops.');
 INSERT INTO GENRE (name, description) VALUES ('Roguelike', 'Roguelike games feature procedurally-generated levels and permadeath.');
-INSERT INTO GENRE (name, description) VALUES ('Dungeon & Dragons', 'D&D games are based on the Dungeons & Dragons tabletop role-playing game.');
+-- INSERT INTO GENRE (name, description) VALUES ('Dungeon & Dragons', 'D&D games are based on the Dungeons & Dragons tabletop role-playing game.');
 INSERT INTO GENRE (name, description) VALUES ('Hunting', 'Hunting games involve tracking and hunting animals.');
-INSERT INTO GENRE (name, description) VALUES ('Tactical Shooter', 'Tactical Shooter games emphasize strategy and combat tactics.');
-INSERT INTO GENRE (name, description) VALUES ('Tactical', 'Tactical games emphasize strategy and combat tactics.');
-INSERT INTO GENRE (name, description) VALUES ('Social Deduction', 'Social Deduction games involve players trying to figure out who is lying.');
+-- INSERT INTO GENRE (name, description) VALUES ('Tactical Shooter', 'Tactical Shooter games emphasize strategy and combat tactics.');
+-- INSERT INTO GENRE (name, description) VALUES ('Tactical', 'Tactical games emphasize strategy and combat tactics.');
+-- INSERT INTO GENRE (name, description) VALUES ('Social Deduction', 'Social Deduction games involve players trying to figure out who is lying.');
 INSERT INTO GENRE (name, description) VALUES ('Tower Defense', 'Tower Defense games involve building defenses to stop enemies from reaching a goal.');
 INSERT INTO GENRE (name, description) VALUES ('Building', 'Building games involve constructing and managing buildings and cities.');
 INSERT INTO GENRE (name, description) VALUES ('Sandbox', 'Sandbox games allow players to explore and interact with a large, open area.');
 INSERT INTO GENRE (name, description) VALUES ('Battle Royale', 'Battle Royale games involve a large number of players competing to be the last one standing.');
-INSERT INTO GENRE (name, description) VALUES ('Team-Based', 'Team-Based games involve players working together to achieve a common goal.');
-INSERT INTO GENRE (name,description) VALUES ('Vehicle-based','Vehicle-based games involve driving or piloting vehicles.');
+-- INSERT INTO GENRE (name, description) VALUES ('Team-Based', 'Team-Based games involve players working together to achieve a common goal.');
+-- INSERT INTO GENRE (name,description) VALUES ('Vehicle-based','Vehicle-based games involve driving or piloting vehicles.');
 INSERT INTO GENRE (name, description) VALUES ('Pirates', 'Pirate games are set in a world of pirates and piracy.');
-INSERT INTO GENRE (name , description) VALUES ('Asymmetrical Multiplayer', 'Asymmetrical Multiplayer games involve players with different roles and abilities.');
-INSERT INTO GENRE (name , description) VALUES ('Paranormal', 'Paranormal games involve paranormal or supernatural elements.');
-INSERT INTO GENRE (name , description) VALUES ('vehicle combat', 'vehicle combat games involve combat using vehicles.');
-INSERT INTO GENRE (name, description) VALUES ('Military Simulation', 'Military Simulation games simulate military combat and tactics.');
-INSERT INTO GENRE (name , description) VALUES ('Gothic Horror', 'Gothic Horror games are set in a dark, gothic world.');
-INSERT INTO GENRE (name , description) VALUES ('Vampire', 'Vampire games are set in a world of vampires and vampire hunters.');
+-- INSERT INTO GENRE (name , description) VALUES ('Asymmetrical Multiplayer', 'Asymmetrical Multiplayer games involve players with different roles and abilities.');
+-- INSERT INTO GENRE (name , description) VALUES ('Paranormal', 'Paranormal games involve paranormal or supernatural elements.');
+-- INSERT INTO GENRE (name , description) VALUES ('vehicle combat', 'vehicle combat games involve combat using vehicles.');
+-- INSERT INTO GENRE (name, description) VALUES ('Military Simulation', 'Military Simulation games simulate military combat and tactics.');
+-- INSERT INTO GENRE (name , description) VALUES ('Gothic Horror', 'Gothic Horror games are set in a dark, gothic world.');
+-- INSERT INTO GENRE (name , description) VALUES ('Vampire', 'Vampire games are set in a world of vampires and vampire hunters.');
 
 -- Adventure Games
 INSERT INTO GENRE (name, description) VALUES ('Action-Adventure', 'Action-Adventure games combine elements of action and adventure games.');
 INSERT INTO GENRE (name, description) VALUES ('Adventure', 'Adventure games combine elements of action and adventure games.');
-INSERT INTO GENRE (name, description) VALUES ('Graphic Adventure', 'Graphic Adventure games emphasize storytelling and puzzles.');
-INSERT INTO GENRE (name, description) VALUES ('Exploration', 'Exploration games focus on discovering new places and environments.');
+-- INSERT INTO GENRE (name, description) VALUES ('Graphic Adventure', 'Graphic Adventure games emphasize storytelling and puzzles.');
+-- INSERT INTO GENRE (name, description) VALUES ('Exploration', 'Exploration games focus on discovering new places and environments.');
 INSERT INTO GENRE (name, description) VALUES ('Narrative', 'Narrative games place a strong emphasis on storytelling and character development.');
 INSERT INTO GENRE (name, description) VALUES ('Point-and-Click', 'Point-and-Click games involve interacting with the environment using a cursor.');
-INSERT INTO GENRE (name, description) VALUES ('Role-Playing (RPG)', 'Role-Playing games allow players to assume the role of a character and make choices.');
+INSERT INTO GENRE (name, description) VALUES ('RPG', 'Role-Playing games allow players to assume the role of a character and make choices.');
 INSERT INTO GENRE (name, description) VALUES ('War', 'War games involve military conflicts and combat.');
-INSERT INTO GENRE (name, description) VALUES ('Cold War Era', 'Cold War Era games are set during the Cold War period.');
+-- INSERT INTO GENRE (name, description) VALUES ('Cold War Era', 'Cold War Era games are set during the Cold War period.');
 -- Role-Playing Games (RPG)
-INSERT INTO GENRE (name, description) VALUES ('Western Role-Playing (WRPG)', 'Western RPGs typically feature open worlds and player choice.');
-INSERT INTO GENRE (name, description) VALUES ('Japanese Role-Playing (JRPG)', 'Japanese RPGs often have a more linear narrative and turn-based combat.');
-INSERT INTO GENRE (name, description) VALUES ('Massively Multiplayer Online Role-Playing (MMORPG)', 'MMORPGs are online multiplayer games with deep character progression.');
-INSERT INTO GENRE (name, description) VALUES ('Tactical Role-Playing', 'Tactical RPGs emphasize strategy and turn-based combat.');
+-- INSERT INTO GENRE (name, description) VALUES ('Western Role-Playing (WRPG)', 'Western RPGs typically feature open worlds and player choice.');
+-- INSERT INTO GENRE (name, description) VALUES ('Japanese Role-Playing (JRPG)', 'Japanese RPGs often have a more linear narrative and turn-based combat.');
+INSERT INTO GENRE (name, description) VALUES ('MMORPG', 'MMORPGs are online multiplayer games with deep character progression.');
+-- INSERT INTO GENRE (name, description) VALUES ('Tactical Role-Playing', 'Tactical RPGs emphasize strategy and turn-based combat.');
 
 -- Strategy Games
-INSERT INTO GENRE (name, description) VALUES ('Real-Time Strategy (RTS)', 'Real-Time Strategy games involve resource management and combat in real-time.');
-INSERT INTO GENRE (name, description) VALUES ('Turn-Based Strategy (TBS)', 'Turn-Based Strategy games allow players to take turns in decision-making.');
+INSERT INTO GENRE (name, description) VALUES ('RTS', 'Real-Time Strategy games involve resource management and combat in real-time.');
+INSERT INTO GENRE (name, description) VALUES ('TBS', 'Turn-Based Strategy games allow players to take turns in decision-making.');
 INSERT INTO GENRE (name, description) VALUES ('Management', 'Management games focus on overseeing and organizing various aspects.');
 
 -- Sports and Racing Games
 INSERT INTO GENRE (name, description) VALUES ('Sports', 'Sports games simulate real-world sports, like soccer or basketball.');
 INSERT INTO GENRE (name, description) VALUES ('Racing', 'Racing games involve high-speed competitions with various vehicles.');
-INSERT INTO GENRE (name, description) VALUES ('Sports Simulation', 'Sports Simulation games aim to realistically recreate sports experiences.');
-INSERT INTO GENRE (name, description) VALUES ('Racing Simulation', 'Racing Simulation games aim to realistically recreate racing experiences.');
-INSERT INTO GENRE (name, description) VALUES ('Soccer', 'Soccer games simulate the sport of soccer.');
+-- INSERT INTO GENRE (name, description) VALUES ('Sports Simulation', 'Sports Simulation games aim to realistically recreate sports experiences.');
+-- INSERT INTO GENRE (name, description) VALUES ('Racing Simulation', 'Racing Simulation games aim to realistically recreate racing experiences.');
+-- INSERT INTO GENRE (name, description) VALUES ('Soccer', 'Soccer games simulate the sport of soccer.');
 -- Puzzle and Brain Teaser Games
 INSERT INTO GENRE (name, description) VALUES ('Puzzle', 'Puzzle games challenge players with logic, patterns, and problem-solving.');
-INSERT INTO GENRE (name, description) VALUES ('Brain Teaser', 'Brain Teaser games provide mind-bending challenges.');
-INSERT INTO GENRE (name, description) VALUES ('Platformer', 'Platformer games involve running and jumping across platforms.');
+-- INSERT INTO GENRE (name, description) VALUES ('Brain Teaser', 'Brain Teaser games provide mind-bending challenges.');
+INSERT INTO GENRE (name, description) VALUES ('Platform', 'Platform games involve running and jumping across platforms and obstacles.');
 
 -- Music and Rhythm Games
-INSERT INTO GENRE (name, description) VALUES ('Dance', 'Dance games involve rhythm-based dance challenges.');
-INSERT INTO GENRE (name, description) VALUES ('Music', 'Music games focus on rhythm and music-related activities.');
+-- INSERT INTO GENRE (name, description) VALUES ('Dance', 'Dance games involve rhythm-based dance challenges.');
+-- INSERT INTO GENRE (name, description) VALUES ('Music', 'Music games focus on rhythm and music-related activities.');
 INSERT INTO GENRE (name, description) VALUES ('Rhythm', 'Rhythm games require players to time actions with the beat of the music.');
 
 -- Simulation Games
-INSERT INTO GENRE (name, description) VALUES ('Life Simulation', 'Life Simulation games simulate daily life activities and choices.');
-INSERT INTO GENRE (name, description) VALUES ('Vehicle Simulation', 'Vehicle Simulation games focus on controlling various vehicles.');
-INSERT INTO GENRE (name, description) VALUES ('Economic Simulation', 'Economic Simulation games involve managing finances and businesses.');
-INSERT INTO GENRE (name, description) VALUES ('Construction and Management Simulation', 'Construction and Management Simulation games involve building and managing cities.');
-INSERT INTO GENRE (name, description) VALUES ('Flight Simulation', 'Flight Simulation games simulate the experience of flying aircraft.');
-INSERT INTO GENRE (name, description) VALUES ('Space Simulation', 'Space Simulation games simulate the experience of space exploration.');
-INSERT INTO GENRE (name, description) VALUES ('Train Simulation', 'Train Simulation games simulate the experience of driving trains.');
-INSERT INTO GENRE (name, description) VALUES ('Truck Simulation', 'Truck Simulation games simulate the experience of driving trucks.');
-INSERT INTO GENRE (name, description) VALUES ('Social Simulation', 'Social Simulation games simulate social interactions and relationships.');
+INSERT INTO GENRE (name, description) VALUES ('Simulation', 'Simulation games simulate real-world or fictional activities.');
+-- INSERT INTO GENRE (name, description) VALUES ('Vehicle Simulation', 'Vehicle Simulation games focus on controlling various vehicles.');
+-- INSERT INTO GENRE (name, description) VALUES ('Economic Simulation', 'Economic Simulation games involve managing finances and businesses.');
+-- INSERT INTO GENRE (name, description) VALUES ('Construction and Management Simulation', 'Construction and Management Simulation games involve building and managing cities.');
+-- INSERT INTO GENRE (name, description) VALUES ('Flight Simulation', 'Flight Simulation games simulate the experience of flying aircraft.');
+-- INSERT INTO GENRE (name, description) VALUES ('Space Simulation', 'Space Simulation games simulate the experience of space exploration.');
+-- INSERT INTO GENRE (name, description) VALUES ('Train Simulation', 'Train Simulation games simulate the experience of driving trains.');
+-- INSERT INTO GENRE (name, description) VALUES ('Truck Simulation', 'Truck Simulation games simulate the experience of driving trucks.');
+-- INSERT INTO GENRE (name, description) VALUES ('Social Simulation', 'Social Simulation games simulate social interactions and relationships.');
 -- Educational Games
-INSERT INTO GENRE (name, description) VALUES ('Educational Games for Children', 'Educational games designed for kids to learn and have fun.');
-INSERT INTO GENRE (name, description) VALUES ('Educational Games for Adults', 'Educational games designed for adult learners.');
+INSERT INTO GENRE (name, description) VALUES ('Educational', 'Educational games are designed to teach players about a specific topic.');
+-- INSERT INTO GENRE (name, description) VALUES ('Educational Games for Adults', 'Educational games designed for adult learners.');
 
 -- Card and Board Games
 INSERT INTO GENRE (name, description) VALUES ('Card', 'Card games are played with a standard deck or specialized cards.');
-INSERT INTO GENRE (name, description) VALUES ('Digital Board', 'Digital Board games are video game adaptations of traditional board games.');
+INSERT INTO GENRE (name, description) VALUES ('Board', 'Board games are played on a board with counters or pieces.');
 
 -- Horror Games
-INSERT INTO GENRE (name, description) VALUES ('Psychological Horror', 'Psychological Horror games focus on the psychological fear of players.');
+-- INSERT INTO GENRE (name, description) VALUES ('Psychological Horror', 'Psychological Horror games focus on the psychological fear of players.');
 INSERT INTO GENRE (name, description) VALUES ('Survival Horror', 'Survival Horror games emphasize survival in a terrifying environment.');
 
 -- Science Fiction and Fantasy Games
 INSERT INTO GENRE (name, description) VALUES ('Science Fiction', 'Science Fiction games are set in futuristic or space-themed worlds.');
 -- Online Multiplayer Games
-INSERT INTO GENRE (name, description) VALUES ('Competitive Online (MOBA, Battle Royale)', 'Competitive online games involve player-vs-player competition.');
-INSERT INTO GENRE (name, description) VALUES ('Cooperative Online', 'Cooperative online games require teamwork and collaboration.');
+INSERT INTO GENRE (name, description) VALUES ('MOBA', 'Multiplayer Online Battle Arena games involve team-based combat in a large arena.');
+-- INSERT INTO GENRE (name, description) VALUES ('Cooperative Online', 'Cooperative online games require teamwork and collaboration.');
 
 -- Platform Games
-INSERT INTO GENRE (name, description) VALUES ('2D Platform', '2D Platform games involve running and jumping across two-dimensional levels.');
-INSERT INTO GENRE (name, description) VALUES ('3D Platform', '3D Platform games feature three-dimensional worlds and platforming challenges.');
+-- INSERT INTO GENRE (name, description) VALUES ('2D Platform', '2D Platform games involve running and jumping across two-dimensional levels.');
+-- INSERT INTO GENRE (name, description) VALUES ('3D Platform', '3D Platform games feature three-dimensional worlds and platforming challenges.');
 
 -- Construction and Management Games
-INSERT INTO GENRE (name, description) VALUES ('City Building', 'City Building games involve creating and managing cities.');
-INSERT INTO GENRE (name, description) VALUES ('Resource Management', 'Resource Management games require efficient allocation of resources.');
+-- INSERT INTO GENRE (name, description) VALUES ('City Building', 'City Building games involve creating and managing cities.');
+-- INSERT INTO GENRE (name, description) VALUES ('Resource Management', 'Resource Management games require efficient allocation of resources.');
 
 -- Virtual Reality (VR) Games
-INSERT INTO GENRE (name, description) VALUES ('Games designed for virtual reality', 'VR games are specifically designed for immersive virtual reality experiences.');
+INSERT INTO GENRE (name, description) VALUES ('VR', 'VR games are specifically designed for immersive virtual reality experiences.');
 
 INSERT INTO GENRE (name,description) VALUES ('Multiplayer','Multiplayer games allow players to compete or cooperate with each other in various ways.');
 
-INSERT INTO GENRE (name, description) VALUES ('SoloPlayer','games that are played alone');
+INSERT INTO GENRE (name, description) VALUES ('Solo','games that are played alone');
 
+-- genres = {
+    -- 1: 'Open World',
+    -- 2: 'Fantasy',
+    -- 3: 'Cyberpunk',
+    -- 4: 'Stealth',
+    -- 5: 'Historical',
+    -- 6: 'Souls-like',
+    -- 7: 'Post-Apocalyptic',
+    -- 8: 'Horror',
+    -- 9: 'Co-op',
+    -- 10: 'Action',
+    -- 11: 'FPS',
+    -- 12: 'TPS',
+    -- 13: 'Fighting',
+    -- 14: 'Survival',
+    -- 15: 'Beat ''em up',
+    -- 16: 'Metroidvania',
+    -- 17: 'Party',
+    -- 18: 'Simulation',
+    -- 19: 'Farming',
+    -- 20: 'Roguelike',
+    -- 21: 'Hunting',
+    -- 22: 'Tower Defense',
+    -- 23: 'Building',
+    -- 24: 'Sandbox',
+    -- 25: 'Battle Royale',
+    -- 26: 'Pirates',
+    -- 27: 'Action-Adventure',
+    -- 28: 'Adventure',
+    -- 29: 'Narrative',
+    -- 30: 'Point-and-Click',
+    -- 31: 'RPG',
+    -- 32: 'War',
+    -- 33: 'MMORPG',
+    -- 34: 'RTS',
+    -- 35: 'TBS',
+    -- 36: 'Management',
+    -- 37: 'Sports',
+    -- 38: 'Racing',
+    -- 39: 'Puzzle',
+    -- 40: 'Platform',
+    -- 41: 'Rhythm',
+    -- 42: 'Simulation',
+    -- 43: 'Educational',
+    -- 44: 'Card',
+    -- 45: 'Board',
+    -- 46: 'Survival Horror',
+    -- 47: 'Science Fiction',
+    -- 48: 'MOBA',
+    -- 49: 'VR',
+    -- 50: 'Multiplayer',
+    -- 51: 'Solo'
+-- }
+
+-- videoGames = {
+    -- 1: 'Call of Duty: Black Ops Cold War',
+    -- 2: 'FIFA 21',
+    -- 3: 'The Legend of Zelda: Breath of the Wild',
+    -- 4: 'Cyberpunk 2077',
+    -- 5: 'Red Dead Redemption 2',
+    -- 6: 'The Witcher 3: Wild Hunt',
+    -- 7: 'Grand Theft Auto V',
+    -- 8: 'Call of Duty: Modern Warfare',
+    -- 9: 'Minecraft',
+    -- 10: 'Assassin''s Creed Valhalla',
+    -- 11: 'Super Mario Odyssey',
+    -- 12: 'The Elder Scrolls V: Skyrim',
+    -- 13: 'Sekiro: Shadows Die Twice',
+    -- 14: 'Horizon Zero Dawn',
+    -- 15: 'Doom Eternal',
+    -- 16: 'The Last of Us Part II',
+    -- 17: 'Star Wars Jedi: Fallen Order',
+    -- 18: 'Halo: Infinite',
+    -- 19: 'Resident Evil Village',
+    -- 20: 'Ghost of Tsushima',
+    -- 21: 'Final Fantasy VII',
+    -- 22: 'Death Stranding',
+    -- 23: 'Demon''s Souls',
+    -- 24: 'Fallout 4',
+    -- 25: 'Genshin Impact',
+    -- 26: 'Borderlands 3',
+    -- 27: 'The Outer Worlds',
+    -- 28: 'Control',
+    -- 29: 'The Medium',
+    -- 30: 'Nioh 2',
+    -- 31: 'Watch Dogs: Legion',
+    -- 32: 'Bioshock Infinite',
+    -- 33: 'Dying Light 2 stay human',
+    -- 34: 'Fall Guys: Ultimate Knockout',
+    -- 35: 'God of War I',
+    -- 36: 'God of War II',
+    -- 37: 'God of War: Betrayal',
+    -- 38: 'God of War: Chains of Olympus',
+    -- 39: 'God of War: III',
+    -- 40: 'God of War: Ghost of Sparta',
+    -- 41: 'God of War: Ascension',
+    -- 42: 'God of War',
+    -- 43: 'God of War: Ragnarok',
+    -- 44: 'God of War III Remastered',
+    -- 45: 'Stardew Valley',
+    -- 46: 'Hades',
+    -- 47: 'Baldur''s Gate 3',
+    -- 48: 'Monster Hunter: World',
+    -- 49: 'Cyber Shadow',
+    -- 50: 'Animal Crossing: New Horizons',
+    -- 51: 'Tom Clancy''s Rainbow Six Siege',
+    -- 52: 'Final Fantasy VII Remake',
+    -- 53: 'League of Legends',
+    -- 54: 'Apex Legends',
+    -- 55: 'Among Us',
+    -- 56: 'Call of Duty: Warzone',
+    -- 57: 'Fortnite',
+    -- 58: 'Overwatch',
+    -- 59: 'Valorant',
+    -- 60: 'Destiny 2',
+    -- 61: 'Counter-Strike: Global Offensive',
+    -- 62: 'Rocket League',
+    -- 63: 'Sea of Thieves',
+    -- 64: 'World of Warcraft',
+    -- 65: 'Dead by Daylight',
+    -- 66: 'Phasmophobia',
+    -- 67: 'The Sims 4',
+    -- 68: 'Rust',
+    -- 69: 'RuneScape',
+    -- 70: 'Path of Exile',
+    -- 71: 'World of Tanks',
+    -- 72: 'Warframe',
+    -- 73: 'Team Fortress 2',
+    -- 74: 'Dota 2',
+    -- 75: 'Smite',
+    -- 76: 'Guild Wars 2',
+    -- 77: 'Arma 3',
+    -- 78: 'Outlast',
+    -- 79: 'The Forest',
+    -- 80: 'Left 4 Dead 2',
+    -- 81: 'Among the Sleep',
+    -- 82: 'Alien: Isolation',
+    -- 83: 'Amnesia: The Dark Descent',
+    -- 84: 'The Evil Within',
+    -- 85: 'Dead Space',
+    -- 86: 'Dark Souls',
+    -- 87: 'Dark Souls II',
+    -- 88: 'Dark Souls III',
+    -- 89: 'Bloodborne',
+    -- 90: 'The Surge',
+    -- 91: 'Lords of the Fallen',
+    -- 92: 'Salt and Sanctuary',
+    -- 93: 'Hollow Knight',
+    -- 94: 'Ashen',
+    -- 95: 'Nioh',
+    -- 96: 'Remnant: From the Ashes',
+    -- 97: 'Blasphemous',
+    -- 98: 'Code Vein',
+    -- 99: 'Mortal Shell',
+    -- 100: 'Elden Ring',
+    -- 101: 'Bloons TD 6',
+    -- 102: 'Squewe Run',
+-- }
 
 -- Plateforme 1 : PC
-INSERT INTO platform (code, description, abbreviation) VALUES ('PC', 'PC', 'PC');
+INSERT INTO platform (code, description, abbreviation) VALUES ('PC', 'PC (Windows)', 'PC');
 
 -- Plateforme 2 : PlayStation 5
 INSERT INTO platform (code, description, abbreviation) VALUES ('PS5', 'PlayStation 5', 'PS5');
@@ -227,7 +386,7 @@ INSERT INTO platform (code, description, abbreviation) VALUES ('PS4', 'PlayStati
 INSERT INTO platform (code, description, abbreviation) VALUES ('XBO', 'Xbox One', 'Xbox One');
 
 -- Plateforme 7 : Mobile (iOS/Android)
-INSERT INTO platform (code, description, abbreviation) VALUES ('MOB', 'Mobile (iOS/Android)', 'Mobile');
+INSERT INTO platform (code, description, abbreviation) VALUES ('MOB', 'Mobile (Android/IOS)', 'Mobile');
 
 -- Plateforme 8 : Nintendo 3DS
 INSERT INTO platform (code, description, abbreviation) VALUES ('3DS', 'Nintendo 3DS', '3DS');
@@ -459,6 +618,7 @@ INSERT INTO video_game ("name", description) VALUES ('Code Vein', 'Explore a pos
 INSERT INTO video_game ("name", description) VALUES ('Mortal Shell', 'Take on the role of a "foundling" who possesses the ability to inhabit the bodies of fallen warriors in this dark and atmospheric action RPG.');
 INSERT INTO video_game ("name", description) VALUES ('Elden Ring', 'Delve into a new dark fantasy world created by Hidetaka Miyazaki and George R. R. Martin, featuring an expansive open world and intense Souls-like combat.');
 INSERT INTO video_game ("name", description) VALUES ('Bloons TD 6', 'Defend your towers from waves of balloons in this popular tower defense game.');
+INSERT INTO video_game ("name", description) VALUES ('Squewe Run', 'Goofy ahh cat game');
 
 -- 1.Call of Duty: Black Ops Cold War | wikipedia: https://en.wikipedia.org/wiki/Call_of_Duty:_Black_Ops_Cold_War
 INSERT INTO publication (platform_code, video_game_id, release_date, release_price, store_page_url) 
@@ -1242,786 +1402,980 @@ VALUES
 ('MOB',101,'2018-06-13',0,'https://play.google.com/store/apps/details?id=com.ninjakiwi.bloonstd6&hl=en_US&gl=US'),
 ('XBO',101,'2023-09-05',0,'https://www.xbox.com/en-us/games/store/bloons-td-6/9phkz9xt6f85'),
 ('XSX',101,'2023-09-05',0,'https://www.xbox.com/en-us/games/store/bloons-td-6/9phkz9xt6f85');
+
+-- 102. Squewe Run
+INSERT INTO publication (platform_code, video_game_id, release_date, release_price, store_page_url)
+VALUES
+('MOB', 102,'2023-12-01', 0 ,'https://play.google.com/store/apps/details?id=com.tapmen.squewegame&hl=en_US&gl=US');
  
--- Jeu 1: Call of Duty: Black Ops Cold War
--- Genre: First-Person Shooter, Action, 
---Multiplayer, War, Espionage/Thriller, Cold War Era
-INSERT INTO category(genre_id,video_game_id)
-VALUES
-(17,1),(16,1),(101,1),(60,1),(61,1);
--- Jeu 2: FIFA 21
--- Sports, Soccer
-INSERT INTO category(genre_id,video_game_id)
-VALUES
-(69,2),(71,2),(73,2);
-
--- Jeu 3: The Legend of Zelda: Breath of the Wild
--- Genre: Action-Adventure, Open World, Fantasy
-INSERT INTO category(genre_id,video_game_id)
-VALUES
-(53,3),(1,3),(2,3);
-
--- Jeu 4: Cyberpunk 2077
---Genre: Action Role-Playing Game (RPG), Open World, Cyberpunk
-INSERT INTO category(genre_id,video_game_id)
-VALUES
-(1,4),(53,4),(3,4);
-
--- Jeu 5: Red Dead Redemption 2
---Genre: Action-Adventure, Open World, Western
-INSERT INTO category(genre_id,video_game_id)
-VALUES
-(1,5),(54,5),(4,5);
-
--- Jeu 6: The Witcher 3: Wild Hunt
--- Genres: Action Role-Playing Game (RPG), Open World, Fantasy
+-- Game 1: Call of Duty: Black Ops Cold War
+-- Genres: FPS, Action, War, Narrative
+-- Additional Categories: Multiplayer, Co-op, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 6), -- Action Role-Playing Game (RPG)
-(1, 6), -- Open World
-(2, 6); -- Fantasy
+(11, 1), -- FPS
+(10, 1), -- Action
+(32, 1), -- War
+(29, 1), -- Narrative
+(50, 1), -- Multiplayer
+(9, 1),  -- Co-op
+(51, 1); -- Solo
 
--- Jeu 7: Grand Theft Auto V
--- Genres: Action-Adventure, Open World, Crime
+-- Game 2: FIFA 21
+-- Genres: Sports
+-- Additional Category: Multiplayer, Co-op, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 7), -- Action-Adventure
-(1, 7), -- Open World
-(5, 7); -- Crime
+(37, 2), -- Sports
+(50, 2), -- Multiplayer
+(9, 2),  -- Co-op
+(51, 2); -- Solo
 
--- Jeu 8: Call of Duty: Modern Warfare
--- Genres: First-Person Shooter (FPS), Action, Multiplayer, War
+-- Game 3: The Legend of Zelda: Breath of the Wild
+-- Genres: Action-Adventure, Open World, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 8), -- First-Person Shooter (FPS)
-(16, 8), -- Action
-(101, 8), -- Multiplayer
-(60, 8); -- War
+(27, 3), -- Action-Adventure
+(10, 3), -- Action
+(28, 3), -- Adventure
+(1, 3),  -- Open World
+(2, 3),  -- Fantasy
+(51, 3); -- Solo
 
--- Jeu 9: Minecraft
--- Genres: Sandbox, Building, Open World
+-- Game 4: Cyberpunk 2077
+-- Genres: Action-Adventure, RPG, Cyberpunk, Open World, FPS, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(40, 9), -- Sandbox
-(39, 9), -- Building
-(1, 9); -- Open World
+(27, 4), -- Action-Adventure
+(10, 4), -- Action
+(28, 4), -- Adventure
+(31, 4), -- RPG
+(3, 4),  -- Cyberpunk
+(1, 4),  -- Open World
+(11, 4), -- FPS
+(29, 4), -- Narrative
+(51, 4); -- Solo
 
--- Jeu 10: Assassin's Creed Valhalla
--- Genres: Action-Adventure, Open World, Historical
+-- Game 5: Red Dead Redemption 2
+-- Genres: Action-Adventure, Western, Open World, Narrative, TPS, FPS
+-- Additional Category: Solo, Multiplayer, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 10), -- Action-Adventure
-(1, 10), -- Open World
-(7, 10); -- Historical
+(27, 5), -- Action-Adventure
+(10, 5), -- Action
+(28, 5), -- Adventure
+(2, 5),  -- Western
+(1, 5),  -- Open World
+(29, 5), -- Narrative
+(12, 5), -- TPS
+(11, 5), -- FPS
+(50, 5), -- Multiplayer
+(9, 5),  -- Co-op
+(51, 5); -- Solo
 
--- Jeu 11: Super Mario Odyssey
--- Genres: Platformer, Adventure
+-- Game 6: The Witcher 3: Wild Hunt
+-- Genres: Action-Adventure, RPG, Fantasy, Open World, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(76, 11), -- Platformer
-(54, 11); -- Adventure
+(27, 6), -- Action-Adventure
+(10, 6), -- Action
+(28, 6), -- Adventure
+(31, 6), -- RPG
+(2, 6),  -- Fantasy
+(1, 6),  -- Open World
+(29, 6), -- Narrative
+(51, 6); -- Solo
 
--- Jeu 12: The Elder Scrolls V: Skyrim
--- Genres: Action Role-Playing Game (RPG), Open World, Fantasy
+-- Game 7: Grand Theft Auto V
+-- Genres: Action-Adventure, Open World, TPS, FPS, Narrative
+-- Additional Categories: Multiplayer, Solo, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 12), -- Action Role-Playing Game (RPG)
-(1, 12), -- Open World
-(2, 12); -- Fantasy
+(27, 7),  -- Action-Adventure
+(10, 7), -- Action
+(28, 7), -- Adventure
+(1, 7),   -- Open World
+(12, 7),  -- TPS
+(11, 7),  -- FPS
+(29, 7),  -- Narrative
+(50, 7),  -- Multiplayer
+(9, 7),   -- Co-op
+(51, 7);  -- Solo
 
--- Jeu 13: Sekiro: Shadows Die Twice
--- Genres: Action-Adventure, Action Role-Playing Game (RPG), Feudal Japan
+-- Game 8: Call of Duty: Modern Warfare
+-- Genres: FPS, Action, War, Narrative
+-- Additional Categories: Multiplayer, Co-op, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 13), -- Action-Adventure
-(53, 13), -- Action Role-Playing Game (RPG)
-(9, 13); -- Feudal Japan
+(11, 8), -- FPS
+(10, 8), -- Action
+(32, 8), -- War
+(29, 8), -- Narrative
+(50, 8), -- Multiplayer
+(9, 8),  -- Co-op
+(51, 8); -- Solo
 
--- Jeu 14: Horizon Zero Dawn
--- Genres: Action-Adventure, Open World, Sci-Fi
+-- Game 9: Minecraft
+-- Genres: Sandbox, Survival, Open World, Building
+-- Additional Categories: Multiplayer, Co-op, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 14), -- Action-Adventure
-(1, 14), -- Open World
-(95, 14); -- Science Fiction
+(24, 9), -- Sandbox
+(14, 9), -- Survival
+(1, 9),  -- Open World
+(23, 9), -- Building
+(50, 9), -- Multiplayer
+(9, 9),  -- Co-op
+(51, 9); -- Solo
 
--- Jeu 15: Doom Eternal
--- Genres: First-Person Shooter (FPS), Action, Science Fiction
+-- Game 10: Assassin's Creed Valhalla
+-- Genres: Action-Adventure, RPG, Historical, Open World, Stealth, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 15), -- First-Person Shooter (FPS)
-(16, 15), -- Action
-(95, 15); -- Science Fiction
+(27, 10), -- Action-Adventure
+(10, 10), -- Action
+(28, 10), -- Adventure
+(31, 10), -- RPG
+(5, 10),  -- Historical
+(1, 10),  -- Open World
+(13, 10), -- Stealth
+(29, 10), -- Narrative
+(51, 10); -- Solo
 
--- Jeu 16: The Last of Us Part II
--- Genres: Action-Adventure, Survival, Post-Apocalyptic
+-- Game 11: Super Mario Odyssey
+-- Genres: Platform, Action-Adventure
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 16), -- Action-Adventure
-(21, 16), -- Survival
-(10, 16); -- Post-Apocalyptic
+(40, 11), -- Platform
+(27, 11), -- Action-Adventure
+(10, 11), -- Action
+(28, 11), -- Adventure
+(51, 11); -- Solo
 
--- Jeu 17: Star Wars Jedi: Fallen Order
--- Genres: Action-Adventure, Star Wars
+-- Game 12: The Elder Scrolls V: Skyrim
+-- Genres: Action-Adventure, RPG, Fantasy, Open World, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 17), -- Action-Adventure
-(12, 17); -- Star Wars
+(27, 12), -- Action-Adventure
+(10, 12), -- Action
+(28, 12), -- Adventure
+(31, 12), -- RPG
+(2, 12),  -- Fantasy
+(1, 12),  -- Open World
+(29, 12), -- Narrative
+(51, 12); -- Solo
 
--- Jeu 18: Halo: Infinite
--- Genres: First-Person Shooter (FPS), Sci-Fi, Military
+-- Game 13: Sekiro: Shadows Die Twice
+-- Genres: Action-Adventure, Souls-like
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 18), -- First-Person Shooter (FPS)
-(95, 18), -- Science Fiction
-(50, 18); -- Military
+(27, 13), -- Action-Adventure
+(10, 13), -- Action
+(28, 13), -- Adventure
+(6, 13),  -- Souls-like
+(51, 13); -- Solo
 
--- Jeu 19: Resident Evil Village
--- Genres: Survival Horror, Action, Zombies
+-- Game 14: Horizon Zero Dawn
+-- Genres: Action-Adventure, RPG, Open World, Sci-Fi, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(21, 19), -- Survival Horror
-(16, 19), -- Action
-(13, 19); -- Zombies
+(27, 14), -- Action-Adventure
+(10, 14), -- Action
+(28, 14), -- Adventure
+(31, 14), -- RPG
+(1, 14),  -- Open World
+(47, 14), -- Sci-Fi
+(29, 14), -- Narrative
+(51, 14); -- Solo
 
--- Jeu 20: Ghost of Tsushima
--- Genres: Action-Adventure, Feudal Japan, Open World
+-- Game 15: Doom Eternal
+-- Genres: FPS, Action-Adventure, Sci-Fi
+-- Additional Category: Multiplayer, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 20), -- Action-Adventure
-(9, 20), -- Feudal Japan
-(1, 20); -- Open World
+(11, 15), -- FPS
+(27, 15), -- Action-Adventure
+(10, 15), -- Action
+(28, 15), -- Adventure
+(47, 15), -- Sci-Fi
+(50, 15), -- Multiplayer
+(51, 15); -- Solo
 
--- Jeu 21: Final Fantasy VII
--- Genres: Role-Playing (RPG), Fantasy
+-- Game 16: The Last of Us Part II
+-- Genres: Action-Adventure, Horror, Narrative, Survival Horror, TPS
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(59, 21), -- Role-Playing (RPG)
-(2, 21); -- Fantasy
+(27, 16), -- Action-Adventure
+(8, 16),  -- Horror
+(29, 16), -- Narrative
+(46, 16), -- Survival Horror
+(12, 16), -- TPS
+(51, 16); -- Solo
 
--- Jeu 22: Death Stranding
--- Genres: Action-Adventure, Sci-Fi, Post-Apocalyptic
+-- Game 17: Star Wars Jedi: Fallen Order
+-- Genres: Action-Adventure, Souls-like, Sci-Fi, Narrative, Metroidvania
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 22), -- Action-Adventure
-(95, 22), -- Science Fiction
-(10, 22); -- Post-Apocalyptic
+(27, 17), -- Action-Adventure
+(10, 17), -- Action
+(28, 17), -- Adventure
+(6, 17),  -- Souls-like
+(47, 17), -- Sci-Fi
+(29, 17), -- Narrative
+(16, 17), -- Metroidvania
+(51, 17); -- Solo
 
--- Jeu 23: Demon's Souls
--- Genres: Action Role-Playing Game (RPG), Fantasy, Souls-like
+-- Game 18: Halo: Infinite
+-- Genres: FPS, Action, Sci-Fi, War
+-- Additional Categories: Multiplayer, Co-op, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 23), -- Action Role-Playing Game (RPG)
-(2, 23), -- Fantasy
-(8, 23); -- Souls-like
+(11, 18), -- FPS
+(10, 18), -- Action
+(47, 18), -- Sci-Fi
+(32, 18), -- War
+(50, 18), -- Multiplayer
+(9, 18),  -- Co-op
+(51, 18); -- Solo
 
--- Jeu 24: Fallout 4
--- Genres: Action Role-Playing Game (RPG), Open World, Post-Apocalyptic
+-- Game 19: Resident Evil Village
+-- Genres: Horror, Survival Horror, FPS, Action-Adventure, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 24), -- Action Role-Playing Game (RPG)
-(1, 24), -- Open World
-(10, 24); -- Post-Apocalyptic
+(8, 19),  -- Horror
+(46, 19), -- Survival Horror
+(11, 19), -- FPS
+(27, 19), -- Action-Adventure
+(10, 19), -- Action
+(28, 19), -- Adventure
+(29, 19), -- Narrative
+(51, 19); -- Solo
 
--- Jeu 25: Genshin Impact
--- Genres: Action Role-Playing Game (RPG), Fantasy, Open World
+-- Game 20: Ghost of Tsushima
+-- Genres: Action-Adventure, Historical, Open World, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 25), -- Action Role-Playing Game (RPG)
-(2, 25), -- Fantasy
-(1, 25); -- Open World
+(27, 20), -- Action-Adventure
+(5, 20),  -- Historical
+(1, 20),  -- Open World
+(29, 20), -- Narrative
+(51, 20); -- Solo
 
--- Jeu 26: Borderlands 3
--- Genres: First-Person Shooter (FPS), Action, Open World
+-- Game 21: Final Fantasy VII
+-- Genres: RPG, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 26), -- First-Person Shooter (FPS)
-(16, 26), -- Action
-(1, 26); -- Open World
+(31, 21), -- RPG
+(2, 21),  -- Fantasy
+(51, 21); -- Solo
 
--- Jeu 27: The Outer Worlds
--- Genres: Action Role-Playing Game (RPG), Sci-Fi, Open World
+-- Game 22: Death Stranding
+-- Genres: Action-Adventure, Sci-Fi, Open World, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 27), -- Action Role-Playing Game (RPG)
-(95, 27), -- Science Fiction
-(1, 27); -- Open World
+(27, 22), -- Action-Adventure
+(10, 22), -- Action
+(28, 22), -- Adventure
+(47, 22), -- Sci-Fi
+(1, 22),  -- Open World
+(29, 22), -- Narrative
+(51, 22); -- Solo
 
--- Jeu 28: Control
--- Genres: Action-Adventure, Sci-Fi, Supernatural
+-- Game 23: Demon's Souls
+-- Genres: Fantasy, Souls-like, Action-Adventure, RPG
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 28), -- Action-Adventure
-(95, 28), -- Science Fiction
-(15, 28); -- Supernatural
+(2, 23),  -- Fantasy
+(6, 23),  -- Souls-like
+(27, 23), -- Action-Adventure
+(10, 23), -- Action
+(28, 23), -- Adventure
+(31, 23), -- RPG
+(51, 23); -- Solo
 
--- Jeu 29: The Medium
--- Genres: Psychological Horror, Supernatural
+-- Game 24: Fallout 4
+-- Genres: Action-Adventure, RPG, Open World, Post-Apocalyptic
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(93, 29), -- Psychological Horror
-(15, 29); -- Supernatural
+(27, 24), -- Action-Adventure
+(10, 24), -- Action
+(28, 24), -- Adventure
+(31, 24), -- RPG
+(1, 24),  -- Open World
+(7, 24),  -- Post-Apocalyptic
+(51, 24); -- Solo
 
--- Jeu 30: Nioh 2
--- Genres: Action Role-Playing Game (RPG), Feudal Japan, Souls-like
+-- Game 25: Genshin Impact
+-- Genres: Fantasy, Open World, Action-Adventure, RPG
+-- Additional Category: Solo, Multiplayer, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 30), -- Action Role-Playing Game (RPG)
-(9, 30), -- Feudal Japan
-(8, 30); -- Souls-like
+(2, 25),  -- Fantasy
+(1, 25),  -- Open World
+(27, 25), -- Action-Adventure
+(10, 25), -- Action
+(28, 25), -- Adventure
+(31, 25), -- RPG
+(51, 25), -- Solo
+(50, 25), -- Multiplayer
+(9, 25);  -- Co-op
 
--- Jeu 31: Watch Dogs: Legion
--- Genres: Action-Adventure, Open World, Crime, Cyberpunk
+-- Game 26: Borderlands 3
+-- Genres: FPS, Action, RPG, Sci-Fi
+-- Additional Category: Multiplayer, Co-op, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 31), -- Action-Adventure
-(1, 31), -- Open World
-(5, 31), -- Crime
-(3, 31); -- Cyberpunk
+(11, 26), -- FPS
+(10, 26), -- Action
+(31, 26), -- RPG
+(47, 26), -- Sci-Fi
+(9, 26),  -- Co-op
+(50, 26), -- Multiplayer
+(51, 26); -- Solo
 
--- Jeu 32: Bioshock Infinite
--- Genres: First-Person Shooter (FPS), Action, Sci-Fi
+-- Game 27: The Outer Worlds
+-- Genres: Sci-Fi, Action, RPG
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 32), -- First-Person Shooter (FPS)
-(16, 32), -- Action
-(95, 32); -- Science Fiction
+(47, 27), -- Sci-Fi
+(10, 27), -- Action
+(31, 27), -- RPG
+(51, 27); -- Solo
 
--- Jeu 33: Dying Light 2: Stay Human
--- Genres: Action-Adventure, Open World, Survival, Zombies
+-- Game 28: Control
+-- Genres: Action-Adventure, TPS, Horror, Metroidvania, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 33), -- Action-Adventure
-(1, 33), -- Open World
-(21, 33), -- Survival
-(13, 33); -- Zombies
+(27, 28), -- Action-Adventure
+(10, 28), -- Action
+(28, 28), -- Adventure
+(12, 28), -- TPS
+(8, 28),  -- Horror
+(16, 28), -- Metroidvania
+(29, 28), -- Narrative
+(51, 28); -- Solo
 
--- Jeu 34: Fall Guys
--- Genres: Party
+-- Game 29: The Medium
+-- Genres: Horror, Survival Horror, Narrative
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(28, 34); -- Party
+(8, 29),  -- Horror
+(46, 29), -- Survival Horror
+(29, 29), -- Narrative
+(51, 29); -- Solo
 
--- Jeu 35: God of War I
--- Genres: Action-Adventure, Mythology
+-- Game 30: Nioh 2
+-- Genres: Fantasy, Souls-like, Action, RPG
+-- Additional Category: Multiplayer, Co-op, Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 35), -- Action-Adventure
-(29, 35); -- Mythology
+(2, 30),  -- Fantasy
+(6, 30),  -- Souls-like
+(50, 30), -- Multiplayer
+(9, 30),  -- Co-op
+(10, 30), -- Action
+(31, 30), -- RPG
+(51, 30); -- Solo
 
--- Jeu 36: God of War II
--- Genres: Action-Adventure, Mythology
+-- Game 31: Watch Dogs: Legion
+-- Genres: Action-Adventure, Open World
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 36), -- Action-Adventure
-(29, 36); -- Mythology
+(27, 31), -- Action-Adventure
+(1, 31),  -- Open World
+(51, 31); -- Solo
 
--- Jeu 37: God of War: Betrayal
--- Genres: Action-Adventure, Mythology
+-- Game 32: Bioshock Infinite
+-- Genres: FPS, Action
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 37), -- Action-Adventure
-(29, 37); -- Mythology
+(11, 32), -- FPS
+(10, 32), -- Action
+(51, 32); -- Solo
 
--- Jeu 38: God of War: Chains of Olympus
--- Genres: Action-Adventure, Mythology
+-- Game 33: Dying Light 2 Stay Human
+-- Genres: Horror, Survival Horror
+-- Additional Categories: Multiplayer, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 38), -- Action-Adventure
-(29, 38); -- Mythology
+(8, 33),  -- Horror
+(46, 33), -- Survival Horror
+(50, 33), -- Multiplayer
+(9, 33);  -- Co-op
 
--- Jeu 39: God of War III
--- Genres: Action-Adventure, Mythology
+-- Game 34: Fall Guys: Ultimate Knockout
+-- Genres: Party, Battle Royale
+-- Additional Category: Multiplayer
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 39), -- Action-Adventure
-(29, 39); -- Mythology
+(17, 34), -- Party
+(25, 34), -- Battle Royale
+(50, 34); -- Multiplayer
 
--- Jeu 40: God of War: Ghost of Sparta
--- Genres: Action-Adventure, Mythology
+-- Game 35: God of War I
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 40), -- Action-Adventure
-(29, 40); -- Mythology
+(27, 35), -- Action-Adventure
+(15, 35), -- Hack and Slash
+(2, 35),  -- Fantasy
+(51, 35); -- Solo
 
--- Jeu 41: God of War: Ascension
--- Genres: Action-Adventure, Mythology
+-- Game 36: God of War II
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 41), -- Action-Adventure
-(29, 41); -- Mythology
+(27, 36), -- Action-Adventure
+(15, 36), -- Hack and Slash
+(2, 36),  -- Fantasy
+(51, 36); -- Solo
 
--- Jeu 42: God of War 2018
--- Genres: Action-Adventure, Mythology
+-- Game 37: God of War: Betrayal
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 42), -- Action-Adventure
-(29, 42); -- Mythology
+(27, 37), -- Action-Adventure
+(15, 37), -- Hack and Slash
+(2, 37),  -- Fantasy
+(51, 37); -- Solo
 
--- Jeu 43: God of War Ragnarok
--- Genres: Action-Adventure, Mythology
+-- Game 38: God of War: Chains of Olympus
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 43), -- Action-Adventure
-(29, 43); -- Mythology
+(27, 38), -- Action-Adventure
+(15, 38), -- Hack and Slash
+(2, 38),  -- Fantasy
+(51, 38); -- Solo
 
--- Jeu 44: God of War III Remastered
--- Genres: Action-Adventure, Mythology
+-- Game 39: God of War: III
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(54, 44), -- Action-Adventure
-(29, 44); -- Mythology
+(27, 39), -- Action-Adventure
+(15, 39), -- Hack and Slash
+(2, 39),  -- Fantasy
+(51, 39); -- Solo
 
--- Jeu 45: Stardew Valley
--- Genres: Simulation, Farming, Open World
+-- Game 40: God of War: Ghost of Sparta
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(30, 45), -- Simulation
-(31, 45), -- Farming
-(1, 45); -- Open World
+(27, 40), -- Action-Adventure
+(15, 40), -- Hack and Slash
+(2, 40),  -- Fantasy
+(51, 40); -- Solo
 
--- Jeu 46: Hades
--- Genres: Action Role-Playing Game (RPG), Mythology
+-- Game 41: God of War: Ascension
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 46), -- Action Role-Playing Game (RPG)
-(29, 46); -- Mythology
+(27, 41), -- Action-Adventure
+(15, 41), -- Hack and Slash
+(2, 41),  -- Fantasy
+(51, 41); -- Solo
 
--- Jeu 47: Baldur's Gate 3
--- Genres: Role-Playing (RPG), Dungeons & Dragons, Fantasy
+-- Game 42: God of War
+-- Genres: Action-Adventure, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(59, 47), -- Role-Playing (RPG)
-(33, 47), -- Dungeons & Dragons
-(2, 47); -- Fantasy
+(27, 42), -- Action-Adventure
+(2, 42),  -- Fantasy
+(51, 42); -- Solo
 
--- Jeu 48: Monster Hunter: World
--- Genres: Action, Fantasy, Hunting
+-- Game 43: God of War: Ragnarok
+-- Genres: Action-Adventure, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(16, 48), -- Action
-(2, 48), -- Fantasy
-(34, 48); -- Hunting
+(27, 43), -- Action-Adventure
+(2, 43),  -- Fantasy
+(51, 43); -- Solo
 
--- Jeu 49: Cyber Shadow
--- Genres: Action, Platformer, Ninja
+-- Game 44: God of War III Remastered
+-- Genres: Action-Adventure, Hack and Slash, Fantasy
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(16, 49), -- Action
-(76, 49), -- Platformer
-(95, 49); -- Ninja
+(27, 44), -- Action-Adventure
+(15, 44), -- Hack and Slash
+(2, 44),  -- Fantasy
+(51, 44); -- Solo
 
--- Jeu 50: Animal Crossing: New Horizons
--- Genres: Simulation, Life Simulation, Open World
+-- Game 45: Stardew Valley
+-- Genres: Simulation, RPG, Farming
+-- Additional Categories: Multiplayer, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(30, 50), -- Simulation
-(80, 50), -- Life Simulation
-(1, 50); -- Open World
+(18, 45), -- Simulation
+(31, 45), -- RPG
+(19, 45), -- Farming
+(50, 45), -- Multiplayer
+(9, 45);  -- Co-op
 
--- Jeu 51: Tom Clancy's Rainbow Six Siege
--- Genres: Tactical Shooter, Military, Team-Based
+-- Game 46: Hades
+-- Genres: Rogue-like
+-- Additional Category: Solo
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(35, 51), -- Tactical Shooter
-(50, 51), -- Military
-(42, 51); -- Team-Based
+(20, 46), -- Rogue-like
+(51, 46); -- Solo
 
--- Jeu 52: Final Fantasy VII Remake
--- Genres: Action Role-Playing Game (RPG), Fantasy
+-- Game 47: Baldur's Gate 3
+-- Genres: RPG, Fantasy
+-- Additional Categories: Multiplayer, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 52), -- Action Role-Playing Game (RPG)
+(31, 47), -- RPG
+(2, 47),  -- Fantasy
+(50, 47), -- Multiplayer
+(9, 47);  -- Co-op
+
+-- Game 48: Monster Hunter: World
+-- Genres: Fantasy, Hunting
+-- Additional Categories: Multiplayer, Co-op
+INSERT INTO category (genre_id, video_game_id)
+VALUES
+(2, 48),  -- Fantasy
+(21, 48), -- Hunting
+(50, 48), -- Multiplayer
+(9, 48);  -- Co-op
+
+-- Game 49: Cyber Shadow
+-- Genres: Action
+-- Additional Category: Solo
+INSERT INTO category (genre_id, video_game_id)
+VALUES
+(10, 49), -- Action
+(51, 49); -- Solo
+
+-- Game 50: Animal Crossing: New Horizons
+-- Genres: Simulation, Open World
+-- Additional Categories: Multiplayer, Co-op
+INSERT INTO category (genre_id, video_game_id)
+VALUES
+(18, 50), -- Simulation
+(1, 50),  -- Open World
+(50, 50), -- Multiplayer
+(9, 50);  -- Co-op
+
+-- Game 51: Tom Clancy's Rainbow Six Siege
+-- Genres: FPS, Action, Tactical Shooter
+INSERT INTO category (genre_id, video_game_id)
+VALUES
+(11, 51), -- FPS
+(10, 51), -- Action
+(38, 51); -- Tactical Shooter
+
+-- Game 52: Final Fantasy VII Remake
+-- Genres: Action RPG, Fantasy
+INSERT INTO category (genre_id, video_game_id)
+VALUES
+(10, 52), -- Action
+(31, 52), -- RPG
 (2, 52); -- Fantasy
 
--- Jeu 53: League of Legends
--- Genres: Multiplayer Online Battle Arena (MOBA), Fantasy, Competitive Online
+-- Game 53: League of Legends
+-- Genres: MOBA
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(46, 53), -- Multiplayer Online Battle Arena (MOBA)
-(2, 53), -- Fantasy
-(96, 53); -- Competitive Online
+(48, 53); -- MOBA
 
--- Jeu 54: Apex Legends
--- Genres: First-Person Shooter (FPS), Battle Royale, Team-Based
+-- Game 54: Apex Legends
+-- Genres: Battle Royale, FPS
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 54), -- First-Person Shooter (FPS)
-(41, 54), -- Battle Royale
-(42, 54); -- Team-Based
+(25, 54), -- Battle Royale
+(11, 54); -- FPS
 
--- Jeu 55: Among Us
--- Genres: Social Deduction, Party, Multiplayer
+-- Game 55: Among Us
+-- Genres: Party, Social Deduction
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(37, 55), -- Social Deduction
-(28, 55), -- Party
-(101, 55); -- Multiplayer
+(17, 55), -- Party
+(29, 55); -- Narrative
 
--- Jeu 56: Call of Duty: Warzone
--- Genres: First-Person Shooter (FPS), Battle Royale, Military
+-- Game 56: Call of Duty: Warzone
+-- Genres: Battle Royale, FPS
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 56), -- First-Person Shooter (FPS)
-(41, 56), -- Battle Royale
-(50, 56); -- Military
+(25, 56), -- Battle Royale
+(11, 56); -- FPS
 
--- Jeu 57: Fortnite
--- Genres: Battle Royale, Building, Multiplayer
+-- Game 57: Fortnite
+-- Genres: Battle Royale, Action
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(41, 57), -- Battle Royale
-(39, 57), -- Building
-(101, 57); -- Multiplayer
+(25, 57), -- Battle Royale
+(10, 57); -- Action
 
--- Jeu 58: Overwatch
--- Genres: First-Person Shooter (FPS), Team-Based, Hero Shooter
+-- Game 58: Overwatch
+-- Genres: FPS, Action
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 58), -- First-Person Shooter (FPS)
-(42, 58), -- Team-Based
-(24, 58); -- Hero Shooter
+(11, 58), -- FPS
+(10, 58); -- Action
 
--- Jeu 59: Valorant
--- Genres: First-Person Shooter (FPS), Team-Based, Tactical
+-- Game 59: Valorant
+-- Genres: FPS, Tactical Shooter
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 59), -- First-Person Shooter (FPS)
-(42, 59), -- Team-Based
-(36, 59); -- Tactical
+(11, 59), -- FPS
+(38, 59); -- Tactical Shooter
 
--- Jeu 60: Destiny 2
--- Genres: First-Person Shooter (FPS), Multiplayer, Science Fiction
+-- Game 60: Destiny 2
+-- Genres: FPS, Action, MMO
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 60), -- First-Person Shooter (FPS)
-(101, 60), -- Multiplayer
-(95, 60); -- Science Fiction
+(11, 60), -- FPS
+(10, 60), -- Action
+(50, 60); -- Multiplayer
 
--- Jeu 61: Counter-Strike: Global Offensive
--- Genres: First-Person Shooter (FPS), Team-Based, Tactical
+-- Game 61: Counter-Strike: Global Offensive
+-- Genres: FPS, Action, Tactical Shooter
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 61), -- First-Person Shooter (FPS)
-(42, 61), -- Team-Based
-(36, 61); -- Tactical
+(11, 61), -- FPS
+(10, 61), -- Action
+(38, 61); -- Tactical Shooter
 
--- Jeu 62: Rocket League
--- Genres: Sports, Racing, Multiplayer
+-- Game 62: Rocket League
+-- Genres: Sports, Action
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(69, 62), -- Sports
-(70, 62), -- Racing
-(101, 62); -- Multiplayer
+(37, 62), -- Sports
+(10, 62); -- Action
 
--- Jeu 63: Sea of Thieves
--- Genres: Open World, Multiplayer, Pirates
+-- Game 63: Sea of Thieves
+-- Genres: Action-Adventure, Open World, Pirate
 INSERT INTO category (genre_id, video_game_id)
 VALUES
+(27, 63), -- Action-Adventure
 (1, 63), -- Open World
-(101, 63), -- Multiplayer
-(44, 63); -- Pirates
+(26, 63); -- Pirates
 
--- Jeu 64: World of Warcraft
--- Genres: Massively Multiplayer Online Role-Playing (MMORPG), Fantasy, Multiplayer
+-- Game 64: World of Warcraft
+-- Genres: MMORPG, Fantasy
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(64, 64), -- Massively Multiplayer Online Role-Playing (MMORPG)
-(2, 64), -- Fantasy
-(101, 64); -- Multiplayer
+(33, 64), -- MMORPG
+(2, 64); -- Fantasy
 
--- Jeu 65: Dead by Daylight
--- Genres: Horror, Multiplayer, Survival
+-- Game 65: Dead by Daylight
+-- Genres: Survival Horror, multiplayer
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 65), -- Horror
-(101, 65), -- Multiplayer
-(21, 65); -- Survival
+(46, 65), -- Survival Horror
+(50, 65); -- Multiplayer
 
--- Jeu 66: Phasmophobia
--- Genres: Horror, Multiplayer, Paranormal
+-- Game 66: Phasmophobia
+-- Genres: Horror, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 66), -- Horror
-(101, 66), -- Multiplayer
-(48, 66); -- Paranormal
+(8, 66), -- Horror
+(9, 66); -- Co-op
 
--- Jeu 67: The Sims 4
--- Genres: Life Simulation, Simulation, Sandbox
+-- Game 67: The Sims 4
+-- Genres: Simulation
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(80, 67), -- Life Simulation
-(30, 67), -- Simulation
-(40, 67); -- Sandbox
+(18, 67); -- Simulation
 
--- Jeu 68: Rust
--- Genres: Survival, Open World, Multiplayer
+-- Game 68: Rust
+-- Genres: Survival, Action
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(21, 68), -- Survival
-(1, 68), -- Open World
-(101, 68); -- Multiplayer
+(14, 68), -- Survival
+(10, 68); -- Action
 
--- Jeu 69: RuneScape
--- Genres: Massively Multiplayer Online Role-Playing (MMORPG), Fantasy
+-- Game 69: RuneScape
+-- Genres: MMORPG, Fantasy
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(64, 69), -- Massively Multiplayer Online Role-Playing (MMORPG)
+(33, 69), -- MMORPG
 (2, 69); -- Fantasy
 
--- Jeu 70: Path of Exile
--- Genres: Action Role-Playing Game (RPG), Fantasy
+-- Game 70: Path of Exile
+-- Genres: Action RPG, Hack and Slash
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 70), -- Action Role-Playing Game (RPG)
-(2, 70); -- Fantasy
+(10, 70), -- Action
+(31, 70); -- RPG
 
--- Jeu 71: World of Tanks
--- Genres: Military, Multiplayer, Team-Based
+-- Game 71: World of Tanks
+-- Genres: MMO, Action
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(50, 71), -- Military
-(101, 71), -- Multiplayer
-(42, 71); -- Team-Based
+(50, 71), -- Multiplayer
+(10, 71); -- Action
 
--- Jeu 72: Warframe
--- Genres: Action, Science Fiction, Multiplayer
+-- Game 72: Warframe
+-- Genres: Action, Co-op, MMO
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(16, 72), -- Action
-(95, 72), -- Science Fiction
-(101, 72); -- Multiplayer
+(10, 72), -- Action
+(9, 72), -- Co-op
+(50, 72); -- Multiplayer
 
--- Jeu 73: Team Fortress 2
--- Genres: First-Person Shooter (FPS), Multiplayer, Team-Based
+-- Game 73: Team Fortress 2
+-- Genres: FPS, Action
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 73), -- First-Person Shooter (FPS)
-(101, 73), -- Multiplayer
-(42, 73); -- Team-Based
+(11, 73), -- FPS
+(10, 73); -- Action
 
--- Jeu 74: Dota 2
--- Genres: Multiplayer Online Battle Arena (MOBA), Fantasy, Competitive Online
+-- Game 74: Dota 2
+-- Genres: MOBA, RTS
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(46, 74), -- Multiplayer Online Battle Arena (MOBA)
-(2, 74), -- Fantasy
-(96, 74); -- Competitive Online
+(48, 74), -- MOBA
+(34, 74); -- RTS
 
--- Jeu 75: Smite
--- Genres: Multiplayer Online Battle Arena (MOBA), Mythology, Fantasy
+-- Game 75: Smite
+-- Genres: MOBA
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(46, 75), -- Multiplayer Online Battle Arena (MOBA)
-(29, 75), -- Mythology
-(2, 75); -- Fantasy
+(48, 75); -- MOBA
 
--- Jeu 76: Guild Wars 2
--- Genres: Massively Multiplayer Online Role-Playing (MMORPG), Fantasy
+-- Game 76: Guild Wars 2
+-- Genres: MMORPG, Fantasy
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(64, 76), -- Massively Multiplayer Online Role-Playing (MMORPG)
+(33, 76), -- MMORPG
 (2, 76); -- Fantasy
 
--- Jeu 77: Arma 3
--- Genres: Military Simulation, Tactical, Multiplayer
+-- Game 77: Arma 3
+-- Genres: Military Simulation, FPS
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(50, 77), -- Military Simulation
-(36, 77), -- Tactical
-(101, 77); -- Multiplayer
+(36, 77), -- Management
+(11, 77); -- FPS
 
--- Jeu 78: Outlast
--- Genres: Horror, Survival, Psychological Horror
+-- Game 78: Outlast
+-- Genres: Horror, Survival
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 78), -- Horror
-(21, 78), -- Survival
-(93, 78); -- Psychological Horror
+(8, 78), -- Horror
+(14, 78); -- Survival
 
--- Jeu 79: The Forest
--- Genres: Survival, Open World, Horror
+-- Game 79: The Forest
+-- Genres: Survival, Horror
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(21, 79), -- Survival
-(1, 79), -- Open World
-(11, 79); -- Horror
+(14, 79), -- Survival
+(8, 79); -- Horror
 
--- Jeu 80: Left 4 Dead 2
--- Genres: First-Person Shooter (FPS), Co-op, Zombies
+-- Game 80: Left 4 Dead 2
+-- Genres: FPS, Action, Co-op
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(17, 80), -- First-Person Shooter (FPS)
-(14, 80), -- Co-op
-(13, 80); -- Zombies
+(11, 80), -- FPS
+(10, 80), -- Action
+(9, 80); -- Co-op
 
--- Jeu 81: Among the Sleep
--- Genres: Horror, Psychological Horror, First-Person
+-- Game 81: Among the Sleep
+-- Genres: Horror, Adventure
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 81), -- Horror
-(93, 81), -- Psychological Horror
-(17, 81); -- First-Person
+(8, 81), -- Horror
+(28, 81); -- Adventure
 
--- Jeu 82: Alien: Isolation
--- Genres: Horror, Stealth, Sci-Fi
+-- Game 82: Alien: Isolation
+-- Genres: Horror, Survival
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 82), -- Horror
-(6, 82), -- Stealth
-(95, 82); -- Science Fiction
+(8, 82), -- Horror
+(14, 82); -- Survival
 
--- Jeu 83: Amnesia: The Dark Descent
--- Genres: Horror, Psychological Horror, First-Person
+-- Game 83: Amnesia: The Dark Descent
+-- Genres: Horror, Survival
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 83), -- Horror
-(93, 83), -- Psychological Horror
-(17, 83); -- First-Person
+(8, 83), -- Horror
+(14, 83); -- Survival
 
--- Jeu 84: The Evil Within
--- Genres: Horror, Survival, Third-Person Shooter (TPS)
+-- Game 84: The Evil Within
+-- Genres: Horror, Survival
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 84), -- Horror
-(21, 84), -- Survival
-(18, 84); -- Third-Person Shooter (TPS)
+(8, 84), -- Horror
+(14, 84); -- Survival
 
--- Jeu 85: Dead Space
--- Genres: Horror, Survival, Science Fiction
+-- Game 85: Dead Space
+-- Genres: Horror, Survival
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(11, 85), -- Horror
-(21, 85), -- Survival
-(95, 85); -- Science Fiction
+(8, 85), -- Horror
+(14, 85); -- Survival
 
--- Jeu 86: Dark Souls
--- Genres: Action Role-Playing Game (RPG), Fantasy, Souls-like
+-- Game 86: Dark Souls
+-- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 86), -- Action Role-Playing Game (RPG)
+(10, 86), -- Action
+(31, 86), -- RPG
 (2, 86), -- Fantasy
-(8, 86); -- Souls-like
+(6, 86); -- Souls-like
 
--- Jeu 87: Dark Souls II
--- Genres: Action Role-Playing Game (RPG), Fantasy, Souls-like
+-- Game 87: Dark Souls II
+-- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 87), -- Action Role-Playing Game (RPG)
+(10, 87), -- Action
+(31, 87), -- RPG
 (2, 87), -- Fantasy
-(8, 87); -- Souls-like
+(6, 87); -- Souls-like
 
--- Jeu 88: Dark Souls III
--- Genres: Action Role-Playing Game (RPG), Fantasy, Souls-like
+-- Game 88: Dark Souls III
+-- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 88), -- Action Role-Playing Game (RPG)
+(10, 88), -- Action
+(31, 88), -- RPG
 (2, 88), -- Fantasy
-(8, 88); -- Souls-like
+(6, 88); -- Souls-like
 
--- Jeu 89: Bloodborne
--- Genres: Action Role-Playing Game (RPG), Horror, Souls-like
+-- Game 89: Bloodborne
+-- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 89), -- Action Role-Playing Game (RPG)
-(11, 89), -- Horror
-(8, 89); -- Souls-like
+(10, 89), -- Action
+(31, 89), -- RPG
+(2, 89), -- Fantasy
+(6, 89); -- Souls-like
 
--- Jeu 90: The Surge
--- Genres: Action, Science Fiction, Souls-like
+-- Game 90: The Surge
+-- Genres: Action RPG, Sci-Fi, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(16, 90), -- Action
-(95, 90), -- Science Fiction
-(8, 90); -- Souls-like
+(10, 90), -- Action
+(31, 90), -- RPG
+(47, 90), -- Science Fiction
+(6, 90); -- Souls-like
 
--- Jeu 91: Lords of the Fallen
--- Genres: Action Role-Playing Game (RPG), Fantasy, Souls-like
+-- Game 91: Lords of the Fallen
+-- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 91), -- Action Role-Playing Game (RPG)
+(10, 91), -- Action
+(31, 91), -- RPG
 (2, 91), -- Fantasy
-(8, 91); -- Souls-like
+(6, 91); -- Souls-like
 
--- Jeu 92: Salt and Sanctuary
--- Genres: Action Role-Playing Game (RPG), Metroidvania, Souls-like
+-- Game 92: Salt and Sanctuary
+-- Genres: Action RPG, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 92), -- Action Role-Playing Game (RPG)
-(25, 92), -- Metroidvania
-(8, 92); -- Souls-like
+(10, 92), -- Action
+(31, 92), -- RPG
+(6, 92); -- Souls-like
 
--- Jeu 93: Hollow Knight
--- Genres: Metroidvania, Platformer, Exploration
+-- Game 93: Hollow Knight
+-- Genres: Action, Adventure
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(25, 93), -- Metroidvania
-(76, 93), -- Platformer
-(56, 93); -- Exploration
+(10, 93), -- Action
+(28, 93); -- Adventure
 
--- Jeu 94: Ashen
--- Genres: Action Role-Playing Game (RPG), Open World, Souls-like
+-- Game 94: Ashen
+-- Genres: Action RPG, Open World
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 94), -- Action Role-Playing Game (RPG)
-(1, 94), -- Open World
-(8, 94); -- Souls-like
+(10, 94), -- Action
+(31, 94), -- RPG
+(1, 94); -- Open World
 
--- Jeu 95: Nioh
--- Genres: Action Role-Playing Game (RPG), Feudal Japan, Souls-like
+-- Game 95: Nioh
+-- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 95), -- Action Role-Playing Game (RPG)
-(9, 95), -- Feudal Japan
-(8, 95); -- Souls-like
+(10, 95), -- Action
+(31, 95), -- RPG
+(2, 95), -- Fantasy
+(6, 95); -- Souls-like
 
--- Jeu 96: Remnant: From the Ashes
--- Genres: Action, Co-op, Post-Apocalyptic
+-- Game 96: Remnant: From the Ashes
+-- Genres: Action, Co-op, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(16, 96), -- Action
-(14, 96), -- Co-op
-(10, 96); -- Post-Apocalyptic
+(10, 96), -- Action
+(9, 96), -- Co-op
+(6, 96); -- Souls-like
 
--- Jeu 97: Blasphemous
--- Genres: Action, Metroidvania, Dark Fantasy
+-- Game 97: Blasphemous
+-- Genres: Action
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(16, 97), -- Action
-(25, 97), -- Metroidvania
-(53, 97); -- Dark Fantasy
+(10, 97); -- Action
 
--- Jeu 98: Code Vein
--- Genres: Action Role-Playing Game (RPG), Anime, Post-Apocalyptic
+-- Game 98: Code Vein
+-- Genres: Action RPG, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 98), -- Action Role-Playing Game (RPG)
-(56, 98), -- Anime
-(10, 98); -- Post-Apocalyptic
+(10, 98), -- Action
+(31, 98), -- RPG
+(6, 98); -- Souls-like
 
--- Jeu 99: Mortal Shell
--- Genres: Action Role-Playing Game (RPG), Souls-like, Dark Fantasy
+-- Game 99: Mortal Shell
+-- Genres: Action RPG, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 99), -- Action Role-Playing Game (RPG)
-(8, 99); -- Souls-like
+(10, 99), -- Action
+(31, 99), -- RPG
+(6, 99); -- Souls-like
 
--- Jeu 100: Elden Ring
--- Genres: Action Role-Playing Game (RPG), Open World, Dark Fantasy, Souls-like
+-- Game 100: Elden Ring
+-- Genres: Action RPG, Fantasy, Open World, Souls-like
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(53, 100), -- Action Role-Playing Game (RPG)
+(10, 100), -- Action
+(31, 100), -- RPG
+(2, 100), -- Fantasy
 (1, 100), -- Open World
-(8, 100); -- Souls-like
+(6, 100); -- Souls-like
 
--- Jeu 101: Bloons TD 6
--- Genres: Tower Defense, Strategy, Multiplayer
+-- Game 101: Bloons TD 6
+-- Genres: Strategy, Tower Defense
 INSERT INTO category (genre_id, video_game_id)
 VALUES
-(38, 101), -- Tower Defense
-(32, 101), -- Strategy
-(101, 101); -- Multiplayer
+(35, 101), -- TBS (Turn-Based Strategy)
+(22, 101); -- Tower Defense
 
+-- Game 102: Squewe Run
+-- Genres: Action, Solo
+INSERT INTO category (genre_id, video_game_id)
+VALUES
+(10, 102), -- Action
+(51, 102); -- Solo
 
 INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 1, TRUE, 5, 'Great game!', '2021-01-01');
 INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 2, TRUE, 5, 'Great game!', '2021-01-01');
@@ -2223,3 +2577,183 @@ INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comme
 INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 198, TRUE, 5, 'Great game!', '2021-01-01');
 INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 199, TRUE, 5, 'Great game!', '2021-01-01');
 INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 200, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 201, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 202, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 203, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 204, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 205, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 206, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 207, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 208, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 209, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 210, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 211, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 212, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 213, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 214, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 215, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 216, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 217, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 218, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 219, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 220, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 221, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 222, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 223, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 224, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 225, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 226, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 227, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 228, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 229, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 230, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 231, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 232, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 233, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 234, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 235, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 236, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 237, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 238, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 239, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 240, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 241, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 242, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 243, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 244, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 245, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 246, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 247, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 248, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 249, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 250, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 251, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 252, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 253, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 254, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 255, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 256, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 257, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 258, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 259, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 260, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 261, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 262, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 263, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 264, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 265, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 266, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 267, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 268, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 269, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 270, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 271, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 272, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 273, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 274, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 275, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 276, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 277, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 278, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 279, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 280, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 281, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 282, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 283, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 284, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 285, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 286, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 287, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 288, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 289, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 290, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 291, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 292, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 293, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 294, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 295, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 296, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 297, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 298, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 299, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 300, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 301, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 302, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 303, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 304, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 305, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 306, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 307, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 308, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 309, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 310, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 311, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 312, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 313, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 314, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 315, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 316, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 317, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 318, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 319, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 320, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 321, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 322, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 323, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 324, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 325, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 326, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 327, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 328, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 329, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 330, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 331, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 332, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 333, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 334, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 335, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 336, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 337, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 338, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 339, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 340, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 341, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 342, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 343, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 344, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 345, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 346, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 347, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 348, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 349, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 350, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 351, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 352, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 353, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 354, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 355, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 356, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 357, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 358, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 359, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 360, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 361, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 362, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 363, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 364, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 365, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 366, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 367, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 368, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 369, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 370, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 371, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 372, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 373, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 374, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 375, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 376, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 377, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 378, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 379, TRUE, 5, 'Great game!', '2021-01-01');
+INSERT INTO game (user_id, publication_id, is_owned, review_rating, review_comment, review_date) VALUES (3, 380, TRUE, 5, 'Great game!', '2021-01-01');

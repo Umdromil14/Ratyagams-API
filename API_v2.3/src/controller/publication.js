@@ -42,7 +42,7 @@ const PGErrors = require("../tools/PGErrors");
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -118,7 +118,7 @@ module.exports.createPublication = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Get one or more publications
@@ -127,7 +127,7 @@ module.exports.createPublication = async (req, res) => {
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -143,8 +143,13 @@ module.exports.createPublication = async (req, res) => {
 module.exports.getPublication = async (req, res) => {
     let publicationId, videoGameId, videoGameName, platformCode, getOwnGames;
     try {
-        ({ publicationId, videoGameId, videoGameName, platformCode, getOwnGames: getOwnGames } =
-            validateObject(req.query, publicationToGetSchema));
+        ({
+            publicationId,
+            videoGameId,
+            videoGameName,
+            platformCode,
+            getOwnGames: getOwnGames,
+        } = validateObject(req.query, publicationToGetSchema));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).send(error.message);
         return;
@@ -170,7 +175,7 @@ module.exports.getPublication = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Update a publications
@@ -179,7 +184,7 @@ module.exports.getPublication = async (req, res) => {
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -248,7 +253,7 @@ module.exports.updatePublication = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Delete a publication
@@ -257,7 +262,7 @@ module.exports.updatePublication = async (req, res) => {
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -293,4 +298,4 @@ module.exports.deletePublication = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};

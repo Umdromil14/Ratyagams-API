@@ -7,14 +7,14 @@
  * @returns {Promise<pg.Result>} the result of the query
  */
 module.exports.getUser = async (client, id) => {
-    let query = `SELECT * FROM "user"`;
+    let query = `SELECT (id, username, email, firstname, lastname, is_admin) FROM "user"`;
 
     if (id !== undefined) {
         query += ` WHERE id = $1`;
         return await client.query(query, [id]);
     }
 
-    return await client.query(`SELECT * FROM "user"`);
+    return await client.query(`SELECT (id, username, email, firstname, lastname, is_admin) FROM "user"`);
 }
 
 /**

@@ -20,9 +20,6 @@
  *              lastname:
  *                  type: string
  *                  description: The lastname of the user
- *              hashed_password:
- *                  type: string
- *                  description: The hashed password of the user
  *              is_admin:
  *                  type: boolean
  *                  description: The admin status of the user
@@ -132,6 +129,7 @@ module.exports.login = async (req, res) => {
 
         res.json({ token });
     } catch (error) {
+        console.log(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
@@ -615,6 +613,15 @@ module.exports.getUser = async (req, res) => {
  *
  * @returns {Promise<void>}
  *
+ * @swagger
+ * components:
+ *  responses:
+ *      UserFound:
+ *          description: User/users was/were found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/User'
  */
 module.exports.getUserFromToken = async (req, res) => {
     const { id } = req.session;
@@ -625,8 +632,7 @@ module.exports.getUserFromToken = async (req, res) => {
             blacklistToken(req.headers.authorization.split(" ")[1]); // TODO à voir si on blacklist le token
             res.status(HTTPStatus.NOT_FOUND).send("No user found");
         } else {
-            const { id, username, email, firstname, lastname, is_admin } = users[0];
-            res.json({ id, username, email, firstname, lastname, is_admin });
+            res.json(users[0]);
         }
     } catch (error) {
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(

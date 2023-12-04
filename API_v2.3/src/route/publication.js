@@ -89,7 +89,7 @@ router.get("/", JWTMiddleWare.identification, PublicationController.getPublicati
 
 /**
  * @swagger
- * /publication/{id}:
+ * /publication/{publicationId}:
  *  patch:
  *      tags:
  *          - Publication
@@ -125,7 +125,7 @@ router.patch("/:publicationId", JWTMiddleWare.identification, Authorization.must
 
 /**
  * @swagger
- * /publication/{id}:
+ * /publication/{publicationId}:
  *  delete:
  *      tags:
  *          - Publication

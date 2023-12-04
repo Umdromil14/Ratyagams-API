@@ -29,7 +29,7 @@ module.exports.getGenres = async (client, id) => {
     if (queryConditions.length > 0) {
         query += ` WHERE ${queryConditions}`;
     }
-    return await client.query(query, queryValues);
+    return await client.query(`${query} ORDER BY name ASC`, queryValues);
 }
 
 

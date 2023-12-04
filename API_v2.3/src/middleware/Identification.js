@@ -66,7 +66,7 @@ module.exports.identification = async (req, res, next) => {
             const { data: user } = jwt.verify(token, process.env.JWT_SECRET);
             
             if (!userExists(client, user.id)) {
-                res.status(HTTPStatus.BAD_REQUEST).send("Invalid JWT token");
+                res.status(HTTPStatus.NOT_FOUND).send("User not found");
             } else {
                 req.session = user;
                 next();

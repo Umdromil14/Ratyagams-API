@@ -27,7 +27,7 @@ const { categoryIdsSchema, categorySchema } = require("../zod/schema/category");
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -55,7 +55,9 @@ module.exports.createCategory = async (req, res) => {
     try {
         category = validateObject(req.body, categorySchema);
     } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            message: error.message,
+        });
         return;
     }
     const { genre_id: genreId, video_game_id: videoGameId } = category;
@@ -63,14 +65,18 @@ module.exports.createCategory = async (req, res) => {
     const client = await pool.connect();
     try {
         await CategoryModel.createCategory(client, genreId, videoGameId);
-        res.status(HTTPStatus.CREATED).send("Creation done");
+        res.sendStatus(HTTPStatus.CREATED);
     } catch (error) {
         switch (error.code) {
             case PGErrors.UNIQUE_VIOLATION:
-                res.status(HTTPStatus.CONFLICT).send(error.detail);
+                res.status(HTTPStatus.CONFLICT).json({
+                    message: error.detail,
+                });
                 break;
             case PGErrors.FOREIGN_KEY_VIOLATION:
-                res.status(HTTPStatus.NOT_FOUND).send(error.detail);
+                res.status(HTTPStatus.NOT_FOUND).json({
+                    message: error.detail.replace(/"/g, ""),
+                });
                 break;
             default:
                 res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
@@ -78,7 +84,7 @@ module.exports.createCategory = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Redirect the program to the correct get function
@@ -87,7 +93,7 @@ module.exports.createCategory = async (req, res) => {
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -113,7 +119,7 @@ module.exports.goToGet = async (req, res) => {
     } else {
         getAllCategories(res);
     }
-}
+};
 
 /**
  * Get all the categories
@@ -125,12 +131,15 @@ module.exports.goToGet = async (req, res) => {
 async function getAllCategories(res) {
     const client = await pool.connect();
     try {
-        const { rows: categories } =
-            await CategoryModel.getAllCategories(client);
+        const { rows: categories } = await CategoryModel.getAllCategories(
+            client
+        );
         if (categories.length > 0) {
             res.json(categories);
         } else {
-            res.status(HTTPStatus.NOT_FOUND).send("Categories empty");
+            res.status(HTTPStatus.NOT_FOUND).json({
+                message: "No category found",
+            });
         }
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
@@ -155,7 +164,9 @@ async function getCategory(genreId, videoGameId, res) {
             categoryIdsSchema
         ));
     } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            message: error.message,
+        });
         return;
     }
 
@@ -167,9 +178,9 @@ async function getCategory(genreId, videoGameId, res) {
         if (category !== undefined) {
             res.json(category);
         } else {
-            res.status(HTTPStatus.NOT_FOUND).send(
-                "Category not found for those ids"
-            );
+            res.status(HTTPStatus.NOT_FOUND).json({
+                message: "No category found",
+            });
         }
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
@@ -188,9 +199,14 @@ async function getCategory(genreId, videoGameId, res) {
  */
 async function getCategoriesFromGenre(genreId, res) {
     try {
-        ({ genreId } = validateObject({ genreId }, categoryIdsSchema.partial()));
+        ({ genreId } = validateObject(
+            { genreId },
+            categoryIdsSchema.partial()
+        ));
     } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            message: error.message,
+        });
         return;
     }
 
@@ -203,7 +219,9 @@ async function getCategoriesFromGenre(genreId, res) {
         if (categories.length > 0) {
             res.json(categories);
         } else {
-            res.status(HTTPStatus.NOT_FOUND).send("Id not found");
+            res.status(HTTPStatus.NOT_FOUND).json({
+                message: "No category found",
+            });
         }
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
@@ -227,7 +245,9 @@ async function getCategoriesFromVideoGame(videoGameId, res) {
             categoryIdsSchema.partial()
         ));
     } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            message: error.message,
+        });
         return;
     }
 
@@ -238,7 +258,9 @@ async function getCategoriesFromVideoGame(videoGameId, res) {
         if (categories[0] !== undefined) {
             res.json(categories);
         } else {
-            res.status(HTTPStatus.NOT_FOUND).send("Id not found");
+            res.status(HTTPStatus.NOT_FOUND).json({
+                message: "No category found",
+            });
         }
     } catch (error) {
         console.error(error);
@@ -255,7 +277,7 @@ async function getCategoriesFromVideoGame(videoGameId, res) {
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -284,12 +306,16 @@ module.exports.updateCategory = async (req, res) => {
         ));
         updateValues = validateObject(req.body, categorySchema.partial());
     } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            message: error.message,
+        });
         return;
     }
 
     if (Object.keys(updateValues).length === 0) {
-        res.status(HTTPStatus.BAD_REQUEST).send("No values to update");
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            message: "No value to update",
+        });
         return;
     }
 
@@ -305,15 +331,21 @@ module.exports.updateCategory = async (req, res) => {
         if (rowCount) {
             res.sendStatus(HTTPStatus.NO_CONTENT);
         } else {
-            res.status(HTTPStatus.NOT_FOUND).send("Category not found");
+            res.status(HTTPStatus.NOT_FOUND).json({
+                message: "No category found",
+            });
         }
     } catch (error) {
         switch (error.code) {
             case PGErrors.FOREIGN_KEY_VIOLATION:
-                res.status(HTTPStatus.NOT_FOUND).send(error.detail);
+                res.status(HTTPStatus.NOT_FOUND).json({
+                    message: error.detail.replace(/"/g, ""),
+                });
                 break;
             case PGErrors.UNIQUE_VIOLATION:
-                res.status(HTTPStatus.CONFLICT).send(error.detail);
+                res.status(HTTPStatus.CONFLICT).json({
+                    message: error.detail,
+                });
                 break;
             default:
                 res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
@@ -321,7 +353,7 @@ module.exports.updateCategory = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Delete a category
@@ -330,7 +362,7 @@ module.exports.updateCategory = async (req, res) => {
  * @param {Response} res
  *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -345,7 +377,9 @@ module.exports.deleteCategory = async (req, res) => {
             categoryIdsSchema
         ));
     } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).send(error.message);
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            message: error.message,
+        });
         return;
     }
 
@@ -359,13 +393,13 @@ module.exports.deleteCategory = async (req, res) => {
         if (rowCount) {
             res.sendStatus(HTTPStatus.NO_CONTENT);
         } else {
-            res.status(HTTPStatus.NOT_FOUND).send(
-                "Id not found for one or more"
-            );
+            res.status(HTTPStatus.NOT_FOUND).json({
+                message: "No category found",
+            });
         }
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
     }
-}
+};

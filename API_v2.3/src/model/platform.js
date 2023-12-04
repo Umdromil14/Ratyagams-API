@@ -32,7 +32,7 @@ module.exports.getPlatforms = async (client, code) => {
         query += ` WHERE code = $1`;
     }
 
-    return await client.query(query, values);
+    return await client.query(`${query} ORDER BY description`, values);
 }
 
 /**
