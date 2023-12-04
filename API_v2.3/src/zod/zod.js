@@ -15,14 +15,8 @@ module.exports.validateObject = (object, schema) => {
     if (!result.success) {
         throw new Error(
             result.error.issues
-                .map(
-                    (issue) =>
-                        `${issue.path.join(".")}: ${issue.message.replace(
-                            /,/g,
-                            ""
-                        )}`
-                )
-                .join(", ")
+                .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+                .join("; ")
         );
     }
     return result.data;
