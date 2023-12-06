@@ -5969,7 +5969,7 @@ VALUES
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (10 ,46),
+    (10, 46),
     -- Action
     (31, 46),
     -- RPG
@@ -5986,7 +5986,7 @@ VALUES
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (28,47),
+    (28, 47),
     -- Adventure
     (31, 47),
     -- RPG
@@ -6009,8 +6009,6 @@ VALUES
     -- Open-world
     (2, 48),
     -- Fantasy
-    (9,48),
-    -- Co-op
     (10, 48),
     -- Action
     (21, 48),
@@ -6090,8 +6088,8 @@ VALUES
     (50, 53),
     -- Multiplayer
     (34, 53);
-    -- RTS
 
+-- RTS
 -- Game 54: Apex Legends
 -- Genres: Battle Royale, FPS
 INSERT INTO
@@ -6125,9 +6123,9 @@ VALUES
     -- Battle Royale
     (11, 56),
     -- FPS
-    (32,56),
+    (32, 56),
     -- War
-    (10,56),
+    (10, 56),
     -- Action
     (50, 56);
 
@@ -6141,7 +6139,7 @@ VALUES
     -- Battle Royale
     (10, 57),
     -- Action
-    (12,57),
+    (12, 57),
     -- TPS
     (50, 57);
 
@@ -6166,25 +6164,23 @@ VALUES
     (11, 59),
     -- FPS
     (50, 59);
-    -- Multiplayer
 
+-- Multiplayer
 -- Game 60: Destiny 2
 -- Genres: FPS, Action, MMO
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (1,60),
+    (1, 60),
     -- Open-world
-    (10,60),
+    (10, 60),
     -- Action
-    (27,60),
+    (27, 60),
     -- Action-Adventure
-    (28,60),
+    (28, 60),
     -- Adventure
     (11, 60),
     -- FPS
-    (10, 60),
-    -- Action
     (50, 60);
 
 -- Multiplayer
@@ -6198,9 +6194,8 @@ VALUES
     (10, 61),
     -- Action
     (50, 61);
-    -- Multiplayer
 
-
+-- Multiplayer
 -- Game 62: Rocket League
 -- Genres: Sports, Action
 INSERT INTO
@@ -6211,9 +6206,8 @@ VALUES
     (10, 62),
     -- Action
     (50, 62);
-    -- Multiplayer
 
-
+-- Multiplayer
 -- Game 63: Sea of Thieves
 -- Genres: Action-Adventure, Open World, Pirate
 INSERT INTO
@@ -6230,27 +6224,26 @@ VALUES
     (26, 63),
     -- Pirate
     (50, 63);
-    -- Multiplayer
 
+-- Multiplayer
 -- Game 64: World of Warcraft
 -- Genres: MMORPG, Fantasy
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (1,64),
+    (1, 64),
     -- Open-world
-    (10,64),
+    (10, 64),
     -- Action
-    (27,64),
+    (27, 64),
     -- Action-Adventure
-    (28,64),
+    (28, 64),
     -- Adventure
     (33, 64),
     -- MMORPG
     (2, 64);
-    -- Fantasy
 
-
+-- Fantasy
 -- Game 65: Dead by Daylight
 -- Genres: Survival Horror, multiplayer
 INSERT INTO
@@ -6258,15 +6251,15 @@ INSERT INTO
 VALUES
     (8, 65),
     -- Horror
-    (14,65),
+    (14, 65),
     -- Survival
     (46, 65),
     -- Survival Horror
     (50, 65),
     -- Multiplayer
     (9, 65);
-    -- Co-op
 
+-- Co-op
 -- Game 66: Phasmophobia
 -- Genres: Horror, Co-op
 INSERT INTO
@@ -6276,30 +6269,30 @@ VALUES
     -- Horror
     (9, 66),
     -- Co-op
-    (49,66),
+    (49, 66),
     -- VR
     (50, 66);
-    -- Multiplayer
 
+-- Multiplayer
 -- Co-op
 -- Game 67: The Sims 4
 -- Genres: Simulation
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (18, 67)
+    (18, 67),
     -- Simulation
-    (23,67),
+    (23, 67),
     -- Building
     (51, 67);
-    -- Solo
 
+-- Solo
 -- Game 68: Rust
 -- Genres: Survival, Action
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (1,68),
+    (1, 68),
     -- Open-world
     -- Action
     (27, 68),
@@ -6311,8 +6304,8 @@ VALUES
     (10, 68),
     -- Action
     (50, 68);
-    -- Multiplayer
 
+-- Multiplayer
 -- Action
 -- Game 69: RuneScape
 -- Genres: MMORPG, Fantasy
@@ -6326,9 +6319,8 @@ VALUES
     (33, 69),
     -- MMORPG
     (2, 69);
-    -- Fantasy
 
-
+-- Fantasy
 -- Game 70: Path of Exile
 -- Genres: Action RPG, Hack and Slash
 INSERT INTO
@@ -6341,9 +6333,8 @@ VALUES
     (33, 70),
     -- MMORPG
     (2, 70);
-    -- Fantasy
 
-
+-- Fantasy
 -- Game 71: World of Tanks
 -- Genres: MMO, Action
 INSERT INTO
@@ -6351,26 +6342,25 @@ INSERT INTO
 VALUES
     (50, 71),
     -- Multiplayer
-    (18,71),
+    (18, 71),
     -- Simulation
     (10, 71);
-    -- Action
 
-
+-- Action
 -- Game 72: Warframe
 -- Genres: Action, Co-op, MMO
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (31,72),
+    (31, 72),
     -- RPG
     (10, 72),
     -- Action
     (9, 72),
     -- Co-op
     (50, 72);
-    -- Multiplayer
 
+-- Multiplayer
 -- Game 73: Team Fortress 2
 -- Genres: FPS, Action
 INSERT INTO
@@ -6381,8 +6371,8 @@ VALUES
     (10, 73),
     -- Action
     (50, 73);
-    -- Multiplayer
 
+-- Multiplayer
 -- Game 74: Dota 2
 -- Genres: MOBA, RTS
 INSERT INTO
@@ -6393,8 +6383,8 @@ VALUES
     (34, 74),
     -- RTS
     (50, 74);
-    -- Multiplayer
 
+-- Multiplayer
 -- Game 75: Smite
 -- Genres: MOBA
 INSERT INTO
@@ -6405,27 +6395,26 @@ VALUES
     (34, 75),
     -- RTS
     (50, 75);
-    -- Multiplayer
 
-
+-- Multiplayer
 -- Game 76: Guild Wars 2
 -- Genres: MMORPG, Fantasy
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (31,76),
+    (31, 76),
     -- RPG
     (33, 76),
     -- MMORPG
-    (10,76),
+    (10, 76),
     -- Action
     (27, 76),
     -- Action-Adventure
     (28, 76),
     -- Adventure
     (2, 76);
-    -- Fantasy
 
+-- Fantasy
 -- Game 77: Arma 3
 -- Genres: Military Simulation, FPS
 INSERT INTO
@@ -6438,8 +6427,8 @@ VALUES
     (32, 77),
     -- War
     (50, 77);
-    -- Multiplayer
 
+-- Multiplayer
 -- Game 78: Outlast
 -- Genres: Horror, Survival
 INSERT INTO
@@ -6447,7 +6436,7 @@ INSERT INTO
 VALUES
     (8, 78),
     -- Horror
-    (10,77),
+    (10, 78),
     -- Action
     (27, 78),
     -- Action-Adventure
@@ -6455,11 +6444,11 @@ VALUES
     -- Adventure
     (14, 78),
     -- Survival
-    (46,78),
+    (46, 78),
     -- Survival Horror
     (50, 78);
-    -- Multiplayer
 
+-- Multiplayer
 -- Game 79: The Forest
 -- Genres: Survival, Horror
 INSERT INTO
@@ -6467,26 +6456,21 @@ INSERT INTO
 VALUES
     (8, 79),
     -- Horror
-    (9,79),
+    (9, 79),
     -- Co-op
     (14, 79),
     -- Survival
     (46, 79),
     -- Survival Horror
-    (50, 79),
-    -- Multiplayer
     (10, 79),
     -- Action
     (27, 79),
     -- Action-Adventure
     (28, 79),
     -- Adventure
-    (8, 79),
-    -- Horror
     (50, 79);
-    -- Multiplayer
 
-
+-- Multiplayer
 -- Game 80: Left 4 Dead 2
 -- Genres: FPS, Action, Co-op
 INSERT INTO
@@ -6496,7 +6480,7 @@ VALUES
     -- FPS
     (10, 80),
     -- Action
-    (50,80),
+    (50, 80),
     -- Multiplayer
     (9, 80);
 
@@ -6510,14 +6494,13 @@ VALUES
     -- Horror
     (28, 81),
     -- Adventure
-    (27,81),
+    (27, 81),
     -- Action-Adventure
-    (51, 81);
-    -- Solo
+    (51, 81),
+    -- solo
     (10, 81);
-    -- Action
 
-
+-- Action
 -- Game 82: Alien: Isolation
 -- Genres: Horror, Survival
 INSERT INTO
@@ -6551,8 +6534,8 @@ VALUES
     (27, 83),
     -- Action-Adventure
     (28, 83);
-    -- Adventure
 
+-- Adventure
 -- Game 84: The Evil Within
 -- Genres: Horror, Survival
 INSERT INTO
@@ -6567,8 +6550,8 @@ VALUES
     (51, 84),
     -- Solo
     (10, 84);
-    -- Action
 
+-- Action
 -- Game 85: Dead Space
 -- Genres: Horror, Survival
 INSERT INTO
@@ -6576,7 +6559,7 @@ INSERT INTO
 VALUES
     (8, 85),
     -- Horror
-    (12,85),
+    (12, 85),
     -- TPS
     (14, 85),
     -- Survival
@@ -6589,8 +6572,8 @@ VALUES
     (27, 85),
     -- Action-Adventure
     (28, 85);
-    -- Adventure
 
+-- Adventure
 -- Game 86: Dark Souls
 -- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO
@@ -6602,8 +6585,6 @@ VALUES
     -- RPG
     (2, 86),
     -- Fantasy
-    (10,86),
-    -- Action
     (27, 86),
     -- Action-Adventure
     (28, 86),
@@ -6611,20 +6592,18 @@ VALUES
     (6, 86),
     -- Souls-like
     (51, 86);
-    -- Solo
 
+-- Solo
 -- Game 87: Dark Souls II
 -- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (10, 87),
-    -- Action
     (31, 87),
     -- RPG
     (2, 87),
     -- Fantasy
-    (10,87),
+    (10, 87),
     -- Action
     (27, 87),
     -- Action-Adventure
@@ -6633,21 +6612,19 @@ VALUES
     (6, 87),
     -- Souls-like
     (51, 87);
-    -- Solo
 
+-- Solo
 -- Souls-like
 -- Game 88: Dark Souls III
 -- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (10, 88),
-    -- Action
     (31, 88),
     -- RPG
     (2, 88),
     -- Fantasy
-    (10,88),
+    (10, 88),
     -- Action
     (27, 88),
     -- Action-Adventure
@@ -6656,22 +6633,20 @@ VALUES
     (6, 88),
     -- Souls-like
     (51, 88);
-    -- Solo
 
+-- Solo
 -- Game 89: Bloodborne
 -- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (1,89),
+    (1, 89),
     -- Open-world
-    (10, 89),
-    -- Action
     (31, 89),
     -- RPG
     (2, 89),
     -- Fantasy
-    (10,89),
+    (10, 89),
     -- Action
     (27, 89),
     -- Action-Adventure
@@ -6680,8 +6655,8 @@ VALUES
     (6, 89),
     -- Souls-like
     (51, 89);
-    -- Solo
 
+-- Solo
 -- Souls-like
 -- Game 90: The Surge
 -- Genres: Action RPG, Sci-Fi, Souls-like
@@ -6694,35 +6669,31 @@ VALUES
     -- RPG
     (2, 90),
     -- Fantasy
-    (10,90),
-    -- Action
     (27, 90),
     -- Action-Adventure
     (28, 90),
     -- Adventure
     (6, 90),
     -- Souls-like
-    (51, 90)
+    (51, 90),
     -- Solo
     (47, 90);
-    -- Science Fiction
 
+-- Science Fiction
 -- Game 91: Lords of the Fallen
 -- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (1,91),
+    (1, 91),
     -- Open-world
     (8, 91),
     -- Co-op
-    (10, 91),
-    -- Action
     (31, 91),
     -- RPG
     (2, 91),
     -- Fantasy
-    (10,91),
+    (10, 91),
     -- Action
     (27, 91),
     -- Action-Adventure
@@ -6730,10 +6701,9 @@ VALUES
     -- Adventure
     (6, 91),
     -- Souls-like
-    (51, 91)
-    -- Solo
+    (51, 91);
 
--- Souls-like
+-- Solo
 -- Game 92: Salt and Sanctuary
 -- Genres: Action RPG, Souls-like
 INSERT INTO
@@ -6750,8 +6720,8 @@ VALUES
     (51, 92),
     -- Solo
     (16, 92);
-    -- Metroidvania
 
+-- Metroidvania
 -- Game 93: Hollow Knight
 -- Genres: Action, Adventure
 INSERT INTO
@@ -6759,7 +6729,7 @@ INSERT INTO
 VALUES
     (10, 93),
     -- Action
-    (16,93),
+    (16, 93),
     -- Metroidvania
     (27, 93),
     -- Action-Adventure
@@ -6768,8 +6738,8 @@ VALUES
     (6, 93),
     -- Souls-like
     (51, 93);
-    -- Solo
 
+-- Solo
 -- Game 94: Ashen
 -- Genres: Action RPG, Open World
 INSERT INTO
@@ -6788,9 +6758,8 @@ VALUES
     (27, 94),
     -- Adventure
     (51, 94);
-    -- Solo
 
-
+-- Solo
 -- Game 95: Nioh
 -- Genres: Action RPG, Fantasy, Souls-like
 INSERT INTO
@@ -6804,11 +6773,9 @@ VALUES
     -- Souls-like
     (28, 95),
     -- Action-Adventure
-    (51, 95),
-    -- Solo
+    (51, 95);
 
-
--- Souls-like
+-- Solo
 -- Game 96: Remnant: From the Ashes
 -- Genres: Action, Co-op, Souls-like
 INSERT INTO
@@ -6827,9 +6794,8 @@ VALUES
     (6, 96),
     -- Souls-like
     (51, 96);
-    -- Solo
 
-
+-- Solo
 -- Game 97: Blasphemous
 -- Genres: Action
 INSERT INTO
@@ -6846,8 +6812,8 @@ VALUES
     (51, 97),
     -- Solo
     (16, 97);
-    -- Metroidvania
 
+-- Metroidvania
 -- Game 98: Code Vein
 -- Genres: Action RPG, Souls-like
 INSERT INTO
@@ -6875,15 +6841,14 @@ VALUES
     (27, 99),
     -- Adventure
     (51, 99);
-    -- Solo
 
-
+-- Solo
 -- Game 100: Elden Ring
 -- Genres: Action RPG, Fantasy, Open World, Souls-like
 INSERT INTO
     category (genre_id, video_game_id)
 VALUES
-    (9,100),
+    (9, 100),
     -- Co-op
     (51, 100),
     -- Solo
@@ -6900,8 +6865,8 @@ VALUES
     (1, 100),
     -- Open World
     (6, 100);
-    -- Souls-like
 
+-- Souls-like
 -- Game 101: Bloons TD 6
 -- Genres: Strategy, Tower Defense
 INSERT INTO
@@ -6914,8 +6879,8 @@ VALUES
     (50, 101),
     -- Multiplayer
     (51, 101);
-    -- Solo
 
+-- Solo
 -- Game 102: Squewe Run
 -- Genres: Action, Solo
 INSERT INTO
@@ -6924,8 +6889,8 @@ VALUES
     (10, 102),
     -- Action
     (51, 102);
-    -- Solo
-    
+
+-- Solo
 INSERT INTO
     game (
         user_id,
