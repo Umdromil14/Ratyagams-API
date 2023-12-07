@@ -163,6 +163,47 @@ module.exports.getGamePagination = async (req, res) => {
 };
 
 /**
+ * Get the number of games
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * @swagger
+ * components:
+ *  responses:
+ *      GamesCount:
+ *          description: The number of games
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: integer
+ *                      properties:
+ *                          no:
+ *                              type: integer
+ *                              description: The number of categories
+
+ */
+module.exports.getGameCount = async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rows: games } = await GameModel.getGamesCount(client);
+        if (games.length === 0) {
+            res.status(HTTPStatus.NOT_FOUND).json({
+                code: "RESOURCE_NOT_FOUND",
+                message: "No games found",
+            });
+        } else {
+            res.json(games[0].no);
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+};
+
+/**
  * Create a new game
  *
  * @param {Object} game the values of the game

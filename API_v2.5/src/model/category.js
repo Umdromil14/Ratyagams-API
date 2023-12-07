@@ -172,3 +172,14 @@ module.exports.getCategoriesWithPagination = async (client, page, limit) => {
     const offset = (page - 1) * limit;
     return await client.query(`SELECT * FROM category LIMIT $1 OFFSET $2`, [limit, offset]);
 }
+
+/**
+ * Get the number of categories
+ * 
+ * @param {pg.Pool} client the postgres client
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
+module.exports.getCategoriesCount = async (client) => {
+    return await client.query(`SELECT count(*) AS no FROM category`);
+}

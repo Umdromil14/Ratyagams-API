@@ -73,6 +73,26 @@ module.exports.getPlatform = async (req, res) => {
     }
 };
 
+/**
+ * Get platforms with pagination
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * 
+ * @swagger
+ * components:
+ *  responses:
+ *      PlatformsFound:
+ *          description: Platforms were found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                          $ref: '#/components/schemas/Platform'
+ */ 
 module.exports.getPlatformsWithPagination = async (req, res) => {
     let page, limit;
     try {
@@ -99,6 +119,49 @@ module.exports.getPlatformsWithPagination = async (req, res) => {
             });
         } else {
             res.json(platforms);
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+};
+
+
+/**
+ * Get the number of platforms
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * @swagger
+ * components:
+ *  responses:
+ *      PlatformsCount:
+ *          description: The number of platforms
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: integer
+ *                      properties:
+ *                          no:
+ *                              type: integer
+ *                              description: The number of platforms
+ */
+module.exports.getPlatformsCount = async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rows: platforms } = await PlatformModel.getPlatformsCount(
+            client
+        );
+        if (platforms.length === 0) {
+            res.status(HTTPStatus.NOT_FOUND).json({
+                code: "RESOURCE_NOT_FOUND",
+                message: "No platforms found",
+            });
+        } else {
+            res.json(platforms[0].no);
         }
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);

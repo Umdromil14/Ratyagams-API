@@ -235,6 +235,47 @@ module.exports.getPublicationPagination = async (req, res) => {
 };
 
 /**
+ * Get the number of publications
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * 
+ * @swagger
+ * components:
+ *  responses:
+ *      PublicationCount:
+ *          description: The number of publications
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: integer
+ *                      properties:
+ *                          no:
+ *                              type: integer
+ *                              description: The number of publications
+ */
+module.exports.getPublicationCount = async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rows: publications } = await PublicationModel.getPublicationCount(client);
+        if (publications.length === 0) {
+            res.status(HTTPStatus.NOT_FOUND).json({
+                code: "RESOURCE_NOT_FOUND",
+                message: "No publications found",
+            });
+        } else {
+            res.json(publications[0].no);
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+}
+
+/**
  * Update a publications
  *
  * @param {Request} req

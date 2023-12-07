@@ -138,6 +138,31 @@ router.get("/pagination", JWTMiddleWare.identification, AuthoMiddleware.mustBeAd
 
 /**
  * @swagger
+ * /game/count:
+ *  get:
+ *      tags:
+ *          - Game
+ *      description: Get the number of games
+ *      security:
+ *          - bearerAuth: []
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/GamesCount'
+ *          400:
+ *              description: INVALID_JWT
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
+ *          404:
+ *              description: RESOURCE_NOT_FOUND or JWT_DEPRECATED
+ *          500:
+ *              description: Internal server error
+ */
+router.get("/count", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameController.getGameCount);
+
+/**
+ * @swagger
  * /game/user:
  *  get:
  *      tags:

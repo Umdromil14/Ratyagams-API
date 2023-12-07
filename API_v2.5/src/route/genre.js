@@ -91,6 +91,25 @@ router.get("/", GenreController.getGenres);
  */
 router.get("/pagination", GenreController.getGenresPagination);
 
+
+/**
+ * @swagger
+ * /genre/count:
+ *  get:
+ *      tags:
+ *          - Genre
+ *      description: Get number of genres
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/GenresCount'
+ *          404:
+ *              description: RESOURCE_NOT_FOUND
+ *          500:
+ *              description: Internal server error
+ */
+router.get("/count", GenreController.getGenresCount);
+
+
 /**
  * @swagger
  * /genre/{id}:

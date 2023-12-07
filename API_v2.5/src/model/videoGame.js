@@ -126,3 +126,14 @@ module.exports.getVideoGamesPagination = async (client, page, limit) => {
         [limit, offset]
     );
 }
+
+/**
+ * Get the number of video games
+ * 
+ * @param {pg.Pool} client the postgres client
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
+module.exports.getVideoGameCount = async (client) => {
+    return await client.query(`SELECT COUNT(*) AS no FROM video_game`);
+}

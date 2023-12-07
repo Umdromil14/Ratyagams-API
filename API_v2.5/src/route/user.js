@@ -166,6 +166,31 @@ router.get('/pagination', JWTMiddleWare.identification, AuthoMiddleware.mustBeAd
 
 /**
  * @swagger
+ * /user/count/:
+ *  get:
+ *      tags:
+ *          - User
+ *      description: Get the number of users
+ *      security:
+ *          - bearerAuth: []
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/UserCount'
+ *          400:
+ *              $ref: '#/components/responses/ErrorJWT'
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          403:
+ *              $ref: '#/components/responses/MustBeAdmin'
+ *          404:
+ *              description: RESOURCE_NOT_FOUND or JWT_DEPRECATED
+ *          500:
+ *              description: Internal server error
+ */
+router.get('/count', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.getUserCount);
+
+/**
+ * @swagger
  * /user/{userId}:
  *  patch:
  *      tags:

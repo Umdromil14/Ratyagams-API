@@ -123,6 +123,29 @@ router.get("/", JWTMiddleWare.identification, PublicationController.getPublicati
  */
 router.get("/pagination", JWTMiddleWare.identification, PublicationController.getPublicationPagination);
 
+/**
+ * @swagger
+ * /publication/count:
+ *  get:
+ *      tags:
+ *          - Publication
+ *      description: Get number of publications
+ *      security:
+ *          - bearerAuth: []
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/PublicationCount'
+ *          400:
+ *              description: INVALID_JWT
+ *          401:
+ *              $ref: '#/components/responses/MissingJWT'
+ *          404:
+ *              description: RESOURCE_NOT_FOUND or JWT_DEPRECATED
+ *          500:
+ *              description: Internal server error
+ */
+router.get("/count", JWTMiddleWare.identification, PublicationController.getPublicationCount);
+
 
 /**
  * @swagger

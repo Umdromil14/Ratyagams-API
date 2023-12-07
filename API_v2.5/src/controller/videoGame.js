@@ -47,7 +47,6 @@ const { validateObject } = require("../zod/zod");
  *              application/json:
  *                  schema:
  *                      $ref: '#/components/schemas/VideoGame'
-
  */
 module.exports.getVideoGame = async (req, res) => {
     let id, name;
@@ -83,6 +82,14 @@ module.exports.getVideoGame = async (req, res) => {
     }
 };
 
+/**
+ * Get video games with pagination
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ */
 module.exports.getVideoGamePagination = async (req, res) => {
     let page, limit;
     try {
@@ -110,6 +117,46 @@ module.exports.getVideoGamePagination = async (req, res) => {
             return;
         }
         res.json(videoGames);
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+}
+
+/**
+ * Get the number of video games
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * @swagger
+ * components:
+ *  responses:
+ *      VideoGameCount:
+ *          description: The number of video games
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: integer
+ *                      properties:
+ *                          no:
+ *                              type: integer
+ *                              description: The number of video games
+ */
+module.exports.getVideoGameCount = async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rows: videoGames } = await VideoGameModel.getVideoGameCount(client);
+        if (videoGames.length === 0) {
+            res.status(HTTPStatus.NOT_FOUND).json({
+                code: "RESOURCE_NOT_FOUND",
+                message: "No video game found",
+            });
+            return;
+        }
+        res.json(videoGames[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {

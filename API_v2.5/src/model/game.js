@@ -63,6 +63,17 @@ module.exports.getGamesPagination = async (client, page, limit) => {
 }
 
 /**
+ * Get the number of games
+ * 
+ * @param {pg.Pool} client the postgres client
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
+module.exports.getGamesCount = async (client) => {
+    return await client.query(`SELECT COUNT(*) AS no FROM game`);
+}
+
+/**
  * Update a game
  * 
  * @param {pg.Pool} client the postgres client

@@ -289,6 +289,17 @@ async function getCategoriesFromVideoGame(videoGameId, res) {
  * 
  * @returns {Promise<void>}
  *
+ * @swagger
+ * components:
+ *  responses:
+ *      CategoryFound:
+ *          description: Category(ies) was(were) found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                          $ref: '#/components/schemas/Category'
  */
 module.exports.getCategoriesWithPagination = async (req, res) => {
     let page, limit;
@@ -307,6 +318,49 @@ module.exports.getCategoriesWithPagination = async (req, res) => {
             await CategoryModel.getCategoriesWithPagination(client, page, limit);
         if (categories.length > 0) {
             res.json(categories);
+        } else {
+            res.status(HTTPStatus.NOT_FOUND).json({
+                code: "RESOURCE_NOT_FOUND",
+                message: "No category found",
+            });
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Get the number of categories
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * 
+ * @swagger
+ * components:
+ *  responses:
+ *      CategoryCount:
+ *          description: The number of categories
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: integer
+ *                      properties:
+ *                          no:
+ *                              type: integer
+ *                              description: The number of categories
+*/
+module.exports.getCategoriesCount = async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rows: categories } = await CategoryModel.getCategoriesCount(
+            client
+        );
+        if (categories.length > 0) {
+            res.json(categories[0].no);
         } else {
             res.status(HTTPStatus.NOT_FOUND).json({
                 code: "RESOURCE_NOT_FOUND",

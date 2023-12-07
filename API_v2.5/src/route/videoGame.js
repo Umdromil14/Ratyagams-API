@@ -42,7 +42,7 @@ router.get("/", VideoGameController.getVideoGame);
  *  get:
  *      tags:
  *          - VideoGame
- *      description: Get all video games or video games by name or id
+ *      description: Get a video game with pagination
  *      parameters:
  *          - name: page
  *            description: the chosen page
@@ -67,6 +67,23 @@ router.get("/", VideoGameController.getVideoGame);
  *              description: Internal server error
  */
 router.get("/pagination", VideoGameController.getVideoGamePagination);
+
+/**
+ * @swagger
+ * /videoGame/count:
+ *  get:
+ *      tags:
+ *          - VideoGame
+ *      description: Get the number of video games
+ *      responses : 
+ *          200:
+ *              $ref: '#/components/responses/VideoGameCount'
+ *          404:
+ *              description: RESOURCE_NOT_FOUND
+ *          500:
+ *              description: Internal server error
+ */
+router.get("/count", VideoGameController.getVideoGameCount);
 
 /**
  * @swagger

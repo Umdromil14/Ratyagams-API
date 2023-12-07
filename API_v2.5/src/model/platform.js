@@ -1,26 +1,31 @@
 /**
  * Create a platform
- * 
+ *
  * @param {pg.Pool} client the postgres client
  * @param {string} code the code of the platform
  * @param {string} description the description of the platform
  * @param {string} abbreviation the abbreviation of the platform
- * 
+ *
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.createPlatform = async (client, code, description, abbreviation) => {
+module.exports.createPlatform = async (
+    client,
+    code,
+    description,
+    abbreviation
+) => {
     return await client.query(
         `INSERT INTO platform (code, description, abbreviation) VALUES ($1, $2, $3)`,
         [code, description, abbreviation]
     );
-}
+};
 
 /**
  * Get platforms
- * 
+ *
  * @param {pg.Pool} client the postgres client
  * @param {string=} code the code of the platform; if `undefined`, all platforms will be returned
- * 
+ *
  * @returns {Promise<pg.Result>} the result of the query
  */
 module.exports.getPlatforms = async (client, code) => {
@@ -33,20 +38,20 @@ module.exports.getPlatforms = async (client, code) => {
     }
 
     return await client.query(`${query} ORDER BY description`, values);
-}
+};
 
 /**
  * Update a platform
- * 
+ *
  * @param {pg.Pool} client the postgres client
  * @param {string} code the code of the platform to update
  * @param {Object} updateValues the values to update
  * @param {string=} updateValues.code if undefined, the code won't be updated
  * @param {string=} updateValues.description if undefined, the description won't be updated
  * @param {string=} updateValues.abbreviation if undefined, the abbreviation won't be updated
- * 
+ *
  * @returns {Promise<pg.Result>} the result of the query
- * 
+ *
  * @throws {Error} if no values to update
  */
 module.exports.updatePlatform = async (client, code, updateValues) => {
@@ -73,7 +78,7 @@ module.exports.updatePlatform = async (client, code, updateValues) => {
     }
 
     if (values.length === 0) {
-        throw new Error('No values to update');
+        throw new Error("No values to update");
     }
 
     query = query.slice(0, -2);
@@ -81,29 +86,26 @@ module.exports.updatePlatform = async (client, code, updateValues) => {
     values.push(code);
 
     return await client.query(query, values);
-}
+};
 
 /**
  * Delete a platform
- * 
+ *
  * @param {pg.Pool} client the postgres client
  * @param {string} code the code of the platform
- * 
+ *
  * @returns {Promise<pg.Result>} the result of the query
  */
 module.exports.deletePlatform = async (client, code) => {
-    return await client.query(
-        `DELETE FROM platform WHERE code = $1`,
-        [code]
-    );
-}
+    return await client.query(`DELETE FROM platform WHERE code = $1`, [code]);
+};
 
 /**
  * Check if a platform exists
- * 
+ *
  * @param {pg.Pool} client the postgres client
  * @param {string} code the code of the platform
- * 
+ *
  * @returns {Promise<boolean>} `true` if the platform exists, `false` otherwise
  */
 module.exports.platformExists = async (client, code) => {
@@ -112,21 +114,32 @@ module.exports.platformExists = async (client, code) => {
         [code]
     );
     return rows[0].no > 0;
-}
+};
 
 /**
  * Get platforms with pagination
- * 
+ *
  * @param {pg.Pool} client the postgres client
  * @param {number} page the page number
  * @param {number} limit the limit of platforms per page
- * 
+ *
  * @returns {Promise<pg.Result>} the result of the query
  */
 module.exports.getPlatformsPagination = async (client, page, limit) => {
     const offset = (page - 1) * limit;
-    return await client.query(
-        `SELECT * FROM platform LIMIT $1 OFFSET $2`,
-        [limit, offset]
-    );
-}
+    return await client.query(`SELECT * FROM platform LIMIT $1 OFFSET $2`, [
+        limit,
+        offset,
+    ]);
+};
+
+/**
+ * Get number of platforms
+ *
+ * @param {pg.Pool} client the postgres client
+ *
+ * @returns {Promise<pg.Result>} the result of the query
+ */
+module.exports.getPlatformsCount = async (client) => {
+    return await client.query(`SELECT count(*) AS no FROM platform`);
+};

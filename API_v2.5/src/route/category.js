@@ -99,6 +99,23 @@ router.get("/pagination", CategoryController.getCategoriesWithPagination);
 
 /**
  * @swagger
+ * /category/count:
+ *  get:
+ *      tags:
+ *          - Category
+ *      description: Get the number of categories
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/CategoryCount'
+ *          404:
+ *              description: RESOURCE_NOT_FOUND
+ *          500:
+ *              description: Internal server error
+ */
+router.get("/count", CategoryController.getCategoriesCount);
+
+/**
+ * @swagger
  * /category/{genreId}/{videoGameId}:
  *  patch:
  *      tags:

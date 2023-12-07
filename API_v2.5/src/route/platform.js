@@ -60,6 +60,24 @@ router.get('/pagination', PlatformController.getPlatformsWithPagination);
 
 /**
  * @swagger
+ * /platform/count:
+ *  get:
+ *      tags:
+ *          - Platform
+ *      description: get the number of platforms
+ *      responses:
+ *          200:
+ *              $ref: '#/components/responses/PlatformsCount'
+ *          404:
+ *              description: RESOURCE_NOT_FOUND
+ *          500:
+ *              description: Internal server error
+ */
+router.get('/count', PlatformController.getPlatformsCount);
+
+
+/**
+ * @swagger
  * /platform:
  *  post:
  *      tags:

@@ -178,6 +178,48 @@ module.exports.getGenresPagination = async (req, res) => {
     }
 };
 
+
+/**
+ * Get number of genres
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * 
+ * @swagger
+ * components:
+ *  responses:
+ *      GenresCount:
+ *          description: The number of genres
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: integer
+ *                      properties:
+ *                          no:
+ *                              type: integer
+ *                              description: The number of genres
+ */
+module.exports.getGenresCount = async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rows: genres } = await GenreModel.getGenresCount(client);
+        if (genres.length === 0) {
+            res.status(HTTPStatus.NOT_FOUND).json({
+                code: "RESOURCE_NOT_FOUND",
+                message: "No genres found",
+            });
+            return;
+        }
+        res.json(genres[0].no);
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+}
+
 /**
  * Update a genre
  * 

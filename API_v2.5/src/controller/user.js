@@ -765,3 +765,46 @@ module.exports.getUserPagination = async (req, res) => {
         client.release();
     }
 };
+
+
+/**
+ * Get the number of users
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * 
+ * @returns {Promise<void>}
+ * 
+ *
+ * @swagger
+ * components:
+ *  responses:
+ *      UserCount:
+ *          description: The number of users
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: integer
+ *                      properties:
+ *                          no:
+ *                              type: integer
+ *                              description: The number of users
+ */ 
+module.exports.getUserCount = async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rows: users } = await UserDB.getUserCount(client);
+        if (users.length === 0) {
+            res.status(HTTPStatus.NOT_FOUND).json({
+                code: "RESOURCE_NOT_FOUND",
+                message: "No user found",
+            });
+        } else {
+            res.json(users[0].no);
+        }
+    } catch (error) {
+        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
+    } finally {
+        client.release();
+    }
+}

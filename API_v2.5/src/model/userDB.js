@@ -219,3 +219,14 @@ module.exports.getUserPagination = async (client, page,limit) => {
     const offset = (page - 1) * limit;
     return await client.query(`SELECT id, username, email, firstname, lastname, is_admin FROM "user" LIMIT $1 OFFSET $2`, [limit, offset]);
 }
+
+/**
+ * Get the number of users
+ * 
+ * @param {pg.Pool} client the postgres client
+ * 
+ * @returns {Promise<pg.Result>} the result of the query
+ */
+module.exports.getUserCount = async (client) => {
+    return await client.query(`SELECT count(*) AS no FROM "user"`);
+}
