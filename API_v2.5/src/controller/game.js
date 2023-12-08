@@ -4,7 +4,6 @@ const HTTPStatus = require("../tools/HTTPStatus");
 const PGErrors = require("../tools/PGErrors");
 const { validateObject } = require("../zod/zod");
 const { gameIdsSchema, gameSchema } = require("../zod/schema/game");
-const { paginationSchema } = require("../zod/schema/pagination");
 
 /**
  * @swagger
@@ -55,15 +54,15 @@ const { paginationSchema } = require("../zod/schema/pagination");
  *                      items:
  *                          $ref: '#/components/schemas/Game'
  */
-async function getGame(userId, publicationId, res) {
+async function getGame(userId, publicationId, page, limit, res) {
     try {
-        ({ userId, publicationId } = validateObject(
-            { userId, publicationId },
+        ({ userId, publicationId, page, limit } = validateObject(
+            { userId, publicationId, page, limit },
             gameIdsSchema.partial()
         ));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
-            code : "INVALID_INPUT",
+            code: "INVALID_INPUT",
             message: error.message,
         });
         return;
@@ -74,7 +73,9 @@ async function getGame(userId, publicationId, res) {
         const { rows: games } = await GameModel.getGames(
             client,
             userId,
-            publicationId
+            publicationId,
+            page,
+            limit
         );
         if (games.length === 0) {
             res.status(HTTPStatus.NOT_FOUND).json({
@@ -103,7 +104,13 @@ async function getGame(userId, publicationId, res) {
  * @returns {Promise<void>}
  */
 module.exports.getGameFromAdmin = async (req, res) => {
-    await getGame(req.query.userId, req.query.publicationId, res);
+    await getGame(
+        req.query.userId,
+        req.query.publicationId,
+        req.query.page,
+        req.query.limit,
+        res
+    );
 };
 
 /**
@@ -116,50 +123,13 @@ module.exports.getGameFromAdmin = async (req, res) => {
  * @returns {Promise<void>}
  */
 module.exports.getGameFromUser = async (req, res) => {
-    await getGame(req.session.id, req.query.publicationId, res);
-};
-
-
-/**
- * Get games with pagination delimited by a limit and a page
- *
- * @param {Request} req
- * @param {Response} res
- *
- * @returns {Promise<void>}
- */
-module.exports.getGamePagination = async (req, res) => {
-    let page, limit;
-    try {
-        ({ page, limit } = validateObject(req.query, paginationSchema));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code : "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-
-    const client = await pool.connect();
-    try {
-        const { rows: games } = await GameModel.getGamesPagination(
-            client,
-            page,
-            limit
-        );
-        if (games.length === 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No games found",
-            });
-        } else {
-            res.json(games);
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
+    await getGame(
+        req.session.id,
+        req.query.publicationId,
+        undefined,
+        undefined,
+        res
+    );
 };
 
 /**
@@ -258,13 +228,13 @@ async function addGame(game, res) {
         switch (error.code) {
             case PGErrors.UNIQUE_VIOLATION:
                 res.status(HTTPStatus.CONFLICT).json({
-                    code : "DUPLICATE_ENTRY",
+                    code: "DUPLICATE_ENTRY",
                     message: error.detail,
                 });
                 break;
             case PGErrors.FOREIGN_KEY_VIOLATION:
                 res.status(HTTPStatus.NOT_FOUND).json({
-                    code : "FOREIGN_KEY_NOT_FOUND",
+                    code: "FOREIGN_KEY_NOT_FOUND",
                     message: error.detail,
                 });
                 break;
@@ -441,7 +411,7 @@ async function updateGame(userId, publicationId, updateValues, res) {
     } finally {
         client.release();
     }
-};
+}
 
 /**
  * Update a game; request from an admin
@@ -575,7 +545,7 @@ async function deleteGame(userId, publicationId, res) {
     } finally {
         client.release();
     }
-};
+}
 
 /**
  * Delete a game; request from an admin

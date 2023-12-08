@@ -2,7 +2,9 @@ const { z } = require("zod");
 
 module.exports.getVideoGameSchema = z.object({
     id : z.coerce.number().int().optional(),
-    name : z.string().optional()
+    name : z.string().optional(),
+    page : z.coerce.number().int().optional(),
+    limit : z.coerce.number().int().optional(),
 });
 
 module.exports.videoGameSchema = z.object({

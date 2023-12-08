@@ -28,7 +28,7 @@ module.exports.createPlatform = async (
  *
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getPlatforms = async (client, code) => {
+module.exports.getPlatforms = async (client, code, page, limit) => {
     let query = `SELECT * FROM platform`;
     const values = [];
 
@@ -37,7 +37,16 @@ module.exports.getPlatforms = async (client, code) => {
         query += ` WHERE code = $1`;
     }
 
-    return await client.query(`${query} ORDER BY description`, values);
+    query += ` ORDER BY description`;
+
+    if (page !== undefined && limit !== undefined) {
+        const offset = (page - 1) * limit;
+        query += ` LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
+        values.push(limit);
+        values.push(offset);
+    }
+
+    return await client.query(`${query}`, values);
 };
 
 /**
@@ -116,22 +125,6 @@ module.exports.platformExists = async (client, code) => {
     return rows[0].no > 0;
 };
 
-/**
- * Get platforms with pagination
- *
- * @param {pg.Pool} client the postgres client
- * @param {number} page the page number
- * @param {number} limit the limit of platforms per page
- *
- * @returns {Promise<pg.Result>} the result of the query
- */
-module.exports.getPlatformsPagination = async (client, page, limit) => {
-    const offset = (page - 1) * limit;
-    return await client.query(`SELECT * FROM platform LIMIT $1 OFFSET $2`, [
-        limit,
-        offset,
-    ]);
-};
 
 /**
  * Get number of platforms

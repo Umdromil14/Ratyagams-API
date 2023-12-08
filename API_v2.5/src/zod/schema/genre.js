@@ -6,5 +6,7 @@ module.exports.genreSchema = z.object({
 });
 
 module.exports.genreToGetSchema = z.object({
-    id: z.coerce.number().optional()
+    id: z.coerce.number().optional(),
+    page : z.coerce.number().positive().optional(),
+    limit : z.coerce.number().positive().optional()
 });

@@ -8,8 +8,8 @@ const { validateObject } = require("../zod/zod");
 const {
     platformSchema,
     platformWithVideoGamesSchema,
+    getPlatformSchema,
 } = require("../zod/schema/platform");
-const { paginationSchema } = require("../zod/schema/pagination");
 
 /**
  * @swagger
@@ -50,53 +50,9 @@ const { paginationSchema } = require("../zod/schema/pagination");
  *                          $ref: '#/components/schemas/Platform'
  */
 module.exports.getPlatform = async (req, res) => {
-    const code = req.query.code?.toUpperCase();
-
-    const client = await pool.connect();
+    let code, page, limit;
     try {
-        const { rows: platforms } = await PlatformModel.getPlatforms(
-            client,
-            code
-        );
-        if (platforms.length === 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No platforms found",
-            });
-        } else {
-            res.json(platforms);
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
-/**
- * Get platforms with pagination
- * 
- * @param {Request} req
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- * 
- * @swagger
- * components:
- *  responses:
- *      PlatformsFound:
- *          description: Platforms were found
- *          content:
- *              application/json:
- *                  schema:
- *                      type: array
- *                      items:
- *                          $ref: '#/components/schemas/Platform'
- */ 
-module.exports.getPlatformsWithPagination = async (req, res) => {
-    let page, limit;
-    try {
-        ({ page, limit } = validateObject(req.query, paginationSchema));
+        ({ code, page, limit } = validateObject(req.query, getPlatformSchema));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
             code: "INVALID_INPUT",
@@ -107,8 +63,9 @@ module.exports.getPlatformsWithPagination = async (req, res) => {
 
     const client = await pool.connect();
     try {
-        const { rows: platforms } = await PlatformModel.getPlatformsPagination(
+        const { rows: platforms } = await PlatformModel.getPlatforms(
             client,
+            code,
             page,
             limit
         );
@@ -126,7 +83,6 @@ module.exports.getPlatformsWithPagination = async (req, res) => {
         client.release();
     }
 };
-
 
 /**
  * Get the number of platforms

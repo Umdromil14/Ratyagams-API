@@ -53,26 +53,6 @@ router.post("/", JWTMiddleWare.identification, Authorization.mustBeAdmin, Catego
  *            required: false
  *            schema:
  *              type: integer
- *      responses:
- *          200:
- *              $ref: '#/components/responses/CategoryFound'
- *          400:
- *              description: INVALID_INPUT
- *          404:
- *              description: RESOURCE_NOT_FOUND
- *          500:
- *              description: Internal server error
- */
-router.get("/", CategoryController.goToGet);
-
-/**
- * @swagger
- * /category/pagination:
- *  get:
- *      tags:
- *          - Category
- *      description: Get a certain number of categories
- *      parameters:
  *          - name: page
  *            description: the chosen page
  *            in: query
@@ -95,7 +75,7 @@ router.get("/", CategoryController.goToGet);
  *          500:
  *              description: Internal server error
  */
-router.get("/pagination", CategoryController.getCategoriesWithPagination);
+router.get("/", CategoryController.getCategories);
 
 /**
  * @swagger
@@ -103,7 +83,7 @@ router.get("/pagination", CategoryController.getCategoriesWithPagination);
  *  get:
  *      tags:
  *          - Category
- *      description: Get the number of categories
+ *      description: Get the total number of categories
  *      responses:
  *          200:
  *              $ref: '#/components/responses/CategoryCount'

@@ -47,26 +47,6 @@ router.post("/",JWTMiddleWare.identification, Authorization.mustBeAdmin, GenreCo
  *            required: false
  *            schema:
  *              type: integer
- *      responses:
- *          200:
- *              $ref: '#/components/responses/GenreFound'
- *          400:
- *              description: INVALID_INPUT
- *          404:
- *              description: RESOURCE_NOT_FOUND
- *          500:
- *              description: Internal server error
- */
-router.get("/", GenreController.getGenres);
-
-/**
- * @swagger
- * /genre/pagination:
- *  get:
- *      tags:
- *          - Genre
- *      description: Get a genre with pagination
- *      parameters:
  *          - name: page
  *            description: the chosen page
  *            in: query
@@ -89,7 +69,7 @@ router.get("/", GenreController.getGenres);
  *          500:
  *              description: Internal server error
  */
-router.get("/pagination", GenreController.getGenresPagination);
+router.get("/", GenreController.getGenres);
 
 
 /**
@@ -98,7 +78,7 @@ router.get("/pagination", GenreController.getGenresPagination);
  *  get:
  *      tags:
  *          - Genre
- *      description: Get number of genres
+ *      description: Get total number of genres
  *      responses:
  *          200:
  *              $ref: '#/components/responses/GenresCount'

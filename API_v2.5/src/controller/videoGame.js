@@ -27,17 +27,16 @@ const {
     getVideoGameSchema,
     videoGameSchema,
 } = require("../zod/schema/videoGame.js");
-const { paginationSchema } = require("../zod/schema/pagination.js");
 const { validateObject } = require("../zod/zod");
 
 /**
  * Get a video game by its id or get a video game containing the name
- * 
+ *
  * @param {Request} req
  * @param {Response} res
- * 
+ *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -49,9 +48,12 @@ const { validateObject } = require("../zod/zod");
  *                      $ref: '#/components/schemas/VideoGame'
  */
 module.exports.getVideoGame = async (req, res) => {
-    let id, name;
+    let id, name, page, limit;
     try {
-        ({ id, name } = validateObject(req.query, getVideoGameSchema));
+        ({ id, name, page, limit } = validateObject(
+            req.query,
+            getVideoGameSchema
+        ));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
             code: "INVALID_INPUT",
@@ -65,7 +67,9 @@ module.exports.getVideoGame = async (req, res) => {
         const { rows: videoGames } = await VideoGameModel.getVideoGames(
             client,
             id,
-            name
+            name,
+            page,
+            limit
         );
         if (videoGames.length === 0) {
             res.status(HTTPStatus.NOT_FOUND).json({
@@ -83,53 +87,11 @@ module.exports.getVideoGame = async (req, res) => {
 };
 
 /**
- * Get video games with pagination
- * 
- * @param {Request} req
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.getVideoGamePagination = async (req, res) => {
-    let page, limit;
-    try {
-        ({ page, limit } = validateObject(req.query, paginationSchema));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code: "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-
-    const client = await pool.connect();
-    try {
-        const { rows: videoGames } = await VideoGameModel.getVideoGamesPagination(
-            client,
-            page,
-            limit
-        );
-        if (videoGames.length === 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No video game found",
-            });
-            return;
-        }
-        res.json(videoGames);
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-}
-
-/**
  * Get the number of video games
- * 
+ *
  * @param {Request} req
  * @param {Response} res
- * 
+ *
  * @returns {Promise<void>}
  * @swagger
  * components:
@@ -148,7 +110,8 @@ module.exports.getVideoGamePagination = async (req, res) => {
 module.exports.getVideoGameCount = async (req, res) => {
     const client = await pool.connect();
     try {
-        const { rows: videoGames } = await VideoGameModel.getVideoGameCount(client);
+        const { rows: videoGames } =
+            await VideoGameModel.getVideoGameCount(client);
         if (videoGames.length === 0) {
             res.status(HTTPStatus.NOT_FOUND).json({
                 code: "RESOURCE_NOT_FOUND",
@@ -162,7 +125,7 @@ module.exports.getVideoGameCount = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Post a video game with a name and a description
@@ -217,7 +180,7 @@ module.exports.postVideoGame = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Update a video game by its id
@@ -288,7 +251,7 @@ module.exports.updateVideoGame = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Delete a video game by its id
@@ -317,7 +280,12 @@ module.exports.deleteVideoGame = async (req, res) => {
     const client = await pool.connect();
     try {
         const publicationIds = (
-            await PublicationModel.getPublication(client, undefined, undefined, id)
+            await PublicationModel.getPublication(
+                client,
+                undefined,
+                undefined,
+                id
+            )
         ).rows;
         client.query("BEGIN");
         for (const publicationId of publicationIds) {
@@ -337,4 +305,4 @@ module.exports.deleteVideoGame = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};

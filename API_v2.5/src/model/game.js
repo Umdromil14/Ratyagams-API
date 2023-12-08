@@ -27,7 +27,7 @@ module.exports.createGame = async (client, userId, publicationId, isOwned = fals
  * 
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getGames = async (client, userId, publicationId) => {
+module.exports.getGames = async (client, userId, publicationId, page, limit) => {
     const queryConditions = [];
     const values = [];
 
@@ -45,22 +45,15 @@ module.exports.getGames = async (client, userId, publicationId) => {
         query += ` WHERE ${queryConditions.join(" AND ")}`;
     }
 
+    if (page !== undefined && limit !== undefined) {
+        query += ` LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
+        values.push(limit);
+        values.push(page * limit);
+    }
+
     return await client.query(query, values);
 }
 
-/**
- * Get games with pagination
- * 
- * @param {pg.Pool} client the postgres client
- * @param {number} page the page number
- * @param {number} limit the number of games per page
- * 
- * @returns {Promise<pg.Result>} the result of the query
- */
-module.exports.getGamesPagination = async (client, page, limit) => {
-    const offset = (page - 1) * limit;
-    return await client.query(`SELECT * FROM game LIMIT $1 OFFSET $2`, [limit, offset]);
-}
 
 /**
  * Get the number of games

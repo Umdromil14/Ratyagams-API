@@ -395,7 +395,6 @@ VALUES
         'Puzzle games challenge players with logic, patterns, and problem-solving.'
     );
 
--- INSERT INTO GENRE (name, description) VALUES ('Brain Teaser', 'Brain Teaser games provide mind-bending challenges.');
 INSERT INTO
     GENRE (name, description)
 VALUES
@@ -413,13 +412,13 @@ VALUES
         'Rhythm games require players to time actions with the beat of the music.'
     );
 
--- Simulation Games
+-- Hack 'n' Slash
 INSERT INTO
     GENRE (name, description)
 VALUES
     (
-        'Simulation',
-        'Simulation games simulate real-world or fictional activities.'
+        'Hack ''n'' Slash',
+        'Hack ''n'' Slash games involve fast-paced combat against multiple enemies.'
     );
 
 -- Educational Games
@@ -539,7 +538,7 @@ VALUES
 -- 39: 'Puzzle',
 -- 40: 'Platform',
 -- 41: 'Rhythm',
--- 42: 'Simulation',
+-- 42: 'Hack 'n' Slash',
 -- 43: 'Educational',
 -- 44: 'Card',
 -- 45: 'Board',
@@ -5769,6 +5768,8 @@ VALUES
     (28, 35),
     -- Adventure
     (15, 35),
+    -- beat 'em up
+    (42,35),
     -- Hack and Slash
     (2, 35),
     -- Fantasy
@@ -5788,6 +5789,8 @@ VALUES
     (28, 36),
     -- Adventure
     (15, 36),
+    -- beat 'em up
+    (42,36),
     -- Hack and Slash
     (2, 36),
     -- Fantasy
@@ -5807,6 +5810,8 @@ VALUES
     (28, 37),
     -- Adventure
     (15, 37),
+    -- beat 'em up
+    (42,37),
     -- Hack and Slash
     (2, 37),
     -- Fantasy
@@ -5826,6 +5831,8 @@ VALUES
     (28, 38),
     -- Adventure
     (15, 38),
+    -- beat 'em up
+    (42,38),
     -- Hack and Slash
     (2, 38),
     -- Fantasy
@@ -5845,6 +5852,8 @@ VALUES
     (28, 39),
     -- Adventure
     (15, 39),
+    -- beat 'em up
+    (42,39),
     -- Hack and Slash
     (2, 39),
     -- Fantasy
@@ -5864,6 +5873,8 @@ VALUES
     (28, 40),
     -- Adventure
     (15, 40),
+    -- beat 'em up
+    (42,40),
     -- Hack and Slash
     (2, 40),
     -- Fantasy
@@ -5883,6 +5894,8 @@ VALUES
     (28, 41),
     -- Adventure
     (15, 41),
+    -- beat 'em up
+    (42,41),
     -- Hack and Slash
     (2, 41),
     -- Fantasy

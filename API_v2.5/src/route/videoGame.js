@@ -24,6 +24,18 @@ const router = new Router();
  *            required: false
  *            schema:
  *              type: string
+ *          - name: page
+ *            description: Page number
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: integer
+ *          - name: limit
+ *            description: Number of elements per page
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: integer
  *      responses : 
  *          200:
  *              $ref: '#/components/responses/VideoGameFound'
@@ -35,38 +47,6 @@ const router = new Router();
  *              description: Internal server error
  */
 router.get("/", VideoGameController.getVideoGame);
-
-/**
- * @swagger
- * /videoGame/pagination:
- *  get:
- *      tags:
- *          - VideoGame
- *      description: Get a video game with pagination
- *      parameters:
- *          - name: page
- *            description: the chosen page
- *            in: query
- *            required: false
- *            schema:
- *              type: integer
- *          - name: limit
- *            description: the number of users per page
- *            in: query
- *            required: false
- *            schema:
- *              type: string
- *      responses : 
- *          200:
- *              $ref: '#/components/responses/VideoGameFound'
- *          400:
- *              description: INVALID_INPUT
- *          404:
- *              description: RESOURCE_NOT_FOUND
- *          500:
- *              description: Internal server error
- */
-router.get("/pagination", VideoGameController.getVideoGamePagination);
 
 /**
  * @swagger

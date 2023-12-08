@@ -15,3 +15,9 @@ module.exports.platformWithVideoGamesSchema = this.platformSchema.extend({
         store_page_url: z.string().trim().url().optional().nullable(),
     }))
 });
+
+module.exports.getPlatformSchema = z.object({
+    code: z.string().trim().min(1).toUpperCase().optional(),
+    page: z.coerce.number().nonnegative().optional(),
+    limit: z.coerce.number().nonnegative().optional(),
+});

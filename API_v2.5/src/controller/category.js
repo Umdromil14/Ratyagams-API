@@ -18,9 +18,11 @@ const CategoryModel = require("../model/category");
 const HTTPStatus = require("../tools/HTTPStatus");
 const PGErrors = require("../tools/PGErrors");
 const { validateObject } = require("../zod/zod");
-const { categoryIdsSchema, categorySchema } = require("../zod/schema/category");
-const { paginationSchema } = require("../zod/schema/pagination");
-
+const {
+    categoryIdsSchema,
+    categorySchema,
+    getCategorySchema,
+} = require("../zod/schema/category");
 
 /**
  * Create a category
@@ -92,202 +94,11 @@ module.exports.createCategory = async (req, res) => {
 };
 
 /**
- * Redirect the program to the correct get function
- *
- * @param {Request} req
- * @param {Response} res
- *
- * @returns {Promise<void>}
- *
- * @swagger
- * components:
- *  responses:
- *      CategoryFound:
- *          description: Category(ies) was(were) found
- *          content:
- *              application/json:
- *                  schema:
- *                      type: array
- *                      items:
- *                          $ref: '#/components/schemas/Category'
- */
-module.exports.goToGet = async (req, res) => {
-    const genreId = req.query.genreId;
-    const videoGameId = req.query.videoGameId;
-
-    if (genreId !== undefined && videoGameId !== undefined) {
-        getCategory(genreId, videoGameId, res);
-    } else if (genreId !== undefined) {
-        getCategoriesFromGenre(genreId, res);
-    } else if (videoGameId !== undefined) {
-        getCategoriesFromVideoGame(videoGameId, res);
-    } else {
-        getAllCategories(res);
-    }
-};
-
-/**
  * Get all the categories
  *
  * @param {Response} res
  *
  * @returns {Promise<void>}
- */
-async function getAllCategories(res) {
-    const client = await pool.connect();
-    try {
-        const { rows: categories } = await CategoryModel.getAllCategories(
-            client
-        );
-        if (categories.length > 0) {
-            res.json(categories);
-        } else {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No category found",
-            });
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
-/**
- * Get a category
- *
- * @param {string|number} genreId The genre id from the category
- * @param {string|number} videoGameId The video game id from the category
- * @param {Response} res
- *
- * @returns {Promise<void>}
- */
-async function getCategory(genreId, videoGameId, res) {
-    try {
-        ({ genreId, videoGameId } = validateObject(
-            { genreId, videoGameId },
-            categoryIdsSchema
-        ));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code: "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-
-    const client = await pool.connect();
-    try {
-        const category = (
-            await CategoryModel.getCategory(client, genreId, videoGameId)
-        ).rows;
-        if (category !== undefined) {
-            res.json(category);
-        } else {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No category found",
-            });
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
-/**
- * Get all categories from a genre
- *
- * @param {string|number} genreId The genre id of the categories
- * @param {Response} res
- *
- * @returns {Promise<void>}
- */
-async function getCategoriesFromGenre(genreId, res) {
-    try {
-        ({ genreId } = validateObject(
-            { genreId },
-            categoryIdsSchema.partial()
-        ));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code: "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-
-    const client = await pool.connect();
-    try {
-        const { rows: categories } = await CategoryModel.getCategoriesFromGenre(
-            client,
-            genreId
-        );
-        if (categories.length > 0) {
-            res.json(categories);
-        } else {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No category found",
-            });
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
-/**
- * Get all categories from a video game
- *
- * @param {string} videoGameId The video game id of the categories
- * @param {Response} res
- *
- * @returns {Promise<void>}
- */
-async function getCategoriesFromVideoGame(videoGameId, res) {
-    try {
-        ({ videoGameId } = validateObject(
-            { videoGameId },
-            categoryIdsSchema.partial()
-        ));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code: "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-
-    const client = await pool.connect();
-    try {
-        const { rows: categories } =
-            await CategoryModel.getCategoriesFromVideoGame(client, videoGameId);
-        if (categories.length > 0) {
-            res.json(categories);
-        } else {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No category found",
-            });
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
-/**
- * Get a certain number of categories
- * 
- * @param {Request} req
- * @param {Response} res
- * 
- * @returns {Promise<void>}
  *
  * @swagger
  * components:
@@ -301,10 +112,13 @@ async function getCategoriesFromVideoGame(videoGameId, res) {
  *                      items:
  *                          $ref: '#/components/schemas/Category'
  */
-module.exports.getCategoriesWithPagination = async (req, res) => {
-    let page, limit;
+module.exports.getCategories = async (req, res) => {
+    let genreId, videoGameId, page, limit;
     try {
-        ({ page, limit } = validateObject(req.query, paginationSchema));
+        ({ genreId, videoGameId, page, limit } = validateObject(
+            req.query,
+            getCategorySchema
+        ));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
             code: "INVALID_INPUT",
@@ -312,10 +126,11 @@ module.exports.getCategoriesWithPagination = async (req, res) => {
         });
         return;
     }
+
     const client = await pool.connect();
     try {
         const { rows: categories } =
-            await CategoryModel.getCategoriesWithPagination(client, page, limit);
+            await CategoryModel.getCategories(client, genreId, videoGameId, page, limit);
         if (categories.length > 0) {
             res.json(categories);
         } else {
@@ -331,14 +146,16 @@ module.exports.getCategoriesWithPagination = async (req, res) => {
     }
 };
 
+
+
 /**
  * Get the number of categories
- * 
+ *
  * @param {Request} req
  * @param {Response} res
- * 
+ *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -352,13 +169,12 @@ module.exports.getCategoriesWithPagination = async (req, res) => {
  *                          no:
  *                              type: integer
  *                              description: The number of categories
-*/
+ */
 module.exports.getCategoriesCount = async (req, res) => {
     const client = await pool.connect();
     try {
-        const { rows: categories } = await CategoryModel.getCategoriesCount(
-            client
-        );
+        const { rows: categories } =
+            await CategoryModel.getCategoriesCount(client);
         if (categories.length > 0) {
             res.json(categories[0].no);
         } else {
@@ -372,8 +188,7 @@ module.exports.getCategoriesCount = async (req, res) => {
     } finally {
         client.release();
     }
-}
-
+};
 
 /**
  * Update a category

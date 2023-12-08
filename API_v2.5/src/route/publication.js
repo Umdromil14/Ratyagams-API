@@ -89,42 +89,6 @@ router.get("/", JWTMiddleWare.identification, PublicationController.getPublicati
 
 /**
  * @swagger
- * /publication/pagination:
- *  get:
- *      tags:
- *          - Publication
- *      description: Get one publication or more with pagination
- *      security:
- *          - bearerAuth: []
- *      parameters:
- *          - name: page
- *            description: the chosen page
- *            in: query
- *            required: false
- *            schema:
- *              type: integer
- *          - name: limit
- *            description: the number of users per page
- *            in: query
- *            required: false
- *            schema:
- *              type: string
- *      responses:
- *          200:
- *              $ref: '#/components/responses/PublicationFound'
- *          400:
- *              description: INVALID_INPUT or INVALID_JWT
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          404:
- *              description: RESOURCE_NOT_FOUND or JWT_DEPRECATED
- *          500:
- *              description: Internal server error
- */
-router.get("/pagination", JWTMiddleWare.identification, PublicationController.getPublicationPagination);
-
-/**
- * @swagger
  * /publication/count:
  *  get:
  *      tags:

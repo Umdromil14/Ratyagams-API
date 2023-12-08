@@ -55,8 +55,8 @@ const {
     userWithGamesSchema,
     updateMyAccountSchema,
     updateUserSchema,
+    getUserSchema
 } = require("../zod/schema/user");
-const { paginationSchema } = require("../zod/schema/pagination");
 
 const { validateObject } = require("../zod/zod");
 /**
@@ -647,21 +647,20 @@ module.exports.postUserWithGames = async (req, res) => {
  *                          $ref: '#/components/schemas/User'
  */
 module.exports.getUser = async (req, res) => {
-    let id;
-    if (req.params.userId !== undefined) {
-        id = parseInt(req.params.userId);
-        if (isNaN(id)) {
-            res.status(HTTPStatus.BAD_REQUEST).json({
-                code: "INVALID_INPUT",
-                message: "Id must be a Number",
-            });
-            return;
-        }
+    let id, page, limit;
+    try {
+        ({ id, page, limit } = validateObject(req.query, getUserSchema));
+    } catch (error) {
+        res.status(HTTPStatus.BAD_REQUEST).json({
+            code: "INVALID_INPUT",
+            message: error.message,
+        });
+        return;
     }
-
+    
     const client = await pool.connect();
     try {
-        const { rows: users } = await UserDB.getUser(client, id);
+        const { rows: users } = await UserDB.getUser(client, id,page,limit);
         if (users.length === 0) {
             res.status(HTTPStatus.NOT_FOUND).json({
                 code: "RESOURCE_NOT_FOUND",
@@ -714,58 +713,6 @@ module.exports.getUserFromToken = async (req, res) => {
         client.release();
     }
 };
-
-/**
- * Get users with pagination delimited by a limit and a page
- *
- * @param {Request} req
- * @param {Response} res
- *
- * @returns {Promise<void>}
- *
- * @swagger
- * components:
- *  responses:
- *      UserFound:
- *          description: User/users was/were found
- *          content:
- *              application/json:
- *                  schema:
- *                      $ref: '#/components/schemas/User'
- */
-module.exports.getUserPagination = async (req, res) => {
-    let page, limit;
-    try {
-        ({ page, limit } = validateObject(req.query , paginationSchema));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code: "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-    const client = await pool.connect();
-    try {
-        const { rows: users } = await UserDB.getUserPagination(
-            client,
-            page,
-            limit
-        );
-        if (users.length === 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No user found",
-            });
-        } else {
-            res.json(users);
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
 
 /**
  * Get the number of users

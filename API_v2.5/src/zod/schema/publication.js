@@ -17,5 +17,7 @@ module.exports.publicationToGetSchema = z.object({
     videoGameId: z.coerce.number().optional(),
     videoGameName: z.string().optional(),
     platformCode: z.string().toUpperCase().optional(),
-    getOwnGames: z.enum(["true", "false"]).transform((value) => value === "true").optional()
+    getOwnGames: z.enum(["true", "false"]).transform((value) => value === "true").optional(),
+    page: z.coerce.number().int().positive().optional(),
+    limit: z.coerce.number().int().positive().optional()
 });

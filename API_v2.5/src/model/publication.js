@@ -46,27 +46,29 @@ module.exports.getPublication = async (
     platformCode,
     videoGameId,
     videoGameName,
-    userId
+    userId,
+    page,
+    limit
 ) => {
     const queryConditions = [];
     const queryValues = [];
 
     if (publicationId !== undefined) {
-        queryConditions.push(`id = $${queryConditions.length + 1}`);
+        queryConditions.push(`id = $${queryValues.length + 1}`);
         queryValues.push(publicationId);
     }
     if (platformCode !== undefined) {
-        queryConditions.push(`platform_code = $${queryConditions.length + 1}`);
+        queryConditions.push(`platform_code = $${queryValues.length + 1}`);
         queryValues.push(platformCode);
     }
     if (videoGameId !== undefined) {
-        queryConditions.push(`video_game_id = $${queryConditions.length + 1}`);
+        queryConditions.push(`video_game_id = $${queryValues.length + 1}`);
         queryValues.push(videoGameId);
     }
     if (videoGameName !== undefined) {
         queryConditions.push(
             `video_game_id in (SELECT id FROM video_game WHERE LOWER(name) LIKE $${
-                queryConditions.length + 1
+                queryValues.length + 1
             })`
         );
         queryValues.push(`%${videoGameName.toLowerCase()}%`);
@@ -74,7 +76,7 @@ module.exports.getPublication = async (
     if (userId !== undefined) {
         queryConditions.push(
             `id in (SELECT publication_id FROM game WHERE user_id = $${
-                queryConditions.length + 1
+                queryValues.length + 1
             })`
         );
         queryValues.push(userId);
@@ -83,6 +85,13 @@ module.exports.getPublication = async (
     let query = `SELECT * FROM publication`;
     if (queryConditions.length > 0) {
         query += ` WHERE ${queryConditions.join(" AND ")}`;
+    }
+
+    if (page !== undefined && limit !== undefined) {
+        const offset = (page - 1) * limit;
+        query += ` LIMIT $${queryValues.length + 1} OFFSET $${queryValues.length + 2}`;
+        queryValues.push(limit);
+        queryValues.push(offset);
     }
 
     return await client.query(query, queryValues);
@@ -237,26 +246,6 @@ module.exports.publicationExistsByPVB = async (
         [videoGameId, platformCode]
     );
     return rows.length === 1;
-};
-
-/**
- * Get all publications with pagination
- *
- * @param {pg.Pool} client the postgres client
- * @param {number} page the page number
- * @param {number} limit the limit of the pagination
- *
- * @returns {Promise<pg.Result>} the result of the query
- */
-module.exports.getPublicationPagination = async (client, page, limit) => {
-    const offset = (page - 1) * limit;
-    return await client.query(
-        `
-        SELECT * FROM publication
-        LIMIT $1 OFFSET $2
-    `,
-        [limit, offset]
-    );
 };
 
 /**

@@ -1,5 +1,10 @@
 const { z } = require("zod");
 
+module.exports.getUserSchema = z.object({
+    id : z.coerce.number().positive().optional(),
+    page : z.coerce.number().positive().optional(),
+    limit : z.coerce.number().positive().optional(),
+});
 module.exports.loginSchema = z.object({
     login: z.string().trim(),
     password : z.string().trim(),

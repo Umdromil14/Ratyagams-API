@@ -18,24 +18,6 @@ const router = new Router();
  *            required: false
  *            schema:
  *              type: string
- *      responses:
- *          200:
- *              $ref: '#/components/responses/PlatformsFound'
- *          404:
- *              description: RESOURCE_NOT_FOUND
- *          500:
- *              description: Internal server error
- */
-router.get('/', PlatformController.getPlatform);
-
-/**
- * @swagger
- * /platform/pagination:
- *  get:
- *      tags:
- *          - Platform
- *      description: get platforms with pagination
- *      parameters:
  *          - name: page
  *            description: the chosen page
  *            in: query
@@ -56,7 +38,7 @@ router.get('/', PlatformController.getPlatform);
  *          500:
  *              description: Internal server error
  */
-router.get('/pagination', PlatformController.getPlatformsWithPagination);
+router.get('/', PlatformController.getPlatform);
 
 /**
  * @swagger

@@ -82,32 +82,6 @@ router.post("/user", JWTMiddleWare.identification, GameController.addGameFromUse
  *            required: false
  *            schema:
  *              type: integer
- *      responses:
- *          200:
- *              $ref: '#/components/responses/GamesFound'
- *          400:
- *              description: INVALID_INPUT or INVALID_JWT
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
- *          404:
- *              description: RESOURCE_NOT_FOUND or JWT_DEPRECATED
- *          500:
- *              description: Internal server error
- */
-router.get("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameController.getGameFromAdmin);
-
-/**
- * @swagger
- * /game/pagination:
- *  get:
- *      tags:
- *          - Game
- *      description: get games with pagination
- *      security:
- *          - bearerAuth: []
- *      parameters:
  *          - name: page
  *            description: the chosen page
  *            in: query
@@ -134,7 +108,7 @@ router.get("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameC
  *          500:
  *              description: Internal server error
  */
-router.get("/pagination", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameController.getGamePagination);
+router.get("/", JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, GameController.getGameFromAdmin);
 
 /**
  * @swagger

@@ -33,7 +33,6 @@ const {
     publicationIdSchema,
     publicationSchema,
 } = require("../zod/schema/publication");
-const { paginationSchema } = require("../zod/schema/pagination");
 const PGErrors = require("../tools/PGErrors");
 
 /**
@@ -151,14 +150,16 @@ module.exports.createPublication = async (req, res) => {
  *                          $ref: '#/components/schemas/Publication'
  */
 module.exports.getPublication = async (req, res) => {
-    let publicationId, videoGameId, videoGameName, platformCode, getOwnGames;
+    let publicationId, videoGameId, videoGameName, platformCode, getOwnGames, page, limit;
     try {
         ({
             publicationId,
             videoGameId,
             videoGameName,
             platformCode,
-            getOwnGames: getOwnGames,
+            getOwnGames,
+            page,
+            limit
         } = validateObject(req.query, publicationToGetSchema));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
@@ -176,46 +177,7 @@ module.exports.getPublication = async (req, res) => {
             platformCode,
             videoGameId,
             videoGameName,
-            getOwnGames ? req.session.id : undefined
-        );
-        if (publications.length === 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No publications found",
-            });
-        } else {
-            res.json(publications);
-        }
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
-/**
- * Get publications with pagination
- * 
- * @param {Request} req
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.getPublicationPagination = async (req, res) => {
-    let page,limit;
-    try {
-        ({ page, limit } = validateObject(req.query, paginationSchema));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code: "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-    const client = await pool.connect();
-    try {
-        const { rows: publications } = await PublicationModel.getPublicationPagination(
-            client,
+            getOwnGames ? req.session.id : undefined,
             page,
             limit
         );
@@ -233,6 +195,7 @@ module.exports.getPublicationPagination = async (req, res) => {
         client.release();
     }
 };
+
 
 /**
  * Get the number of publications

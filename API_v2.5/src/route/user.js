@@ -109,6 +109,25 @@ router.get('/me', JWTMiddleWare.identification, UserController.getUserFromToken)
  *      description: Get one or all users
  *      security:
  *          - bearerAuth: []
+ *      parameters:
+ *          - name: id
+ *            description: Id of the user
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: integer
+ *          - name: page
+ *            description: the chosen page
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: integer
+ *          - name: limit
+ *            description: the number of users per page
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: string
  *      responses:
  *          200:
  *              $ref: '#/components/responses/UsersFound'
@@ -124,45 +143,6 @@ router.get('/me', JWTMiddleWare.identification, UserController.getUserFromToken)
  *              description: Internal server error
  */
 router.get('/', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.getUser);
-
-
-/**
- * @swagger
- * /user/pagination/:
- *  get:
- *      tags:
- *          - User
- *      description: Get a certain number of users
- *      parameters:
- *          - name: page
- *            description: the chosen page
- *            in: query
- *            required: false
- *            schema:
- *              type: integer
- *          - name: limit
- *            description: the number of users per page
- *            in: query
- *            required: false
- *            schema:
- *              type: string
- *      security:
- *          - bearerAuth: []
- *      responses:
- *          200:
- *              $ref: '#/components/responses/UsersFound'
- *          400:
- *              $ref: '#/components/responses/ErrorJWT'
- *          401:
- *              $ref: '#/components/responses/MissingJWT'
- *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
- *          404:
- *              description: RESOURCE_NOT_FOUND or JWT_DEPRECATED
- *          500:
- *              description: Internal server error
- */
-router.get('/pagination', JWTMiddleWare.identification, AuthoMiddleware.mustBeAdmin, UserController.getUserPagination);
 
 /**
  * @swagger

@@ -21,7 +21,6 @@ const CategoryModel = require("../model/category");
 const HTTPStatus = require("../tools/HTTPStatus");
 
 const { genreSchema, genreToGetSchema } = require("../zod/schema/genre");
-const { paginationSchema } = require("../zod/schema/pagination");
 const PGErrors = require("../tools/PGErrors");
 const { validateObject } = require("../zod/zod");
 
@@ -109,9 +108,9 @@ module.exports.createGenre = async (req, res) => {
  *                          $ref: '#/components/schemas/Genre'
  */
 module.exports.getGenres = async (req, res) => {
-    let id;
+    let id, page, limit;
     try {
-        ({ id } = validateObject(req.query, genreToGetSchema));
+        ({ id, page, limit } = validateObject(req.query, genreToGetSchema));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
             code: "INVALID_INPUT",
@@ -121,45 +120,9 @@ module.exports.getGenres = async (req, res) => {
     }
     const client = await pool.connect();
     try {
-        const { rows: genres } = await GenreModel.getGenres(client, id);
-        if (genres.length === 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No genres found",
-            });
-            return;
-        }
-        res.json(genres);
-    } catch (error) {
-        res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-        client.release();
-    }
-};
-
-/**
- * Get genres with pagination
- * 
- * @param {Request} req
- * @param {Response} res
- * 
- * @returns {Promise<void>}
- */
-module.exports.getGenresPagination = async (req, res) => {
-    let page, limit;
-    try {
-        ({ page, limit } = validateObject(req.query, paginationSchema));
-    } catch (error) {
-        res.status(HTTPStatus.BAD_REQUEST).json({
-            code: "INVALID_INPUT",
-            message: error.message,
-        });
-        return;
-    }
-    const client = await pool.connect();
-    try {
-        const { rows: genres } = await GenreModel.getGenresPagination(
+        const { rows: genres } = await GenreModel.getGenres(
             client,
+            id,
             page,
             limit
         );
@@ -181,12 +144,12 @@ module.exports.getGenresPagination = async (req, res) => {
 
 /**
  * Get number of genres
- * 
+ *
  * @param {Request} req
  * @param {Response} res
- * 
+ *
  * @returns {Promise<void>}
- * 
+ *
  * @swagger
  * components:
  *  responses:
@@ -218,7 +181,7 @@ module.exports.getGenresCount = async (req, res) => {
     } finally {
         client.release();
     }
-}
+};
 
 /**
  * Update a genre
@@ -251,7 +214,7 @@ module.exports.getGenresCount = async (req, res) => {
 module.exports.updateGenre = async (req, res) => {
     let updateValues, id;
     try {
-        ({id} = validateObject(req.params, genreToGetSchema));
+        ({ id } = validateObject(req.params, genreToGetSchema));
         updateValues = validateObject(req.body, genreSchema.partial());
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({

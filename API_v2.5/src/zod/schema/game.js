@@ -2,7 +2,9 @@ const { z } = require('zod');
 
 module.exports.gameIdsSchema = z.object({
     userId: z.coerce.number().int(),
-    publicationId: z.coerce.number().int()
+    publicationId: z.coerce.number().int(),
+    page : z.coerce.number().int().optional(),
+    limit : z.coerce.number().int().optional()
 });
 
 module.exports.gameSchema = z.object({
