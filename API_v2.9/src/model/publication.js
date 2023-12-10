@@ -28,34 +28,39 @@ module.exports.createPublication = async (
     );
 };
 
+// TODO promise explain
 /**
  * Get one or more publications
  *
  * @param {pg.Pool} client the postgres client
- * @param {number=} publicationId the publication id
- * @param {string=} platformCode the platform code
- * @param {number=} videoGameId the id of the video game
- * @param {string=} videoGameName the name of the video game (case insensitive and partial)
- * @param {number=} userId the id of the user that owns the video game
- * @param {boolean=} getLastGames the boolean to know if we want the games released during the last 3 months
- * @param {boolean=} alphabetical `true` if the result should be ordered alphabetically, `false` otherwise
- * @param {number=} page the page number
- * @param {number=} limit the limit of publication per result
+ * @param {object} options the options to get the publications
+ * @param {number=} options.publicationId the publication id
+ * @param {string=} options.platformCode the platform code
+ * @param {number=} options.videoGameId the id of the video game
+ * @param {string=} options.videoGameName the name of the video game
+ * @param {number=} options.userId the id of the user
+ * @param {boolean=} options.getLastGames `true` to get the last games released in the last 3 months; default to `false`
+ * @param {boolean=} options.getVideoGamesInfo `true` to get the video games info; default to `false`
+ * @param {boolean=} options.alphabetical `true` to get the publications in alphabetical order; default to `false`
+ * @param {number=} options.page the page number
+ * @param {number=} options.limit the number of publications per page
  *
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getPublication = async (
-    client,
-    publicationId,
-    platformCode,
-    videoGameId,
-    videoGameName,
-    userId,
-    getLastGames = false,
-    alphabetical,
-    page,
-    limit
-) => {
+module.exports.getPublication = async (client, options) => {
+    const {
+        publicationId,
+        platformCode,
+        videoGameId,
+        videoGameName,
+        userId,
+        getLastGames = false,
+        getVideoGamesInfo = false,
+        alphabetical = false,
+        page,
+        limit,
+    } = options;
+
     const queryConditions = [];
     const queryValues = [];
 
@@ -72,7 +77,9 @@ module.exports.getPublication = async (
         queryValues.push(videoGameId);
     }
     if (videoGameName !== undefined) {
-        queryConditions.push(`LOWER(video_game.name) LIKE $${queryValues.length + 1}`);
+        queryConditions.push(
+            `LOWER(video_game.name) LIKE $${queryValues.length + 1}`
+        );
         queryValues.push(`%${videoGameName.toLowerCase()}%`);
     }
     if (userId !== undefined) {
@@ -83,11 +90,15 @@ module.exports.getPublication = async (
         );
         queryValues.push(userId);
     }
-    if(getLastGames){
-        queryConditions.push(`release_date > CURRENT_TIMESTAMP - INTERVAL '3 months'`);
+    if (getLastGames) {
+        queryConditions.push(
+            `release_date > CURRENT_TIMESTAMP - INTERVAL '3 months'`
+        );
     }
 
-    let query = `SELECT publication.* FROM publication INNER JOIN video_game ON publication.video_game_id = video_game.id`;
+    let query = `SELECT ${
+        getVideoGamesInfo ? "*" : "publication.*"
+    } FROM publication INNER JOIN video_game ON publication.video_game_id = video_game.id`;
     if (queryConditions.length > 0) {
         query += ` WHERE ${queryConditions.join(" AND ")}`;
     }
@@ -97,7 +108,9 @@ module.exports.getPublication = async (
 
     if (page !== undefined && limit !== undefined) {
         const offset = (page - 1) * limit;
-        query += ` LIMIT $${queryValues.length + 1} OFFSET $${queryValues.length + 2}`;
+        query += ` LIMIT $${queryValues.length + 1} OFFSET $${
+            queryValues.length + 2
+        }`;
         queryValues.push(limit);
         queryValues.push(offset);
     }

@@ -25,6 +25,10 @@ module.exports.publicationToGetSchema = z.object({
         .enum(["true", "false", "True", "False"])
         .transform((value) => value.toLowerCase() === "true")
         .optional(),
+    getVideoGamesInfo: z
+        .enum(["true", "false", "True", "False"])
+        .transform((value) => value.toLowerCase() === "true")
+        .optional(),
     alphabetical: z
         .enum(["true", "false", "True", "False"])
         .transform((value) => value.toLowerCase() === "true")

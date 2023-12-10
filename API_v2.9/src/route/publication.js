@@ -79,6 +79,12 @@ router.post("/", JWTMiddleWare.identification, Authorization.mustBeAdmin, Public
  *            required: false
  *            schema:
  *              type: boolean
+ *          - name: getVideoGamesInfo
+ *            description: Get the video games info in addition to the publications
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: boolean
  *          - name: alphabetical
  *            description: Order the result alphabetically
  *            in: query

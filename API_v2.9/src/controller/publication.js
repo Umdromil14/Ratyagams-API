@@ -145,32 +145,44 @@ module.exports.createPublication = async (req, res) => {
  *          content:
  *              application/json:
  *                  schema:
- *                      type: array
- *                      items:
- *                          $ref: '#/components/schemas/Publication'
+ *                      oneOf:
+ *                          - type: array
+ *                            items:
+ *                                $ref: '#/components/schemas/Publication'
+ *                          - type: array
+ *                            items:
+ *                                type: object
+ *                                properties:
+ *                                    id:
+ *                                        type: integer
+ *                                        description: The publication id
+ *                                    platform_code:
+ *                                        type: string
+ *                                        description: The platform code
+ *                                    video_game_id:
+ *                                        type: integer
+ *                                        description: The video game id
+ *                                    release_date:
+ *                                        type: string
+ *                                        format: date
+ *                                        description: The release date (YYYY-MM-DD or MM-DD-YYYY)
+ *                                    release_price:
+ *                                        type: number
+ *                                        description: The game price when it's released             
+ *                                    store_page_url:
+ *                                        type: string
+ *                                        description: The url of the official store page where the game is available to buy
+ *                                    name:
+ *                                        type: string
+ *                                        description: The video game name
+ *                                    description:
+ *                                        type: string
+ *                                        description: The video game description
  */
 module.exports.getPublication = async (req, res) => {
-    let publicationId,
-        videoGameId,
-        videoGameName,
-        platformCode,
-        getOwnGames,
-        getLastGames,
-        alphabetical,
-        page,
-        limit;
+    let options;
     try {
-        ({
-            publicationId,
-            videoGameId,
-            videoGameName,
-            platformCode,
-            getOwnGames,
-            getLastGames,
-            alphabetical,
-            page,
-            limit,
-        } = validateObject(req.query, publicationToGetSchema));
+        options = validateObject(req.query, publicationToGetSchema);
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
             code: "INVALID_INPUT",
@@ -183,15 +195,7 @@ module.exports.getPublication = async (req, res) => {
     try {
         const { rows: publications } = await PublicationModel.getPublication(
             client,
-            publicationId,
-            platformCode,
-            videoGameId,
-            videoGameName,
-            getOwnGames ? req.session.id : undefined,
-            getLastGames,
-            alphabetical,
-            page,
-            limit
+            options
         );
         if (publications.length === 0) {
             res.status(HTTPStatus.NOT_FOUND).json({
