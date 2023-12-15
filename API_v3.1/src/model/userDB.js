@@ -1,3 +1,5 @@
+const { DEFAULT_LIMIT, DEFAULT_PAGE } = require("../tools/constant");
+
 /**
  * Get one or all users
  *
@@ -8,7 +10,13 @@
  *
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getUser = async (client, id, page, limit) => {
+module.exports.getUser = async (
+    client,
+    id,
+    page = DEFAULT_PAGE,
+    limit = DEFAULT_LIMIT,
+    username
+) => {
     const queryValues = [];
     let query = `SELECT id, username, email, firstname, lastname, is_admin FROM "user"`;
 
@@ -17,11 +25,15 @@ module.exports.getUser = async (client, id, page, limit) => {
         return await client.query(query, [id]);
     }
 
-    if (page !== undefined && limit !== undefined) {
-        query += ` LIMIT $1 OFFSET $2`;
-        queryValues.push(limit);
-        queryValues.push((page - 1) * limit);
+    if (username !== undefined) {
+        query += ` WHERE username LIKE $1`;
+        queryValues.push(`%${username}%`);
     }
+
+    query += ` LIMIT $${queryValues.length+1} OFFSET $${queryValues.length + 2}`;
+    queryValues.push(limit);
+    queryValues.push((page - 1) * limit);
+
     return await client.query(query, queryValues);
 };
 

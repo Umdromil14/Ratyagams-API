@@ -1,3 +1,5 @@
+const { DEFAULT_LIMIT, DEFAULT_PAGE } = require("../tools/constant");
+
 /**
  * Creates a category
  *
@@ -29,8 +31,8 @@ module.exports.getCategories = async (
     client,
     genreId,
     videoGameId,
-    page,
-    limit
+    page = DEFAULT_PAGE,
+    limit = DEFAULT_LIMIT
 ) => {
     let query = `SELECT * FROM category`;
     const queryConditions = [];
@@ -52,15 +54,12 @@ module.exports.getCategories = async (
         query += ` WHERE ${queryConditions.join(" AND ")}`;
     }
 
-    if (page !== undefined && limit !== undefined) {
-        query += ` LIMIT $${index} OFFSET $${index + 1}`;
-        values.push(limit);
-        values.push((page - 1) * limit);
-    }
+    query += ` LIMIT $${index} OFFSET $${index + 1}`;
+    values.push(limit);
+    values.push((page - 1) * limit);
 
     return await client.query(query, values);
 };
-
 
 /**
  * Update a category

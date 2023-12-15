@@ -1,3 +1,4 @@
+const { DEFAULT_LIMIT, DEFAULT_PAGE } = require("../tools/constant");
 /**
  * Create a platform
  *
@@ -30,7 +31,7 @@ module.exports.createPlatform = async (
  *
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getPlatforms = async (client, code, page, limit) => {
+module.exports.getPlatforms = async (client, code, page = DEFAULT_PAGE, limit = DEFAULT_LIMIT) => {
     let query = `SELECT * FROM platform`;
     const values = [];
 
@@ -40,13 +41,9 @@ module.exports.getPlatforms = async (client, code, page, limit) => {
     }
 
     query += ` ORDER BY description`;
-
-    if (page !== undefined && limit !== undefined) {
-        const offset = (page - 1) * limit;
-        query += ` LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
-        values.push(limit);
-        values.push(offset);
-    }
+    query += ` LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
+    values.push(limit);
+    values.push((page - 1) * limit);
 
     return await client.query(`${query}`, values);
 };
@@ -126,7 +123,6 @@ module.exports.platformExists = async (client, code) => {
     );
     return rows[0].no > 0;
 };
-
 
 /**
  * Get number of platforms

@@ -4,6 +4,7 @@ module.exports.getUserSchema = z.object({
     id : z.coerce.number().positive().optional(),
     page : z.coerce.number().min(1).optional(),
     limit : z.coerce.number().min(1).max(50).optional(),
+    username : z.string().trim().optional(),
 });
 module.exports.loginSchema = z.object({
     login: z.string().trim(),

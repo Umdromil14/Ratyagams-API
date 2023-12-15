@@ -10,7 +10,8 @@
     "initDB": "node src/scripts/js/initDB.js",
     "dev": "nodemon src/app.js",
     "docker": "docker run --name postgres -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -e POSTGRES_DB=smartcity -p 5432:5432 --rm -d postgres",
-    "genDoc": "node ./src/swagger/swagger_jsdoc.js"
+    "genDoc": "node ./src/swagger/swagger_jsdoc.js",
+    "initDBAndRun": "npm run initDB && npm run dev"
   },
   "keywords": [],
   "author": "",

@@ -70,6 +70,7 @@ async function getGame(userId, publicationId, page, limit, res) {
         return;
     }
 
+
     const client = await pool.connect();
     try {
         const { rows: games } = await GameModel.getGames(
@@ -160,13 +161,6 @@ module.exports.getGameCount = async (req, res) => {
     const client = await pool.connect();
     try {
         const { rows: games } = await GameModel.getGamesCount(client);
-        if (games[0].no == 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No games found",
-            });
-            return;
-        }
         res.json(games[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);

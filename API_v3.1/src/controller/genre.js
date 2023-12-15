@@ -135,6 +135,7 @@ module.exports.getGenre = async (req, res) => {
         });
         return;
     }
+
     const client = await pool.connect();
     try {
         const { rows: genres } = await GenreModel.getGenres(
@@ -185,13 +186,6 @@ module.exports.getGenresCount = async (req, res) => {
     const client = await pool.connect();
     try {
         const { rows: genres } = await GenreModel.getGenresCount(client);
-        if (genres[0].no == 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No genres found",
-            });
-            return;
-        }
         res.json(genres[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);

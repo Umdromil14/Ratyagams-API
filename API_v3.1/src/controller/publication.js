@@ -191,6 +191,8 @@ module.exports.getPublication = async (req, res) => {
         return;
     }
 
+    options.userId = options.getOwnGames ? req.session.id : undefined;
+
     const client = await pool.connect();
     try {
         const { rows: publications } = await PublicationModel.getPublication(
@@ -239,13 +241,6 @@ module.exports.getPublicationCount = async (req, res) => {
     try {
         const { rows: publications } =
             await PublicationModel.getPublicationCount(client);
-        if (publications[0].no == 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No publications found",
-            });
-            return;
-        }
         res.json(publications[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);

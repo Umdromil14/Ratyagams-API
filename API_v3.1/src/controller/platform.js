@@ -62,6 +62,7 @@ module.exports.getPlatform = async (req, res) => {
         });
         return;
     }
+    console.log(code, page, limit);
 
     const client = await pool.connect();
     try {
@@ -114,13 +115,7 @@ module.exports.getPlatformsCount = async (req, res) => {
         const { rows: platforms } = await PlatformModel.getPlatformsCount(
             client
         );
-        if (platforms[0].no == 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No platforms found",
-            });
-            return;
-        }
+
         res.json(platforms[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);

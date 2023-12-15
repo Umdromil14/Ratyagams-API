@@ -1,3 +1,4 @@
+const { DEFAULT_LIMIT, DEFAULT_PAGE } = require("../tools/constant");
 /**
  * Creates a publication
  *
@@ -54,11 +55,12 @@ module.exports.getPublication = async (client, options) => {
         videoGameId,
         videoGameName,
         userId,
+        genresIds,
         getLastGames = false,
         getVideoGamesInfo = false,
         alphabetical = false,
-        page,
-        limit,
+        page = DEFAULT_PAGE,
+        limit = DEFAULT_LIMIT,
     } = options;
 
     const queryConditions = [];
@@ -96,6 +98,21 @@ module.exports.getPublication = async (client, options) => {
         );
     }
 
+    if (genresIds !== undefined && genresIds.length > 0) {
+        const genreConditions = genresIds.map(
+            (_, index) => `genre_id = $${queryValues.length + index + 1}`
+        );
+        const subquery = `
+            SELECT video_game_id
+            FROM category
+            WHERE ${genreConditions.join(" OR ")}
+            GROUP BY video_game_id
+            HAVING COUNT(*) = ${genresIds.length}
+        `;
+        queryConditions.push(`video_game_id IN (${subquery})`);
+        queryValues.push(...genresIds);
+    }
+
     let query = `SELECT ${
         getVideoGamesInfo ? "*" : "publication.*"
     } FROM publication INNER JOIN video_game ON publication.video_game_id = video_game.id`;
@@ -106,14 +123,11 @@ module.exports.getPublication = async (client, options) => {
         query += ` ORDER BY video_game.name ASC`;
     }
 
-    if (page !== undefined && limit !== undefined) {
-        const offset = (page - 1) * limit;
-        query += ` LIMIT $${queryValues.length + 1} OFFSET $${
-            queryValues.length + 2
-        }`;
-        queryValues.push(limit);
-        queryValues.push(offset);
-    }
+    query += ` LIMIT $${queryValues.length + 1} OFFSET $${
+        queryValues.length + 2
+    }`;
+    queryValues.push(limit);
+    queryValues.push((page - 1) * limit);
 
     return await client.query(query, queryValues);
 };

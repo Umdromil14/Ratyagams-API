@@ -179,13 +179,6 @@ module.exports.getCategoriesCount = async (req, res) => {
     try {
         const { rows: categories } =
             await CategoryModel.getCategoriesCount(client);
-        if (categories[0].no == 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No category found",
-            });
-            return;
-        }
         res.json(categories[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);

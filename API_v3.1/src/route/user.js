@@ -91,8 +91,6 @@ router.post('/insertWithGames', JWTMiddleWare.identification, AuthoMiddleware.mu
  *              description: INVALID_JWT
  *          401:
  *              $ref: '#/components/responses/MissingJWT'
- *          403:
- *              $ref: '#/components/responses/MustBeAdmin'
  *          404:
  *              $ref: '#/components/responses/DeprecatedJWT'
  *          500:
@@ -124,6 +122,12 @@ router.get('/me', JWTMiddleWare.identification, UserController.getUserFromToken)
  *              type: integer
  *          - name: limit
  *            description: the number of users per page
+ *            in: query
+ *            required: false
+ *            schema:
+ *              type: string
+ *          - name: username
+ *            description: a part of the username
  *            in: query
  *            required: false
  *            schema:

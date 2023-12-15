@@ -17,6 +17,14 @@ module.exports.publicationToGetSchema = z.object({
     videoGameId: z.coerce.number().optional(),
     videoGameName: z.string().optional(),
     platformCode: z.string().toUpperCase().optional(),
+    genresIds: z
+        .string()
+        .regex(/^[0-9]+(,[0-9]+)*$/, {
+            message:
+                "Invalid genresIds must be a list of numbers separated by a comma",
+        })
+        .transform((value) => value.split(",").map((id) => parseInt(id)))
+        .optional(),
     getOwnGames: z
         .enum(["true", "false", "True", "False"])
         .transform((value) => value.toLowerCase() === "true")

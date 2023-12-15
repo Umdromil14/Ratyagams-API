@@ -361,7 +361,7 @@ async function updateUser(id, user, res) {
             ? await bcrypt.hash(user.password, 10)
             : undefined;
 
-        const { rowCount } = await UserDB.updateUser(client, user.id, user);
+        const { rowCount } = await UserDB.updateUser(client, id, user);
         if (rowCount === 0) {
             res.status(HTTPStatus.NOT_FOUND).json({
                 code: "RESOURCE_NOT_FOUND",
@@ -590,7 +590,7 @@ module.exports.postUserWithGames = async (req, res) => {
         for (const id of publicationsIds) {
             const { rows: publications } = await PublicationDB.getPublication(
                 client,
-                id
+                {userId : id}
             );
 
             if (publications.length === 0) {
@@ -645,9 +645,9 @@ module.exports.postUserWithGames = async (req, res) => {
  *                          $ref: '#/components/schemas/User'
  */
 module.exports.getUser = async (req, res) => {
-    let id, page, limit;
+    let id, page, limit,username;
     try {
-        ({ id, page, limit } = validateObject(req.query, getUserSchema));
+        ({ id, page, limit,username } = validateObject(req.query, getUserSchema));
     } catch (error) {
         res.status(HTTPStatus.BAD_REQUEST).json({
             code: "INVALID_INPUT",
@@ -656,9 +656,10 @@ module.exports.getUser = async (req, res) => {
         return;
     }
 
+
     const client = await pool.connect();
     try {
-        const { rows: users } = await UserDB.getUser(client, id, page, limit);
+        const { rows: users } = await UserDB.getUser(client, id, page, limit,username);
         if (users.length === 0) {
             res.status(HTTPStatus.NOT_FOUND).json({
                 code: "RESOURCE_NOT_FOUND",
@@ -668,6 +669,7 @@ module.exports.getUser = async (req, res) => {
         }
         res.json(users);
     } catch (error) {
+        console.log(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();
@@ -739,13 +741,6 @@ module.exports.getUserCount = async (req, res) => {
     const client = await pool.connect();
     try {
         const { rows: users } = await UserDB.getUserCount(client);
-        if (users[0].no == 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No user found",
-            });
-            return;
-        }
         res.json(users[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);

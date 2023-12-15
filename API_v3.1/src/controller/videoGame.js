@@ -115,13 +115,6 @@ module.exports.getVideoGameCount = async (req, res) => {
         const { rows: videoGames } = await VideoGameModel.getVideoGameCount(
             client
         );
-        if (videoGames[0].no == 0) {
-            res.status(HTTPStatus.NOT_FOUND).json({
-                code: "RESOURCE_NOT_FOUND",
-                message: "No video game found",
-            });
-            return;
-        }
         res.json(videoGames[0].no);
     } catch (error) {
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
@@ -297,9 +290,7 @@ module.exports.deleteVideoGame = async (req, res) => {
         const publicationIds = (
             await PublicationModel.getPublication(
                 client,
-                undefined,
-                undefined,
-                id
+                { videoGameId : id}
             )
         ).rows;
         await client.query("BEGIN");
@@ -316,6 +307,7 @@ module.exports.deleteVideoGame = async (req, res) => {
         res.sendStatus(HTTPStatus.NO_CONTENT);
     } catch (error) {
         await client.query("ROLLBACK");
+        console.log(error);
         res.sendStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     } finally {
         client.release();

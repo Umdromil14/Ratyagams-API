@@ -1,3 +1,4 @@
+const { DEFAULT_LIMIT, DEFAULT_PAGE } = require("../tools/constant");
 /**
  * Get one or more video games
  *
@@ -9,7 +10,13 @@
  *
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getVideoGames = async (client, id, name, page, limit) => {
+module.exports.getVideoGames = async (
+    client,
+    id,
+    name,
+    page = DEFAULT_PAGE,
+    limit = DEFAULT_LIMIT
+) => {
     const queryConditions = [];
     const queryValues = [];
 
@@ -27,12 +34,10 @@ module.exports.getVideoGames = async (client, id, name, page, limit) => {
         query += ` WHERE ${queryConditions.join(" AND ")}`;
     }
 
-    if (page !== undefined && limit !== undefined) {
-        query += ` LIMIT $${queryValues.length + 1}`;
-        queryValues.push(limit);
-        query += ` OFFSET $${queryValues.length + 1}`;
-        queryValues.push((page - 1) * limit);
-    }
+    query += ` LIMIT $${queryValues.length + 1}`;
+    queryValues.push(limit);
+    query += ` OFFSET $${queryValues.length + 1}`;
+    queryValues.push((page - 1) * limit);
 
     return await client.query(query, queryValues);
 };

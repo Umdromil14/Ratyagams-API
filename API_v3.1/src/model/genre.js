@@ -1,3 +1,4 @@
+const { DEFAULT_LIMIT, DEFAULT_PAGE } = require("../tools/constant");
 /**
  * Create a genre
  *
@@ -25,7 +26,13 @@ module.exports.createGenre = async (client, name, description) => {
  *
  * @returns {Promise<pg.Result>} the result of the query
  */
-module.exports.getGenres = async (client, id, alphabetical, page, limit) => {
+module.exports.getGenres = async (
+    client,
+    id,
+    alphabetical,
+    page = DEFAULT_PAGE,
+    limit = DEFAULT_LIMIT
+) => {
     const queryConditions = [];
     const queryValues = [];
     let query = `SELECT * FROM genre `;
@@ -40,14 +47,12 @@ module.exports.getGenres = async (client, id, alphabetical, page, limit) => {
         query += `ORDER BY name ASC`;
     }
 
-    if (page !== undefined && limit !== undefined) {
-        query += ` LIMIT $${queryValues.length + 1} OFFSET $${
-            queryValues.length + 2
-        }`;
-        queryValues.push(limit);
-        queryValues.push((page - 1) * limit);
-    }
-    
+    query += ` LIMIT $${queryValues.length + 1} OFFSET $${
+        queryValues.length + 2
+    }`;
+    queryValues.push(limit);
+    queryValues.push((page - 1) * limit);
+
     return await client.query(query, queryValues);
 };
 
