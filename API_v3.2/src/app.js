@@ -1,14 +1,16 @@
 const cors = require("cors");
-const Router = require("./route");
+const v1Router = require("./v1/route");
 const express = require("express");
 const app = express();
-const port = 3001;
+
+const PORT = 3001;
+const VERSION = "v1";
 
 app.use(cors());
 app.use(express.json());
-app.use(Router);
+app.use(`/${VERSION}`, v1Router);
 app.use(express.static("pictures"));
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}/${VERSION}`);
 });

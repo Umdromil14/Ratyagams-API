@@ -7,10 +7,10 @@
     "test": "node src/scripts/zodTest.js",
     "initProject": "npm install && npm run docker && npm run initDB",
     "initAndRun": "npm run docker && npm run initDB && npm run dev",
-    "initDB": "node src/scripts/js/initDB.js && node src/scripts/js/addGenresToGames.js",
+    "initDBv1": "node src/v1/scripts/js/initDB.js && node src/v1/scripts/js/addGenresToGames.js",
     "dev": "nodemon src/app.js",
     "docker": "docker run --name postgres -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -e POSTGRES_DB=smartcity -p 5432:5432 --rm -d postgres",
-    "genDoc": "node ./src/swagger/swagger_jsdoc.js",
+    "genDocv1": "node ./src/v1/swagger/swagger_jsdoc.js",
     "initDBAndRun": "npm run initDB && npm run dev"
   },
   "keywords": [],
