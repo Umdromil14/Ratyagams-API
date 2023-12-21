@@ -233,7 +233,7 @@ module.exports.getPublication = async (req, res) => {
  *                      type: integer
  *                      properties:
  *                          no:
- *                              type: integer
+ *                              type: string
  *                              description: The number of publications
  */
 module.exports.getPublicationCount = async (req, res) => {

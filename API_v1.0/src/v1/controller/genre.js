@@ -86,7 +86,7 @@ module.exports.createGenre = async (req, res) => {
             name,
             description
         );
-        await saveImageToPng(picture.buffer, rows[0].id, destFolderGenre);
+        await saveImageToPng(req.files.picture[0].buffer, rows[0].id, destFolderGenre);
         await client.query("COMMIT");
         res.sendStatus(HTTPStatus.CREATED);
     } catch (error) {
@@ -181,7 +181,7 @@ module.exports.getGenre = async (req, res) => {
  *          content:
  *              application/json:
  *                  schema:
- *                      type: integer
+ *                      type: string
  *                      description: The number of genres
  */
 module.exports.getGenresCount = async (req, res) => {

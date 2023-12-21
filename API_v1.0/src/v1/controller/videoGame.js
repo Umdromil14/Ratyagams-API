@@ -103,7 +103,7 @@ module.exports.getVideoGame = async (req, res) => {
  *          content:
  *              application/json:
  *                  schema:
- *                      type: integer
+ *                      type: string
  *                      description: The number of video games
  */
 module.exports.getVideoGameCount = async (req, res) => {

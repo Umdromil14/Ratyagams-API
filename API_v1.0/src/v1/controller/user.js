@@ -734,7 +734,7 @@ module.exports.getUserFromToken = async (req, res) => {
  *                      type: integer
  *                      properties:
  *                          no:
- *                              type: integer
+ *                              type: string
  *                              description: The number of users
  */
 module.exports.getUserCount = async (req, res) => {

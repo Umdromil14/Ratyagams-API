@@ -168,7 +168,7 @@ module.exports.getCategory = async (req, res) => {
  *          content:
  *              application/json:
  *                  schema:
- *                      type: integer
+ *                      type: string
  *                      description: The number of categories
  */
 module.exports.getCategoriesCount = async (req, res) => {

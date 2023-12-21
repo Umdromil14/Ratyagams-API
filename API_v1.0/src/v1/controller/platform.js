@@ -111,7 +111,7 @@ module.exports.getPlatform = async (req, res) => {
  *                      type: integer
  *                      properties:
  *                          no:
- *                              type: integer
+ *                              type: string
  *                              description: The number of platforms
  */
 module.exports.getPlatformsCount = async (req, res) => {
