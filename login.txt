@@ -8,7 +8,7 @@ admins:
         "login": "admin"
         "email": "admin@gmail.com"
         "password": "password"
-    }
+    } (cette admin possède l'entièreté des jeux de notre base de données)
 
 utilisateurs:
     {
