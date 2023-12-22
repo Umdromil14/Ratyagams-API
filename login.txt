@@ -1,0 +1,63 @@
+admins:
+    {
+        "login": "BG"
+        "email": "bg@email.com"
+        "password": "M0nk$yReview" 
+    }
+    {
+        "login": "admin"
+        "email": "admin@gmail.com"
+        "password": "password"
+    }
+
+utilisateurs:
+    {
+        "login": "alice_smith"
+        "email": "alice@example.com"
+        "password": "password123"
+    }
+    {
+        "login": "johndoe123"
+        "email": "john.doe@email.com"
+        "password": "mySecurePassword"
+    }
+    {
+        "login": "emily_jones"
+        "email": "emilyj@email.net"
+        "password": "emilyP@ssword"
+    }
+    {
+        "login": "michaelbrown"
+        "email": "mike.brown@example.org"
+        "password": "P@ssw0rd"
+    }
+    {
+        "login": "sarah_wilson"
+        "email": "sarah@example.org"
+        "password": "SecurePwd2023"
+    }
+    {
+        "login": "david_jackson"
+        "email": "davidj@example.com"
+        "password": "D@v1dPwd"
+    }
+    {
+        "login": "lisa_anderson"
+        "email": "lisa@email.net"
+        "password": "L1s@Pass"
+    }
+    {
+        "login": "robert_miller"
+        "email": "robert.m@example.com"
+        "password": "R0bertPwd!"
+    }
+    {
+        "login": "linda_davis"
+        "email": "linda@example.org"
+        "password": "L1ndaP@ss"
+    }
+    {
+        "login": "william_wilkins"
+        "email": "will@example.net"
+        "password": "W1ll1amP@ssw0rd"
+    }
